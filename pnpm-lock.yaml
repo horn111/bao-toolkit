@@ -119,8 +119,17 @@ importers:
         specifier: workspace:*
         version: link:../../packages/wallet
 
+  packages/b20:
+    dependencies:
+      viem:
+        specifier: 2.56.0
+        version: 2.56.0(typescript@5.9.3)
+
   packages/cli:
     dependencies:
+      '@base-attribution-os/b20':
+        specifier: workspace:*
+        version: link:../b20
       '@base-attribution-os/core':
         specifier: workspace:*
         version: link:../core

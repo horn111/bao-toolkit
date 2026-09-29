@@ -1,0 +1,62 @@
+{
+  "kind": "bao.b20-report",
+  "schemaVersion": 1,
+  "mode": "inspect",
+  "producer": {
+    "name": "@base-attribution-os/b20",
+    "version": "0.1.0"
+  },
+  "generatedAt": "2026-09-29T12:00:00.000Z",
+  "chainId": 84532,
+  "protocolProfileId": "base-std-1505323-inspect-v1",
+  "protocolSourceDigest": "0xf94bc2a2d18330180dfc1a22e0c586c608791524946a22f1b22f871a49bc4d4d",
+  "evidenceDigest": "0x2f01be4bd8a4d03b4ac0c9eddf65c1ee82c4d8b7cbb812a1a94e490f7ca42b53",
+  "evidence": {
+    "kind": "bao.b20-inspection-capture",
+    "schemaVersion": 1,
+    "chainId": 84532,
+    "address": "0xb200000000000000000002111111111111111111",
+    "protocolProfileId": "base-std-1505323-inspect-v1",
+    "protocolSourceDigest": "0xf94bc2a2d18330180dfc1a22e0c586c608791524946a22f1b22f871a49bc4d4d",
+    "acquisition": "synthetic",
+    "capturedAt": "2026-09-29T12:00:00.000Z",
+    "requestedBlock": "123",
+    "chainResponse": "0x14a34",
+    "block": {
+      "number": "123",
+      "hash": "0xabababababababababababababababababababababababababababababababab",
+      "timestamp": "1790683200",
+      "statePosition": "end-of-block"
+    },
+    "blockAfter": {
+      "number": "123",
+      "hash": "0xabababababababababababababababababababababababababababababababab",
+      "timestamp": "1790683200",
+      "statePosition": "end-of-block"
+    },
+    "initialization": null
+  },
+  "token": {
+    "address": "0xb200000000000000000002111111111111111111",
+    "variant": "unknown",
+    "classification": "unsupported",
+    "confirmation": "none",
+    "evidenceIds": []
+  },
+  "consistency": "consistent",
+  "runStatus": "partial",
+  "readiness": "not-tested",
+  "runtimeQualification": "not-qualified",
+  "policy": {
+    "name": "observe",
+    "decision": "pass"
+  },
+  "diagnostics": ["B20_RUNTIME_NOT_QUALIFIED", "B20_UNSUPPORTED_CHAIN_OR_VARIANT"],
+  "limitations": [
+    "Classification describes supplied evidence under the pinned source profile. The profile has no qualified deployment or activation-height registry.",
+    "State is end-of-block, not transaction-time state. Application readiness and attribution are not tested by inspection.",
+    "Acquisition is the producer's claim. Offline validation does not independently confirm RPC data or chain consensus.",
+    "The evidence digest detects content changes; it is not an authenticity signature.",
+    "Only hash-pinned state queries are supported. No fallback to latest or number-pinned state."
+  ]
+}

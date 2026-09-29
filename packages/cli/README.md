@@ -14,4 +14,20 @@ pnpm exec bao proof-set --builder-code bc_example --title "Example project" --in
 `--format markdown` for a calldata-free public summary. Run `pnpm exec bao --help`
 for the full command list.
 
+## B20 inspection (unreleased)
+
+```bash
+bao b20 inspect --address "$TOKEN_ADDRESS" --chain-id 84532 --block finalized --rpc-url-env BASE_RPC_URL --format json --output inspection.json
+bao b20 verify --input inspection.json --offline
+bao b20 verify --input inspection.json --rpc-url-env BASE_RPC_URL
+```
+
+Set the RPC endpoint through the named environment variable. Inspection is
+read-only; the default block is `finalized`. Offline verification checks internal
+consistency only. An explicit RPC recheck uses the original block. Output files
+must be new paths so historical artifacts cannot be overwritten. B20 replay and
+compatibility certification are not part of this inspection increment.
+
+[B20 guide](https://github.com/horn111/base-attribution-os/blob/main/docs/b20/overview.md)
+
 [CLI documentation](https://github.com/horn111/base-attribution-os#quickstart) · [Issues](https://github.com/horn111/base-attribution-os/issues)

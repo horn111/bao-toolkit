@@ -21,6 +21,7 @@ type PackedPackage = {
 const repoRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const packagesToVerify = [
   { dir: "packages/core", packageName: "@base-attribution-os/core" },
+  { dir: "packages/b20", packageName: "@base-attribution-os/b20" },
   { dir: "packages/wallet", packageName: "@base-attribution-os/wallet" },
   { dir: "packages/scanner", packageName: "@base-attribution-os/scanner" },
   { dir: "packages/viem", packageName: "@base-attribution-os/viem" },
@@ -231,6 +232,70 @@ console.log("Proof Set package smoke passed");
 `,
   );
   run("node", ["proof-set-smoke.mjs"], consumerDir);
+
+  writeFileSync(
+    path.join(consumerDir, "b20-capture.json"),
+    readFileSync(path.join(repoRoot, "fixtures/b20/synthetic/asset-initialized.capture.json")),
+  );
+  writeFileSync(
+    path.join(consumerDir, "b20-smoke.mjs"),
+    `import { readFileSync, writeFileSync } from "node:fs";
+import { createRequire } from "node:module";
+globalThis.fetch = () => { throw new Error("Network forbidden in offline smoke"); };
+const { createB20InspectionReport, parseB20Report, validateB20ReportOffline } = await import("@base-attribution-os/b20");
+const { inspectB20Token } = await import("@base-attribution-os/b20/rpc");
+const require = createRequire(import.meta.url);
+if (typeof require("@base-attribution-os/b20").parseB20Report !== "function" || typeof require("@base-attribution-os/b20/rpc").inspectB20Token !== "function") throw new Error("B20 CJS exports failed");
+if (typeof inspectB20Token !== "function") throw new Error("B20 RPC export failed");
+const capture = JSON.parse(readFileSync("b20-capture.json", "utf8"));
+const report = parseB20Report(createB20InspectionReport(capture));
+const validation = validateB20ReportOffline(report);
+if (report.token.classification !== "confirmed-initialized" || validation.acquisition !== "synthetic" || validation.networkRecheck !== "not-performed") throw new Error("B20 evidence smoke failed");
+writeFileSync("b20-api-report.json", JSON.stringify(report));
+console.log("B20 pure API and RPC subpath smoke passed");
+`,
+  );
+  run("node", ["b20-smoke.mjs"], consumerDir);
+  run(
+    "pnpm",
+    [
+      "exec",
+      "bao",
+      "b20",
+      "inspect",
+      "--input",
+      "b20-capture.json",
+      "--chain-id",
+      "84532",
+      "--offline",
+      "--format",
+      "json",
+      "--output",
+      "b20-cli-report.json",
+    ],
+    consumerDir,
+  );
+  run(
+    "pnpm",
+    [
+      "exec",
+      "bao",
+      "b20",
+      "verify",
+      "--input",
+      "b20-cli-report.json",
+      "--offline",
+      "--format",
+      "json",
+      "--output",
+      "b20-validation.json",
+    ],
+    consumerDir,
+  );
+  const apiReport = JSON.parse(readFileSync(path.join(consumerDir, "b20-api-report.json"), "utf8"));
+  const cliReport = JSON.parse(readFileSync(path.join(consumerDir, "b20-cli-report.json"), "utf8"));
+  if (JSON.stringify(apiReport) !== JSON.stringify(cliReport))
+    throw new Error("Packed B20 API/CLI reports differ");
 
   writeFileSync(
     path.join(consumerDir, "attributed.ts"),

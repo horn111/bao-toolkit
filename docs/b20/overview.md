@@ -1,8 +1,9 @@
 # B20 Discovery & Attribution: inspection foundation
 
 BAO can inspect an explicitly supplied B20 candidate and preserve the initialization
-response at a concrete block. The current increment covers inspection and report
-verification. B20 transaction replay and attribution comparison are the next step.
+response at a concrete block. This guide covers inspection and report
+verification. See [transaction replay](replay.md) for receipt evidence and
+Builder Code coverage across an explicitly supplied transaction set.
 Existing attribution commands and Proof Set v1 are unchanged.
 
 ## Offline demonstration

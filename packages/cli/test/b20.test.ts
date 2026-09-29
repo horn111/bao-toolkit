@@ -90,7 +90,7 @@ describe("B20 CLI", () => {
   it("bounds artifact reads and rejects malformed JSON", async () => {
     const dir = await mkdtemp(path.join(os.tmpdir(), "bao-b20-limits-"));
     const oversized = path.join(dir, "oversized.json");
-    await writeFile(oversized, "a".repeat(65537));
+    await writeFile(oversized, "a".repeat(4 * 1024 * 1024 + 1));
     await expect(b20Command("verify", { input: oversized, offline: "true" })).rejects.toThrow(
       "B20_INPUT_LIMIT",
     );
@@ -110,5 +110,64 @@ describe("B20 CLI", () => {
     expect(result.message).toContain("Application readiness: not-tested");
     expect(result.message).toContain("Evidence: synthetic");
     expect(result.message).toContain("end-of-block");
+  });
+
+  it("replays captured transactions offline and validates their report", async () => {
+    const capturePath = fileURLToPath(
+      new URL("../../../fixtures/b20/synthetic/replay/direct-fixed.capture.json", import.meta.url),
+    );
+    const fetcher = vi.fn(() => {
+      throw new Error("network forbidden");
+    });
+    vi.stubGlobal("fetch", fetcher);
+    const options = {
+      input: capturePath,
+      "chain-id": "84532",
+      expect: "bc_example",
+      offline: "true",
+      format: "json",
+    };
+    const result = await b20Command("replay", options);
+    expect(result.ok).toBe(true);
+    expect(result.data).toMatchObject({
+      mode: "replay",
+      coverage: { supportedDirectCalls: 1, directAttribution: { percent: 100 } },
+    });
+    const strict = await b20Command("replay", { ...options, policy: "strict-attribution" });
+    expect(strict.ok).toBe(false);
+    const validated = await b20Command("verify", {
+      input: capturePath.replace(".capture.json", ".report.json"),
+      offline: "true",
+      format: "json",
+    });
+    expect(validated.data).toMatchObject({
+      networkRecheck: "not-performed",
+      currentRunStrictPolicy: "not-evaluated",
+    });
+    expect(fetcher).not.toHaveBeenCalled();
+  });
+
+  it("rejects contradictory replay flags and hash-only offline input", async () => {
+    const capturePath = fileURLToPath(
+      new URL("../../../fixtures/b20/synthetic/replay/direct-fixed.capture.json", import.meta.url),
+    );
+    const base = { input: capturePath, "chain-id": "84532", offline: "true" };
+    for (const extra of [
+      { hashes: "0x1234" },
+      { address: "0x1234" },
+      { block: "latest" },
+      { "chain-id": "8453" },
+      { policy: "other" },
+    ]) {
+      const options = Object.fromEntries(
+        Object.entries({ ...base, ...extra }).filter(
+          (entry): entry is [string, string] => typeof entry[1] === "string",
+        ),
+      );
+      await expect(b20Command("replay", options)).rejects.toThrow();
+    }
+    await expect(
+      b20Command("replay", { hashes: "0x1234", "chain-id": "84532", offline: "true" }),
+    ).rejects.toThrow();
   });
 });

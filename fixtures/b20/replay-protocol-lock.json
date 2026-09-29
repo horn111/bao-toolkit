@@ -1,0 +1,21 @@
+{
+  "id": "base-std-1505323-replay-v1",
+  "source": {
+    "inspectionSourceDigest": "0xf94bc2a2d18330180dfc1a22e0c586c608791524946a22f1b22f871a49bc4d4d",
+    "repository": "https://github.com/base/base-std",
+    "commit": "150532313c10a410fd81d74d5f1ca0df43865822",
+    "tokenInterface": {
+      "path": "src/interfaces/IB20.sol",
+      "sha256": "949d7708e3b8c73e9f5188e16ea4477e7ca59e5acd0a54881119ccf6b9806f6a"
+    },
+    "abiDigest": "0x7e5926b3657dc4a31861f4d96db87375dba4c5c5fdce7170ed00f31169a12c6f"
+  },
+  "sourceDigest": "0xefdbeffb1ce0246b5a0a7de438fc2747f95d99f32f9c807b2b67d7283fddc8de",
+  "factory": "0xb20f000000000000000000000000000000000000",
+  "creationTopic": "0xfd9bf2730513a1709722ff379a0844dfd8f997d600693c2bcc659e188bbdba0d",
+  "tokenTopics": [
+    "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+    "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925",
+    "0x6989f5818dcfd11f8cd53b27c94cec33dae1589735f03e639cba54553a1825e8"
+  ]
+}

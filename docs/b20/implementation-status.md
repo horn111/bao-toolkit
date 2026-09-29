@@ -9,11 +9,12 @@ No open pull requests or local B20 branches existed at the initial inspection.
 The owner approved pushing this slice on `feat/b20-inspection` for review before
 the replay increment. No package release or production deployment is included.
 
-This slice implements the handoff's immediate assignment, P0 and P1, plus
-inspection-only offline validation and RPC rechecking. It does not mark the
-entire P1–P4 Foundation complete.
+P0/P1 is pushed in draft PR #21 (`feat/b20-inspection`, commit `75fb942`), with
+all PR checks passing. The next local increment on `feat/b20-replay` adds P2
+transaction replay and the offline broken/fixed example and replay recheck from
+P3. The entire P1–P4 Foundation is not complete.
 
-## Implemented
+## P0/P1 implementation
 
 - `packages/b20`: separate pure API and explicit read-only `/rpc` subpath.
 - Exact 10-byte prefix, Asset/Stablecoin variant byte, unknown-variant handling,
@@ -52,7 +53,7 @@ All committed chain-shaped evidence is synthetic. No RPC endpoint or real token
 was provided for live qualification. Native execution and an external integrator
 pilot remain untested. This is not a B20 Ready certificate.
 
-## Validation
+## P0/P1 validation
 
 Environment: Node 24.14.0, pnpm 9.15.4.
 
@@ -74,19 +75,44 @@ After implementation:
 | `pnpm exec changeset status`     | CLI minor and dependent Action patch projected; no version mutation.                             |
 | Built CLI offline inspect/verify | Passed against the synthetic Asset fixture.                                                      |
 
+## P2 replay increment
+
+- Explicit hash input with selection provenance and stable denominators.
+- Bounded read-only collection of transactions, receipts, headers, and token
+  initialization evidence; shared token reads are cached by block hash.
+- Source-pinned factory creation and token event decoding, plus five direct
+  token operations checked against receipt participants, amounts, and memos.
+- Existing ERC-8021 decoding and attribution reports reused from `core`.
+- Separate input and eligible direct-call coverage; unknown and unsupported
+  scopes remain visible. Strict policy requires current-run RPC evidence.
+- Offline report recomputation, historical RPC rechecking, five deterministic
+  replay fixture pairs, input/report-envelope schemas, and installed CLI smoke.
+
+The replay profile is recorded in `fixtures/b20/replay-protocol-lock.json`.
+The inspection profile remains unchanged. See [replay.md](replay.md) for the
+API, CLI examples, policy semantics, and explicit collection limits.
+
+P2 validation: 294 tests pass in 22 files; lint, formatting, full typecheck,
+build, and production dependency audit pass. The
+nine-package clean-consumer smoke passes, including installed offline replay
+and verification. Changesets projects a B20 minor, CLI minor, and Action patch;
+no versions were changed. Replay adds ABI decoders, evidence parsers, and RPC
+collection, so combined B20 ESM/CJS and CLI budgets become 176 KiB and 56 KiB.
+Measured sizes are 173.40 KiB and 52.50 KiB. Built CLI examples confirm 0/1
+direct attribution before the suffix fix and 1/1 afterward; offline verification
+confirms internal consistency while retaining synthetic provenance.
+
 ## Completion states and next increment
 
-- **Code completion:** P0/P1 inspection slice complete; full Foundation incomplete.
+- **Code completion:** P0/P1 and P2 implemented; full Foundation incomplete.
 - **Live qualification:** not performed; needs an explicitly configured endpoint,
   a real observation, and a recorded chain/block/capability context.
 - **External validation:** not performed; no pilot subject or acceptance evidence.
 
-Next useful increment is P2: bounded transaction/receipt/header collection,
-source-pinned factory-event decoding, direct-call versus event-only evidence,
-existing ERC-8021 decoder reuse, explicit denominators, and replay policies.
-P3 then adds the transaction broken/fixed example and replay rechecks; P4 adds
-the static public report pages and pilot kit. Neither transaction replay nor a
-public B20 page is advertised as available by this slice.
+The synthetic broken/fixed replay example and historical recheck are available
+locally. Remaining Foundation work includes native execution qualification,
+static public report pages, and the pilot kit. No public B20 report page or
+external validation is claimed.
 
 ## PR CI dependency repair
 

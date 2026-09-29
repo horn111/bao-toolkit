@@ -122,6 +122,9 @@ importers:
 
   packages/b20:
     dependencies:
+      '@base-attribution-os/core':
+        specifier: workspace:*
+        version: link:../core
       viem:
         specifier: 2.56.0
         version: 2.56.0(typescript@5.9.3)

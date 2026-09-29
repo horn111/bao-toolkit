@@ -7,11 +7,20 @@ import {
   parseB20Report,
   validateB20ReportOffline,
   type B20InspectionReport,
+  B20_REPLAY_LIMITS,
+  createB20ReplayReport,
+  parseB20ReplayInput,
+  parseB20ReplayCapture,
+  validateB20ReplayReportOffline,
+  type B20ReplayReport,
+  type B20ReplayOptions,
 } from "@base-attribution-os/b20";
 import {
   createB20HttpTransport,
   inspectB20Token,
   recheckB20Report,
+  replayB20Transactions,
+  recheckB20ReplayReport,
 } from "@base-attribution-os/b20/rpc";
 import { CliError, required } from "../output.js";
 
@@ -25,6 +34,9 @@ const flags = [
   "input",
   "offline",
   "json",
+  "hashes",
+  "expect",
+  "policy",
 ];
 
 /** Tight parsing only for the new namespace; legacy option handling remains unchanged. */
@@ -42,17 +54,20 @@ export function validateB20Arguments(args: string[]): void {
   }
 }
 
-export async function readB20Artifact(input: string): Promise<unknown> {
+export async function readB20Artifact(
+  input: string,
+  maximum: number = MAX_B20_ARTIFACT_BYTES,
+): Promise<unknown> {
   const file = await open(input, "r");
   try {
-    const bytes = Buffer.alloc(MAX_B20_ARTIFACT_BYTES + 1);
+    const bytes = Buffer.alloc(maximum + 1);
     let count = 0;
     while (count < bytes.length) {
       const { bytesRead } = await file.read(bytes, count, bytes.length - count, null);
       if (bytesRead === 0) break;
       count += bytesRead;
     }
-    if (count > MAX_B20_ARTIFACT_BYTES) throw new CliError("B20_INPUT_LIMIT: input exceeds 64 KiB");
+    if (count > maximum) throw new CliError("B20_INPUT_LIMIT: input exceeds artifact size limit");
     try {
       return JSON.parse(bytes.subarray(0, count).toString("utf8"));
     } catch {
@@ -69,10 +84,16 @@ export function formatB20Inspection(report: B20InspectionReport, markdown = fals
 }
 
 export async function b20Command(action: string | undefined, options: Record<string, string>) {
-  if (action !== "inspect" && action !== "verify")
-    throw new CliError("B20_INVALID_INPUT: available commands: b20 inspect, b20 verify");
+  if (action !== "inspect" && action !== "verify" && action !== "replay")
+    throw new CliError(
+      "B20_INVALID_INPUT: available commands: b20 inspect, b20 replay, b20 verify",
+    );
   if (Object.keys(options).some((key) => !flags.includes(key)))
     throw new CliError("B20_INVALID_INPUT: unknown option");
+  if (action !== "replay" && (options.hashes || options.expect || options.policy))
+    throw new CliError("B20_INVALID_INPUT: hashes, expect and policy belong to replay");
+  if (action === "replay" && (options.address || options.block))
+    throw new CliError("B20_INVALID_INPUT: replay obtains addresses and blocks from transactions");
   const offline = options.offline === "true";
   if (options.offline !== undefined && !offline)
     throw new CliError("B20_INVALID_INPUT: --offline is a boolean flag");
@@ -95,7 +116,10 @@ export async function b20Command(action: string | undefined, options: Record<str
     const url = process.env[envName];
     if (!url)
       throw new CliError("B20_RPC_NOT_CONFIGURED: the named RPC environment variable is empty");
-    return createB20HttpTransport({ url });
+    return createB20HttpTransport({
+      url,
+      maxResponseBytes: action === "inspect" ? 64 * 1024 : 1024 * 1024,
+    });
   };
   let data: unknown;
   let ok: boolean;
@@ -130,16 +154,81 @@ export async function b20Command(action: string | undefined, options: Record<str
     data = report;
     ok = report.policy.decision === "pass";
     message = formatB20Inspection(report, format === "markdown");
+  } else if (action === "replay") {
+    const chainText = required(options["chain-id"], "--chain-id");
+    const chainId = Number(chainText);
+    if (!/^[1-9][0-9]*$/.test(chainText) || !Number.isSafeInteger(chainId))
+      throw new CliError("B20_INVALID_INPUT: invalid --chain-id");
+    if (Boolean(options.input) === Boolean(options.hashes))
+      throw new CliError("B20_INVALID_INPUT: choose exactly one of --input or --hashes");
+    if (offline && options.hashes)
+      throw new CliError("B20_INVALID_INPUT: offline replay requires captured evidence");
+    if (options.policy && !["observe", "strict-attribution"].includes(options.policy))
+      throw new CliError("B20_INVALID_INPUT: unknown policy");
+    const replayOptions: B20ReplayOptions = {
+      expectedCode: options.expect,
+      policy: options.policy as B20ReplayOptions["policy"],
+    };
+    let report: B20ReplayReport;
+    if (offline) {
+      const capture = parseB20ReplayCapture(
+        await readB20Artifact(options.input, B20_REPLAY_LIMITS.artifactBytes),
+      );
+      if (capture.input.chainId !== chainId)
+        throw new CliError("B20_CHAIN_MISMATCH: capture differs from --chain-id");
+      const acquisition = capture.acquisition === "synthetic" ? "synthetic" : "imported";
+      report = createB20ReplayReport(
+        {
+          ...capture,
+          acquisition,
+          transactions: capture.transactions.map((row) => ({
+            ...row,
+            tokens: row.tokens.map((token) => ({ ...token, acquisition })),
+          })),
+        },
+        replayOptions,
+      );
+    } else {
+      const input = options.input
+        ? parseB20ReplayInput(await readB20Artifact(options.input, B20_REPLAY_LIMITS.artifactBytes))
+        : parseB20ReplayInput({
+            kind: "bao.b20-input",
+            schemaVersion: 1,
+            chainId,
+            selection: {
+              mode: "explicit-hashes",
+              description: "Explicitly supplied transaction hashes; no completeness claim.",
+              completeness: "unknown",
+            },
+            transactions: options.hashes.split(",").map((hash) => ({ hash: hash.trim() })),
+          });
+      if (input.chainId !== chainId)
+        throw new CliError("B20_CHAIN_MISMATCH: input differs from --chain-id");
+      report = await replayB20Transactions(input, getTransport(), replayOptions);
+    }
+    data = report;
+    ok = report.policy.decision === "pass";
+    message = formatB20Replay(report, format === "markdown");
   } else {
-    const report = parseB20Report(await readB20Artifact(required(options.input, "--input")));
-    const result = offline
-      ? validateB20ReportOffline(report)
-      : await recheckB20Report(report, getTransport());
+    const value = await readB20Artifact(
+      required(options.input, "--input"),
+      B20_REPLAY_LIMITS.artifactBytes,
+    );
+    const replay = value && typeof value === "object" && "mode" in value && value.mode === "replay";
+    const result = replay
+      ? offline
+        ? validateB20ReplayReportOffline(value)
+        : await recheckB20ReplayReport(value, getTransport())
+      : offline
+        ? validateB20ReportOffline(parseB20Report(value))
+        : await recheckB20Report(parseB20Report(value), getTransport());
     data = result;
     ok = result.valid;
     message = `${result.message}\nValid: ${result.valid}\nApplication readiness: not-tested\n`;
   }
   const rendered = format === "json" ? `${JSON.stringify(data, null, 2)}\n` : message;
+  if (Buffer.byteLength(rendered, "utf8") > B20_REPLAY_LIMITS.artifactBytes)
+    throw new CliError("B20_INPUT_LIMIT: serialized output exceeds 4 MiB");
   if (options.output) {
     const output = path.resolve(options.output);
     await mkdir(path.dirname(output), { recursive: true });
@@ -155,4 +244,33 @@ export async function b20Command(action: string | undefined, options: Record<str
     }
   }
   return { ok, data, message: rendered };
+}
+
+export function formatB20Replay(report: B20ReplayReport, markdown = false): string {
+  const metric = (value: B20ReplayReport["coverage"]["directAttribution"]) =>
+    value.percent === null
+      ? "not measured"
+      : `${value.numerator}/${value.denominator} (${value.percent}%)`;
+  const lines = [
+    markdown ? "## B20 Discovery & Attribution" : "B20 Discovery & Attribution",
+    `Chain: ${report.chainId}`,
+    `Evidence: ${report.evidence.acquisition} (producer claim)`,
+    `Input: ${report.coverage.supplied} supplied, ${report.coverage.unique} unique`,
+    `Input attribution: ${metric(report.coverage.inputAttribution)}`,
+    `Supported direct-call attribution: ${metric(report.coverage.directAttribution)}`,
+    `Unknown/pending: ${report.coverage.unknown}`,
+    `Execution: ${report.coverage.successful} successful, ${report.coverage.reverted} reverted, ${report.coverage.pending} pending`,
+    `Run: ${report.runStatus}`,
+    `Policy: ${report.policy.name} ${report.policy.decision}`,
+    "Runtime qualification: not-qualified",
+    "Application readiness: not-tested",
+    "",
+    ...report.transactions.map(
+      (tx) =>
+        `${tx.hash}: ${tx.relation}; ${tx.execution}; attribution ${tx.attribution.status}; ${tx.diagnostics.join(", ")}`,
+    ),
+    "",
+    ...report.limitations,
+  ];
+  return `${lines.join("\n")}\n`;
 }

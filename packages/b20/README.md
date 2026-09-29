@@ -1,9 +1,9 @@
 # @base-attribution-os/b20
 
-Source-pinned B20 token inspection for Base Attribution OS. This first increment
-implements token inspection and artifact verification. Transaction replay,
-attribution coverage, factory-event analysis, and application readiness checks
-are not implemented yet.
+Source-pinned B20 token inspection and receipt-aware attribution replay for Base
+Attribution OS. Inspect a token, analyze an explicitly supplied transaction set,
+and validate or recheck the resulting evidence. Application readiness remains
+untested.
 
 ```ts
 import { classifyB20Address, parseB20Report } from "@base-attribution-os/b20";
@@ -52,8 +52,10 @@ RPC: `createB20HttpTransport`, `inspectB20Token`, `recheckB20Report`,
 block and exact initialization evidence. Unavailable reads are inconclusive;
 changed evidence is conflicting. It never rewrites the source report.
 
-The transport permits only `eth_chainId`, `eth_getBlockByNumber`, and `eth_call`.
-It uses individual requests, validates response IDs, limits responses to 64 KiB,
+The transport permits `eth_chainId`, `eth_getBlockByNumber`, `eth_call`,
+`eth_getTransactionByHash`, and `eth_getTransactionReceipt`.
+It uses individual requests, validates response IDs, defaults to 64 KiB responses
+(configurable up to 1 MiB for replay),
 and applies a 10-second timeout per request (configurable to at most 30 seconds).
 It makes no retries or batches. Provider URLs, messages, and error data are never
 included in report diagnostics; numeric RPC error codes may be retained.
@@ -61,3 +63,20 @@ included in report diagnostics; numeric RPC error codes may be retained.
 The package uses viem 2.56.0 for ABI encoding and Keccak. viem is an external
 runtime dependency, not bundled into BAO. Attribution-only core and adapters do
 not depend on this package. The CLI does depend on it.
+
+## Replay API
+
+Pure: `parseB20ReplayInput`, `parseB20ReplayCapture`, `createB20ReplayReport`,
+`parseB20ReplayReport`, `validateB20ReplayReportOffline`, `B20_REPLAY_PROFILE`,
+`B20_REPLAY_LIMITS`, `b20TokenAbi`, and `b20FactoryAbi`.
+
+RPC: `collectB20TransactionEvidence`, `replayB20Transactions`,
+`recheckB20ReplayReport`. Strict attribution requires current-run RPC collection;
+the pure analyzer cannot grant that authority from serialized claims.
+
+Replay uses core's existing ERC-8021 decoder. Reports distinguish direct calls,
+factory creation and event-only observations, preserve unavailable rows, and
+keep amounts as decimal strings. Reverted calls with only end-of-block
+initialization remain unresolved at transaction time. See the repository's
+[replay guide](https://github.com/horn111/base-attribution-os/blob/main/docs/b20/replay.md)
+for scope, resource limits and the synthetic broken/fixed demo.

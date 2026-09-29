@@ -1,6 +1,12 @@
 import type { ReadFailure } from "../types.js";
 
-export const B20_RPC_METHODS = ["eth_chainId", "eth_getBlockByNumber", "eth_call"] as const;
+export const B20_RPC_METHODS = [
+  "eth_chainId",
+  "eth_getBlockByNumber",
+  "eth_call",
+  "eth_getTransactionByHash",
+  "eth_getTransactionReceipt",
+] as const;
 export type B20RpcMethod = (typeof B20_RPC_METHODS)[number];
 export interface B20Transport {
   request(method: B20RpcMethod, params: readonly unknown[]): Promise<unknown>;
@@ -20,6 +26,7 @@ export class B20RpcError extends Error {
 export interface HttpTransportOptions {
   url: string;
   timeoutMs?: number;
+  maxResponseBytes?: number;
   fetch?: typeof globalThis.fetch;
 }
 
@@ -34,6 +41,13 @@ export function createB20HttpTransport(options: HttpTransportOptions): B20Transp
     throw new Error("B20_INVALID_RPC_URL: use HTTP(S), without userinfo or fragment");
   }
   const timeoutMs = options.timeoutMs ?? 10_000;
+  const maxResponseBytes = options.maxResponseBytes ?? 64 * 1024;
+  if (
+    !Number.isSafeInteger(maxResponseBytes) ||
+    maxResponseBytes < 1 ||
+    maxResponseBytes > 1024 * 1024
+  )
+    throw new Error("B20_INVALID_INPUT: response limit must be 1–1048576 bytes");
   if (!Number.isSafeInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 30_000) {
     throw new Error("B20_INVALID_INPUT: timeout must be 1–30000 ms");
   }
@@ -63,7 +77,7 @@ export function createB20HttpTransport(options: HttpTransportOptions): B20Transp
             const chunk = await reader.read();
             if (chunk.done) break;
             length += chunk.value.byteLength;
-            if (length > 64 * 1024) {
+            if (length > maxResponseBytes) {
               await reader.cancel();
               throw new B20RpcError("invalid-response");
             }

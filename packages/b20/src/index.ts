@@ -23,3 +23,28 @@ export type {
   ReadResult,
   TokenClassification,
 } from "./types.js";
+export { B20_REPLAY_PROFILE, b20TokenAbi, b20FactoryAbi } from "./replay-protocol.js";
+export {
+  B20_REPLAY_LIMITS,
+  parseB20ReplayInput,
+  parseB20ReplayCapture,
+} from "./replay-validate.js";
+export {
+  createB20ReplayReport,
+  parseB20ReplayReport,
+  validateB20ReplayReportOffline,
+} from "./replay.js";
+export type {
+  B20ReplayInput,
+  B20ReplayCapture,
+  B20ReplayReport,
+  B20ReplayOptions,
+  B20Selection,
+  B20TransactionCapture,
+  B20TransactionEvidence,
+  B20ReceiptEvidence,
+  B20LogEvidence,
+  B20Operation,
+  B20ObservedEvent,
+  B20ReplayTransaction,
+} from "./replay-types.js";

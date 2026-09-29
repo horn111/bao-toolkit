@@ -20,7 +20,10 @@ node packages/cli/dist/index.js b20 verify --input fixtures/b20/synthetic/asset-
 Fixtures cover initialized Asset/Stablecoin responses, false initialization,
 prefix-only evidence, an ordinary address, an unknown variant, unavailable
 history, an empty return, and conflicting block headers. The current format is
-inspection-only. Receipt and attribution fixtures belong to the replay increment.
+inspection-only. Receipt and attribution captures live in `synthetic/replay/`;
+regenerate them with `pnpm exec tsx scripts/generate-b20-replay-fixtures.ts`.
+The fixed transfer uses BAO's suffix helper and the same token, recipient and
+amount as the broken capture. Both receipts remain synthetic.
 
 `protocol-lock.json` records the official source commit, normalized source hashes,
 minimal ABI digest, exact prefix, factory address, and unresolved activation

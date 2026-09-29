@@ -298,6 +298,61 @@ console.log("B20 pure API and RPC subpath smoke passed");
     throw new Error("Packed B20 API/CLI reports differ");
 
   writeFileSync(
+    path.join(consumerDir, "b20-replay-capture.json"),
+    readFileSync(path.join(repoRoot, "fixtures/b20/synthetic/replay/direct-fixed.capture.json")),
+  );
+  run(
+    "pnpm",
+    [
+      "exec",
+      "bao",
+      "b20",
+      "replay",
+      "--input",
+      "b20-replay-capture.json",
+      "--chain-id",
+      "84532",
+      "--expect",
+      "bc_example",
+      "--offline",
+      "--format",
+      "json",
+      "--output",
+      "b20-replay-report.json",
+    ],
+    consumerDir,
+  );
+  run(
+    "pnpm",
+    [
+      "exec",
+      "bao",
+      "b20",
+      "verify",
+      "--input",
+      "b20-replay-report.json",
+      "--offline",
+      "--format",
+      "json",
+      "--output",
+      "b20-replay-validation.json",
+    ],
+    consumerDir,
+  );
+  const replayReport = JSON.parse(
+    readFileSync(path.join(consumerDir, "b20-replay-report.json"), "utf8"),
+  );
+  const replayValidation = JSON.parse(
+    readFileSync(path.join(consumerDir, "b20-replay-validation.json"), "utf8"),
+  );
+  if (
+    replayReport.coverage.directAttribution.percent !== 100 ||
+    replayValidation.currentRunStrictPolicy !== "not-evaluated" ||
+    replayReport.evidence.acquisition !== "synthetic"
+  )
+    throw new Error("Packed B20 replay smoke failed");
+
+  writeFileSync(
     path.join(consumerDir, "attributed.ts"),
     `import { builderCodeDataSuffix } from "@base-attribution-os/viem";
 

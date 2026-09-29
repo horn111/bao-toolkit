@@ -1,0 +1,117 @@
+{
+  "kind": "bao.b20-replay-capture",
+  "schemaVersion": 1,
+  "input": {
+    "kind": "bao.b20-input",
+    "schemaVersion": 1,
+    "chainId": 84532,
+    "selection": {
+      "mode": "sample",
+      "description": "Synthetic direct transfer fixture; no network observation.",
+      "completeness": "unknown"
+    },
+    "transactions": [
+      {
+        "hash": "0x1111111111111111111111111111111111111111111111111111111111111111"
+      }
+    ]
+  },
+  "protocolProfileId": "base-std-1505323-replay-v1",
+  "protocolSourceDigest": "0xefdbeffb1ce0246b5a0a7de438fc2747f95d99f32f9c807b2b67d7283fddc8de",
+  "acquisition": "synthetic",
+  "capturedAt": "2026-09-29T12:00:00.000Z",
+  "chainResponse": "0x14a34",
+  "transactions": [
+    {
+      "hash": "0x1111111111111111111111111111111111111111111111111111111111111111",
+      "transaction": {
+        "hash": "0x1111111111111111111111111111111111111111111111111111111111111111",
+        "from": "0x2222222222222222222222222222222222222222",
+        "to": "0xb200000000000000000000111111111111111111",
+        "input": "0xa9059cbb00000000000000000000000033333333333333333333333333333333333333330000000000000000000000000000000000000001000000000000000000000001",
+        "blockHash": "0xabababababababababababababababababababababababababababababababab",
+        "blockNumber": "123",
+        "transactionIndex": "1"
+      },
+      "receipt": {
+        "transactionHash": "0x1111111111111111111111111111111111111111111111111111111111111111",
+        "transactionIndex": "1",
+        "blockHash": "0xabababababababababababababababababababababababababababababababab",
+        "blockNumber": "123",
+        "status": "success",
+        "logs": [
+          {
+            "address": "0xb200000000000000000000111111111111111111",
+            "topics": [
+              "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+              "0x0000000000000000000000002222222222222222222222222222222222222222",
+              "0x0000000000000000000000003333333333333333333333333333333333333333"
+            ],
+            "data": "0x0000000000000000000000000000000000000001000000000000000000000001",
+            "logIndex": "0",
+            "removed": false,
+            "transactionHash": "0x1111111111111111111111111111111111111111111111111111111111111111",
+            "transactionIndex": "1",
+            "blockHash": "0xabababababababababababababababababababababababababababababababab",
+            "blockNumber": "123"
+          }
+        ]
+      },
+      "block": {
+        "number": "123",
+        "hash": "0xabababababababababababababababababababababababababababababababab",
+        "timestamp": "1790683200",
+        "statePosition": "end-of-block"
+      },
+      "blockAfter": {
+        "number": "123",
+        "hash": "0xabababababababababababababababababababababababababababababababab",
+        "timestamp": "1790683200",
+        "statePosition": "end-of-block"
+      },
+      "tokens": [
+        {
+          "kind": "bao.b20-inspection-capture",
+          "schemaVersion": 1,
+          "chainId": 84532,
+          "address": "0xb200000000000000000000111111111111111111",
+          "protocolProfileId": "base-std-1505323-inspect-v1",
+          "protocolSourceDigest": "0xf94bc2a2d18330180dfc1a22e0c586c608791524946a22f1b22f871a49bc4d4d",
+          "acquisition": "synthetic",
+          "capturedAt": "2026-09-29T12:00:00.000Z",
+          "requestedBlock": "123",
+          "chainResponse": "0x14a34",
+          "block": {
+            "number": "123",
+            "hash": "0xabababababababababababababababababababababababababababababababab",
+            "timestamp": "1790683200",
+            "statePosition": "end-of-block"
+          },
+          "blockAfter": {
+            "number": "123",
+            "hash": "0xabababababababababababababababababababababababababababababababab",
+            "timestamp": "1790683200",
+            "statePosition": "end-of-block"
+          },
+          "initialization": {
+            "id": "initialization",
+            "method": "eth_call",
+            "request": {
+              "to": "0xb20f000000000000000000000000000000000000",
+              "data": "0x6a45ba98000000000000000000000000b200000000000000000000111111111111111111",
+              "block": {
+                "blockHash": "0xabababababababababababababababababababababababababababababababab",
+                "requireCanonical": true
+              }
+            },
+            "result": {
+              "status": "returned",
+              "data": "0x0000000000000000000000000000000000000000000000000000000000000001"
+            }
+          }
+        }
+      ],
+      "error": null
+    }
+  ]
+}

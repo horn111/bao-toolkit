@@ -328,6 +328,8 @@ Usage:
   bao b20 inspect --input capture.json --chain-id 84532 --offline --format json
   bao b20 verify --input report.json --offline
   bao b20 verify --input report.json --rpc-url-env BASE_RPC_URL
+  bao b20 replay --hashes 0x...,0x... --chain-id 84532 --expect bc_example --rpc-url-env BASE_RPC_URL
+  bao b20 replay --input capture.json --chain-id 84532 --expect bc_example --offline --format json
   bao doctor [--changed-since origin/main] [--format human|json|sarif]
   bao encode --code bc_abc123
   bao decode --calldata 0x...

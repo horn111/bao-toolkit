@@ -46,6 +46,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@base-attribution-os/core": "workspace:*",
     "viem": "2.56.0"
   }
 }

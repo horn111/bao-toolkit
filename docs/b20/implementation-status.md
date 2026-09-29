@@ -31,7 +31,7 @@ entire P1–P4 Foundation complete.
 
 `core`, Attribution Proof Set v1, legacy attribution commands, scanner, Action
 inputs/defaults, and existing site routes/totals retain their contracts. The
-committed Action bundle did not change. Existing attribution-only core/adapters
+inspection implementation left the Action bundle unchanged. A follow-up CI repair pins the existing HTTP client dependency to undici 6.28.1 and rebuilds that bundle for GHSA-3wwx-pv8p-q78v. Existing attribution-only core/adapters
 do not depend on B20. The CLI gains B20 and its external viem 2.56.0 dependency.
 
 ## Protocol and trust boundary
@@ -87,3 +87,10 @@ existing ERC-8021 decoder reuse, explicit denominators, and replay policies.
 P3 then adds the transaction broken/fixed example and replay rechecks; P4 adds
 the static public report pages and pilot kit. Neither transaction replay nor a
 public B20 page is advertised as available by this slice.
+
+## PR CI dependency repair
+
+PR #21 hit an existing undici 6.28.0 production audit finding. The follow-up pins
+`@actions/http-client>undici` to 6.28.1, regenerates the lockfile and Action bundle,
+and passes `pnpm audit --prod` plus the nine-package release-candidate smoke.
+The advisory is https://github.com/advisories/GHSA-3wwx-pv8p-q78v.

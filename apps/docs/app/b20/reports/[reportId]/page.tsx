@@ -55,7 +55,7 @@ export default async function B20ReportPage({ params }: Props) {
     ),
   ];
   return (
-    <main className="app-container b20-surface">
+    <main id="main-content" tabIndex={-1} className="app-container b20-surface">
       <SiteHeader current="b20" />
       <Link className="b20-back" href="/b20">
         All B20 reports

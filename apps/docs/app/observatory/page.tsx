@@ -31,12 +31,11 @@ const ledger = publishedProofSets.flatMap((proofSet) =>
 
 export default function ObservatoryPage() {
   return (
-    <main className="app-container">
+    <main id="main-content" tabIndex={-1} className="app-container">
       <SiteHeader current="observatory" />
 
       <section className="hero observatory-hero">
         <div className="hero-meta">
-          <p className="eyebrow">v0.5 · Reproducible Proof Sets</p>
           <h1>Attribution Observatory</h1>
         </div>
         <div className="hero-controls">
@@ -52,7 +51,6 @@ export default function ObservatoryPage() {
 
       <section className="coverage-strip" aria-label="Published proof set coverage">
         <div>
-          <p className="card-kicker">Published evidence coverage</p>
           <p className="coverage-value">
             {observatorySummary.verifiedAttributed}/{observatorySummary.transactions} transactions
             verified and attributed
@@ -73,7 +71,6 @@ export default function ObservatoryPage() {
 
       <section className="proof-loop" aria-labelledby="proof-loop-title">
         <div className="section-heading">
-          <p className="card-kicker">Closed-loop verification</p>
           <h2 id="proof-loop-title">One workflow, five checkpoints</h2>
         </div>
         <div className="loop-grid">
@@ -89,7 +86,6 @@ export default function ObservatoryPage() {
 
       <section className="proof-set-section" aria-labelledby="proof-sets-title">
         <div className="section-heading">
-          <p className="card-kicker">Static registry</p>
           <h2 id="proof-sets-title">Published proof sets</h2>
         </div>
         <div className="proof-set-list">
@@ -97,8 +93,8 @@ export default function ObservatoryPage() {
             <article className="bento-card proof-set-card" key={proofSet.builderCode}>
               <div className="card-header result-heading">
                 <div>
-                  <p className="card-kicker">{proofSet.title}</p>
-                  <h2>{proofSet.builderCode}</h2>
+                  <h2>{proofSet.title}</h2>
+                  <code>{proofSet.builderCode}</code>
                 </div>
                 <div className="status-badge passing">
                   <span className="status-dot" />
@@ -126,7 +122,6 @@ export default function ObservatoryPage() {
       <section className="bento-card transaction-card">
         <div className="output-header">
           <div className="editor-header-title">
-            <p className="card-kicker">Verified transaction ledger</p>
             <h2>Published evidence</h2>
           </div>
           <span className="ledger-count">{ledger.length} proofs</span>

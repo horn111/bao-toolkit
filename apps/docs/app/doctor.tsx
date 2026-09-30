@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type ChangeEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type ChangeEvent } from "react";
 import { SiteHeader } from "./_components/site-header";
 
 type Profile = "local" | "ci" | "strict";
@@ -159,6 +159,14 @@ export default function DoctorPage() {
   const [activeExample, setActiveExample] = useState(examples[0]);
   const [source, setSource] = useState(examples[0].broken);
   const [copied, setCopied] = useState<string>();
+  const [copyError, setCopyError] = useState("");
+  const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(
+    () => () => {
+      if (copyTimer.current) clearTimeout(copyTimer.current);
+    },
+    [],
+  );
   const result = useMemo(
     () => auditSource(source, activeExample.family, builderCode.trim(), profile),
     [activeExample.family, builderCode, profile, source],
@@ -178,19 +186,26 @@ export default function DoctorPage() {
   }
 
   function copyText(label: string, value: string): void {
-    void navigator.clipboard.writeText(value).then(() => {
-      setCopied(label);
-      window.setTimeout(() => setCopied(undefined), 1200);
-    });
+    setCopyError("");
+    void navigator.clipboard
+      .writeText(value)
+      .then(() => {
+        setCopied(label);
+        if (copyTimer.current) clearTimeout(copyTimer.current);
+        copyTimer.current = setTimeout(() => setCopied(undefined), 1200);
+      })
+      .catch(() => setCopyError("Copy failed. Select the code and copy it manually."));
   }
 
   return (
-    <main className="app-container">
+    <main id="main-content" tabIndex={-1} className="app-container">
       <SiteHeader current="doctor" />
+      <p className="copy-error" role="status">
+        {copyError}
+      </p>
 
       <section className="hero">
         <div className="hero-meta">
-          <p className="eyebrow">Update 6 · Live OSS Utility</p>
           <h1>Attribution Doctor</h1>
         </div>
         <div className="hero-controls">
@@ -204,7 +219,6 @@ export default function DoctorPage() {
 
       <section className="coverage-strip" aria-label="Attribution coverage">
         <div>
-          <p className="card-kicker">Attribution coverage</p>
           <p className="coverage-value">
             {result.protected}/{result.paths.length} paths protected
           </p>
@@ -218,7 +232,6 @@ export default function DoctorPage() {
       <div className="bento-grid doctor-grid">
         <aside className="bento-card input-card">
           <div className="card-header">
-            <p className="card-kicker">Audit setup</p>
             <h2>Project fixture</h2>
           </div>
           <div className="form-stack">
@@ -268,7 +281,6 @@ export default function DoctorPage() {
         <section className="bento-card editor-card">
           <div className="editor-header">
             <div className="editor-header-title">
-              <p className="card-kicker">Candidate file</p>
               <h2>{activeExample.file}</h2>
             </div>
             <CopyButton copied={copied === "code"} onClick={() => copyText("code", source)} />
@@ -295,7 +307,6 @@ export default function DoctorPage() {
       <section className="bento-card output-card">
         <div className="output-header">
           <div className="editor-header-title">
-            <p className="card-kicker">Full-project strict CI</p>
             <h2>validate-attribution.yml</h2>
           </div>
           <CopyButton copied={copied === "action"} onClick={() => copyText("action", actionYaml)} />
@@ -344,7 +355,6 @@ function AuditResultPanel(props: { profile: Profile; result: AuditResult }) {
     <section className="bento-card result-panel">
       <div className="card-header result-heading">
         <div>
-          <p className="card-kicker">Doctor report</p>
           <h2>{props.result.ok ? "Fixture check passed" : "Action required"}</h2>
         </div>
         <div className={`status-badge ${props.result.ok ? "passing" : "failing"}`}>
@@ -607,7 +617,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           fetch-depth: 0
-      - uses: horn111/base-attribution-os/packages/github-action@v0.3.0
+      - uses: horn111/base-attribution-os/packages/github-action@v0.5.0
         with:
           builder-code: ${quotedBuilderCode}
           profile: strict

@@ -1,0 +1,37 @@
+[
+  {
+    "family": "Space Grotesk",
+    "path": "space-grotesk.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/spacegrotesk/SpaceGrotesk%5Bwght%5D.ttf",
+    "sha256": "acad6de1fc93436f5c0f1f4137751ef04f1aea3063e7036535970ffcfbd79f72"
+  },
+  {
+    "family": "JetBrains Mono",
+    "path": "jetbrains-mono.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/jetbrainsmono/JetBrainsMono%5Bwght%5D.ttf",
+    "sha256": "48715a42ec242c21e9f02692891e147d022299a52e48d5e413e1a942193ffeda"
+  },
+  {
+    "family": "Pixelify Sans",
+    "path": "pixelify-sans.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/pixelifysans/PixelifySans%5Bwght%5D.ttf",
+    "sha256": "9ba86cd010a4de309d263ceff8e8044092c9db7efda869620cb9ff1c4389e8a5"
+  },
+  {
+    "family": "Pixelify Sans",
+    "weight": 700,
+    "path": "pixelify-sans-bold.ttf",
+    "source": "https://fonts.gstatic.com/s/pixelifysans/v3/CHy2V-3HFUT7aC4iv1TxGDR9DHEserHN25py2TQO131Y.ttf",
+    "sha256": "c67401df48ce6be02ffdf8129cdf274c5d7b27a673e15ed0f018e465028a8363",
+    "purpose": "Static face for Open Graph rendering; same SIL Open Font License."
+  },
+  {
+    "family": "BAO Block",
+    "weight": 700,
+    "path": "bao-block-bold.ttf",
+    "source": "assets/fonts/build_bao_block.py",
+    "license": "MIT (repository LICENSE)",
+    "sha256": "0750f3618944769258780cf7d262f2f126ed5ed511d54d3283eead8bc2c82049",
+    "purpose": "Original dense bitmap outlines for the approved hero lettering, with live selectable HTML text."
+  }
+]

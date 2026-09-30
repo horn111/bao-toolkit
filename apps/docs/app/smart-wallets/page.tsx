@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { SiteHeader } from "../_components/site-header";
+import { ArrowIcon } from "../_components/site-icons";
 
 export const metadata: Metadata = {
-  title: "Smart Wallet Attribution Kit · Base Attribution OS",
+  title: "Smart Wallet Attribution Kit",
   description:
     "Capability-aware ERC-8021 attribution for EIP-5792 batches and ERC-4337 UserOperations.",
 };
@@ -34,12 +35,11 @@ const scenarios = [
 
 export default function SmartWalletsPage() {
   return (
-    <main className="app-container">
+    <main id="main-content" tabIndex={-1} className="app-container">
       <SiteHeader current="smart-wallets" />
 
       <section className="hero">
         <div className="hero-meta">
-          <p className="eyebrow">Update 8 · EIP-5792 + ERC-4337</p>
           <h1>Smart Wallet Attribution Kit</h1>
         </div>
         <div className="hero-controls">
@@ -54,8 +54,10 @@ export default function SmartWalletsPage() {
       <section className="smart-flow" aria-label="Smart wallet attribution flow">
         {flow.map(([step, title, detail]) => (
           <article className="bento-card smart-flow-card" key={step}>
-            <p className="card-kicker">{step}</p>
-            <h2>{title}</h2>
+            <h2>
+              <span className="workflow-step">{step} </span>
+              {title}
+            </h2>
             <p>{detail}</p>
           </article>
         ))}
@@ -64,7 +66,6 @@ export default function SmartWalletsPage() {
       <section className="smart-layout">
         <article className="bento-card">
           <div className="card-header">
-            <p className="card-kicker">App middleware</p>
             <h2>Capability-aware batches</h2>
           </div>
           <pre className="smart-code">
@@ -82,7 +83,6 @@ export default function SmartWalletsPage() {
 
         <article className="bento-card">
           <div className="card-header">
-            <p className="card-kicker">Wallet middleware</p>
             <h2>One suffix, every contributor</h2>
           </div>
           <pre className="smart-code">
@@ -102,7 +102,6 @@ export default function SmartWalletsPage() {
 
       <section className="bento-card smart-outcomes" aria-labelledby="fallback-title">
         <div className="card-header">
-          <p className="card-kicker">Fallback contract</p>
           <h2 id="fallback-title">Every downgrade is visible</h2>
         </div>
         <div className="smart-outcome-grid">
@@ -118,11 +117,10 @@ export default function SmartWalletsPage() {
 
       <section className="smart-cta">
         <div>
-          <p className="card-kicker">Verify before shipping</p>
           <code>bao check-user-op --input user-op.json --expect bc_wallet,bc_app</code>
         </div>
         <a href="https://github.com/horn111/base-attribution-os/blob/main/docs/smart-wallet-attribution.md">
-          Read the integration guide ↗
+          Read the integration guide <ArrowIcon />
         </a>
       </section>
     </main>

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function B20Page() {
   return (
-    <main className="app-container b20-surface">
+    <main id="main-content" tabIndex={-1} className="app-container b20-surface">
       <SiteHeader current="b20" />
       <header className="b20-intro">
         <h1>B20 Discovery &amp; Attribution</h1>

@@ -23,7 +23,7 @@ export default async function DashboardPage({
   const network = query.network === "8453" || query.network === "84532" ? query.network : "all";
 
   return (
-    <main className="app-container dashboard-page">
+    <main id="main-content" tabIndex={-1} className="app-container dashboard-page">
       <SiteHeader current="dashboard" />
       <Dashboard
         key={`${project.code}:${network}`}

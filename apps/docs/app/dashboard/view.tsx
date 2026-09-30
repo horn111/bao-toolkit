@@ -193,7 +193,7 @@ export function Dashboard({
           <p>
             A new wallet flow or refactor can omit attribution without breaking the transaction.
           </p>
-          <Link href="/">
+          <Link href="/doctor">
             See a missing-code check <Icon kind="arrow" />
           </Link>
         </aside>
@@ -212,7 +212,7 @@ export function Dashboard({
           <span>Needs manual resolution</span>
           <strong>{audit?.summary.unresolved ?? "—"}</strong>
         </div>
-        <Link href="/">
+        <Link href="/doctor">
           Run these checks on your app <Icon kind="arrow" />
         </Link>
       </section>
@@ -239,7 +239,7 @@ export function Dashboard({
             Run Doctor in strict CI. Missing or unresolved attribution produces a failing check
             before changes ship.
           </p>
-          <Link href="/">
+          <Link href="/doctor">
             Get the GitHub Action <Icon kind="arrow" />
           </Link>
         </div>
@@ -541,7 +541,7 @@ export function Dashboard({
           <h2>Make your own activity attributable.</h2>
           <p>Add a Builder Code. Keep it through every transaction path.</p>
         </div>
-        <Link className="dash-button dash-button-primary" href="/">
+        <Link className="dash-button dash-button-primary" href="/doctor">
           Try Attribution Doctor <Icon kind="arrow" />
         </Link>
       </footer>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteHeader } from "../../_components/site-header";
+import { CheckIcon } from "../../_components/site-icons";
 import { getPublishedProof, getPublishedProofTransactions, shortHash } from "../../proof-data";
 
 type ProofPageProps = { params: Promise<{ code: string }> };
@@ -22,13 +23,13 @@ export default async function ProofPage({ params }: ProofPageProps) {
   const networks = proof?.summary.networks.map((entry) => entry.network).join(" · ");
 
   return (
-    <main className="app-container">
+    <main id="main-content" tabIndex={-1} className="app-container">
       <SiteHeader current="proof" />
 
       <section className="hero proof-hero">
         <div className="hero-meta">
-          <p className="eyebrow">Attribution Proof Set{networks ? ` · ${networks}` : ""}</p>
           <h1>{code}</h1>
+          <p className="scope-note">Attribution Proof Set{networks ? ` · ${networks}` : ""}</p>
         </div>
         <div className="hero-controls">
           <p className="lede">
@@ -56,10 +57,9 @@ function VerifiedProof(props: {
     <>
       <section className="proof-verdict">
         <div className="proof-seal" aria-hidden="true">
-          ✓
+          <CheckIcon />
         </div>
         <div>
-          <p className="card-kicker">Proof Set verdict</p>
           <h2>Expected Builder Code verified</h2>
           <p>
             {props.proof.summary.attributed} of {props.proof.summary.total} unique transactions
@@ -72,7 +72,6 @@ function VerifiedProof(props: {
       <div className="observatory-grid">
         <section className="bento-card">
           <div className="card-header">
-            <p className="card-kicker">Proof manifest</p>
             <h2>{props.proof.title}</h2>
           </div>
           <dl className="proof-manifest">
@@ -97,7 +96,6 @@ function VerifiedProof(props: {
 
         <section className="bento-card replay-card">
           <div className="card-header">
-            <p className="card-kicker">Reproduce locally</p>
             <h2>Build the same manifest</h2>
           </div>
           <pre className="compact-code">
@@ -109,7 +107,6 @@ function VerifiedProof(props: {
       <section className="bento-card transaction-card proof-progress-card">
         <div className="output-header">
           <div className="editor-header-title">
-            <p className="card-kicker">Replay history</p>
             <h2>Proof Set progress</h2>
           </div>
           <span className="ledger-count">{props.proof.reports.length} reports</span>
@@ -147,7 +144,6 @@ function VerifiedProof(props: {
       <section className="bento-card transaction-card proof-detail-card">
         <div className="output-header">
           <div className="editor-header-title">
-            <p className="card-kicker">Transaction evidence</p>
             <h2>Deduplicated ledger</h2>
           </div>
           <span className="status-badge passing compact-badge">verified</span>
@@ -189,7 +185,6 @@ function EmptyProof(props: { code: string }) {
     <section className="bento-card empty-proof">
       <div className="empty-proof-mark">?</div>
       <div>
-        <p className="card-kicker">No published proof set</p>
         <h2>Create the first manifest</h2>
         <p>
           Generate JSON replay reports from a Dune export or public RPC, then combine them into a

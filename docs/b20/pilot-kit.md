@@ -68,6 +68,9 @@ Replace `direct-broken` with `direct-fixed` to see direct attribution move from
 The generator constructs both payloads from
 `examples/viem-basic/src/b20-transfer.ts` using `withAttributionSuffix`.
 Receipts are synthetic; native execution remains untested.
+Separate [public network observations](live-observations.md) include a recorded
+direct approval and creation events. They do not turn this transfer comparison
+into a native integration test.
 
 The candidate site at `/b20` provides the same example. Each registered report
 at `/b20/reports/<reportId>` provides its full JSON and capture downloads.

@@ -8,6 +8,8 @@ import fixed from "../../../../fixtures/b20/synthetic/replay/direct-fixed.report
 import factory from "../../../../fixtures/b20/synthetic/replay/factory-and-transfer.report.json";
 import reverted from "../../../../fixtures/b20/synthetic/replay/reverted-unresolved.report.json";
 import router from "../../../../fixtures/b20/synthetic/replay/router-event-only.report.json";
+import mainnet from "../../../../fixtures/b20/recorded/2026-09-30/mainnet.report.json";
+import sepolia from "../../../../fixtures/b20/recorded/2026-09-30/sepolia.report.json";
 
 export interface PublishedB20Report {
   id: string;
@@ -60,6 +62,18 @@ export const publishedB20Reports = [
     "Token event inside a router",
     "Receipt evidence does not establish attribution for the nested application.",
     router,
+  ),
+  registerB20Report(
+    "mainnet-2026-09-30",
+    "Base mainnet: creation and a direct approval",
+    "Six public transactions, including a receipt-matched approval. Expected Builder Code is not configured.",
+    mainnet,
+  ),
+  registerB20Report(
+    "sepolia-2026-09-30",
+    "Base Sepolia: Asset and Stablecoin creation",
+    "Two factory events inside wrapper calls. Nested application attribution remains unresolved.",
+    sepolia,
   ),
 ];
 

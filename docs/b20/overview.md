@@ -10,6 +10,8 @@ The candidate site's `/b20` route shows the before/after transfer and five
 validated synthetic reports. Report pages expose their full JSON and capture
 downloads. See the [technical pilot kit](pilot-kit.md) for candidate installation,
 sample selection, and collection/recheck instructions.
+The [public network observations](live-observations.md) record the first
+mainnet and Sepolia samples separately from the synthetic demonstration.
 
 ## Offline demonstration
 
@@ -85,9 +87,10 @@ only this source surface, not upcoming multiplier, seizure, or migration behavio
 
 The source changelog says Cobalt has not activated. It does not establish
 mainnet/Sepolia activation heights for this inspector. All reports therefore
-retain `runtimeQualification: not-qualified`. No live network observation or
-external pilot is included in this increment. Provide an explicit endpoint and
-real candidate to qualify a particular observation; no wallet or funds are needed.
+retain `runtimeQualification: not-qualified`. Scoped mainnet and Sepolia
+[observations](live-observations.md) have been collected and rechecked; no
+external pilot or integration qualification is claimed. A read-only observation
+needs an explicit endpoint and real candidate; no wallet or funds are needed.
 
 ## Diagnostics
 

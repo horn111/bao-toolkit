@@ -11,9 +11,10 @@ the replay increment. No package release or production deployment is included.
 
 P0/P1 is pushed in draft PR #21 (`feat/b20-inspection`, commit `75fb942`), with
 all PR checks passing. The local `feat/b20-replay` branch contains P2 replay
-(`db5dbe1`) and the P3/P4 client example, static reports, and pilot kit. P0–P4
-are code-complete as a release candidate. Live qualification and external
-validation remain incomplete; no package release or deployment is claimed.
+(`db5dbe1`) and the P3/P4 client example, static reports, and pilot kit
+(`8fcf557`). P0–P4 are code-complete as a release candidate. Q1 adds bounded
+public network observations with historical rechecks. Integration qualification
+and external validation remain incomplete; no release or deployment is claimed.
 
 ## P0/P1 implementation
 
@@ -50,9 +51,11 @@ qualification from reference code, successful mocks, or the documentation's
 hardfork labels. Every report retains `runtimeQualification: not-qualified`
 and `readiness: not-tested`.
 
-All committed chain-shaped evidence is synthetic. No RPC endpoint or real token
-was provided for live qualification. Native execution and an external integrator
-pilot remain untested. This is not a B20 Ready certificate.
+P0–P4 used synthetic chain-shaped evidence. Q1 records the first actual mainnet
+and Sepolia observations through explicitly configured public endpoints; see
+[live-observations.md](live-observations.md). Controlled native transfer
+comparison and an external integrator pilot remain untested. No B20 Ready
+certificate is claimed.
 
 ## P0/P1 validation
 
@@ -116,8 +119,9 @@ confirms internal consistency while retaining synthetic provenance.
   downloads return the exact selected evidence. Unknown IDs return 404.
 - Provenance, discovery, attribution, execution, unresolved evidence, runtime
   qualification, and application readiness remain separate. Synthetic hashes
-  have no explorer links. The B20 registry contains five synthetic reports and
-  zero recorded reports; the legacy Observatory registry and totals are unchanged.
+  have no explorer links. At the P3/P4 checkpoint the B20 registry contained five
+  synthetic reports and zero recorded reports; Q1 adds recorded snapshots below.
+  The legacy Observatory registry and totals are unchanged.
 - [pilot-kit.md](pilot-kit.md), the B20 integration issue template, and the
   proposed release brief describe candidate installation, sample selection,
   collection, rechecking, correction, and external acceptance evidence.
@@ -144,20 +148,60 @@ readiness in the report's opening context.
 
 The original docs identity, wordmark, typography, and shared navigation remain
 in use. Temporary design briefs, screenshots, and review notes are ignored.
-All new chain-shaped evidence remains synthetic. These checks establish the
+P3/P4's new chain-shaped evidence was synthetic. These checks establish the
 candidate's analyzer, publication, and install behavior, not native B20 execution.
+
+## Q1 public network observations
+
+The owner selected a public example on 2026-09-30. Read-only discovery used the
+official Base and Sepolia endpoints, a concrete finalized block, and at most
+1000 factory-event blocks per network. Token-event discovery was limited to the
+first three mainnet creations and 12 selected hashes. No Builder Code filter
+selected the sample.
+
+- Base mainnet: six selected transactions, three factory creation observations,
+  five event-only transactions, and one direct `approve` with a successful
+  receipt and `bc_4raffiaj` in calldata.
+- Base Sepolia: two wrapper transactions with canonical Asset and Stablecoin
+  creation events and observed top-level `bc_xw5u611f`. Nested attribution stays
+  unresolved and receives no direct coverage.
+- Both CLI replay runs completed; offline validation passed and both historical
+  RPC rechecks returned `matched`, `valid: true` at the original blocks.
+- No expected Builder Code was configured. Attribution percentages remain
+  unmeasured; observed code presence does not establish an integration's policy.
+- Inputs, captures, reports, selection queries, offline results, and rechecks
+  are preserved in `fixtures/b20/recorded/2026-09-30/`. The static registry now
+  contains five synthetic reports and two recorded snapshots.
+
+These observations establish scoped network evidence. Saved artifacts and static
+pages retain the producer's RPC claim; offline consumption does not become a
+current network check. The native before/after transfer and external pilot remain
+untested. See [live-observations.md](live-observations.md) for reproduction and
+the limits of the same-provider historical rechecks.
+
+Q1 validation: 306 tests pass in 23 files; lint, formatting, all 21 typecheck
+tasks, and all 14 build tasks pass. The nine-package clean-consumer smoke passes,
+including offline validation and imported replay of both recorded samples.
+Both production report pages return 200. Their report and capture exports match
+the registered artifacts exactly and reproduce through the built CLI offline.
+Browser checks confirm the five-synthetic/two-recorded registry, network-specific
+explorer links, recorded provenance, unmeasured attribution, and the mainnet
+Approval disclosure. The mainnet report fits 1440×900 and 390×844 viewports
+without horizontal overflow; readiness remains visible in its mobile opening
+context. The viewport override was reset after verification.
 
 ## Completion states and next increment
 
 - **Code completion:** P0–P4 implemented and validated as a local release candidate.
-- **Live qualification:** not performed; needs an explicitly configured endpoint,
-  a real observation, and a recorded chain/block/capability context.
+- **Live qualification:** bounded collection and historical rechecks completed
+  for eight public transactions. Full integration and native transfer comparison
+  remain unqualified.
 - **External validation:** not performed; no pilot subject or acceptance evidence.
 
-Q1 is the next qualification step: use an explicitly supplied read-only endpoint,
-real token or transaction hashes, and a declared selection basis to collect and
-recheck a small sample. Native execution requires a suitable B20 environment.
-External usefulness requires a named integration and maintainer reproduction.
+Q1's network observation step is complete for the recorded sample. External
+usefulness requires a named integration, an independently supplied attribution
+policy, and maintainer reproduction. Controlled native transfer comparison
+requires a suitable B20 environment and a separately authorized execution path.
 The static public-report surface is implemented locally; it is not deployed.
 P5's scoped B20 Ready comparison awaits a concrete integration subject.
 

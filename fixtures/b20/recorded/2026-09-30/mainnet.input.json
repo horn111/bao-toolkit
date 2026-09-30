@@ -1,0 +1,30 @@
+{
+  "kind": "bao.b20-input",
+  "schemaVersion": 1,
+  "chainId": 8453,
+  "selection": {
+    "mode": "sample",
+    "description": "Creation of the first three B20 tokens in Base mainnet blocks 51995267-51996266 and their Transfer/Approval/Memo event transactions from creation to the pinned final block. Six hashes; no application completeness or expected Builder Code claim.",
+    "completeness": "unknown"
+  },
+  "transactions": [
+    {
+      "hash": "0x378271574b5d92f3180dadcc18083010515c1d64a7a5cb0819df83536437fe7a"
+    },
+    {
+      "hash": "0x09c58a0903f52760a9a826dc904aadef25b52b6b7c004411f3a94f6a5de5c83a"
+    },
+    {
+      "hash": "0xf55b11fc043d214c20aeb120dc46b6ce995619c41759ebf0248c612cad6d3cd8"
+    },
+    {
+      "hash": "0x132dfc7b149343c383f9e0f8e24cdc47f5452aded6ba4a3f13fdc572803384c6"
+    },
+    {
+      "hash": "0x0416cd7fa5e45139371fbc74912624524d7cfca7f5390467fd621b74488a0c21"
+    },
+    {
+      "hash": "0x2f3f54c99d80a19cf4322126586a7906ea0c992a9fc6626a2d688a68a8cb088e"
+    }
+  ]
+}

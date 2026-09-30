@@ -402,6 +402,76 @@ console.log("Packed B20 client correction passed");
   );
   run("node", ["b20-example-smoke.mjs"], consumerDir);
 
+  for (const [sample, chainId] of [
+    ["mainnet", "8453"],
+    ["sepolia", "84532"],
+  ] as const) {
+    const fixtureDir = path.join(repoRoot, "fixtures/b20/recorded/2026-09-30");
+    const reportFile = `recorded-${sample}.report.json`;
+    const captureFile = `recorded-${sample}.capture.json`;
+    const validationFile = `recorded-${sample}.validation.json`;
+    const replayFile = `recorded-${sample}.replay.json`;
+    writeFileSync(
+      path.join(consumerDir, reportFile),
+      readFileSync(path.join(fixtureDir, `${sample}.report.json`)),
+    );
+    writeFileSync(
+      path.join(consumerDir, captureFile),
+      readFileSync(path.join(fixtureDir, `${sample}.capture.json`)),
+    );
+    run(
+      "pnpm",
+      [
+        "exec",
+        "bao",
+        "b20",
+        "verify",
+        "--input",
+        reportFile,
+        "--offline",
+        "--format",
+        "json",
+        "--output",
+        validationFile,
+      ],
+      consumerDir,
+    );
+    run(
+      "pnpm",
+      [
+        "exec",
+        "bao",
+        "b20",
+        "replay",
+        "--input",
+        captureFile,
+        "--chain-id",
+        chainId,
+        "--offline",
+        "--format",
+        "json",
+        "--output",
+        replayFile,
+      ],
+      consumerDir,
+    );
+    const source = JSON.parse(readFileSync(path.join(consumerDir, reportFile), "utf8"));
+    const validation = JSON.parse(readFileSync(path.join(consumerDir, validationFile), "utf8"));
+    const replay = JSON.parse(readFileSync(path.join(consumerDir, replayFile), "utf8"));
+    if (
+      !validation.valid ||
+      validation.acquisition !== "imported" ||
+      validation.producerAcquisitionClaim !== "rpc" ||
+      validation.networkRecheck !== "not-performed" ||
+      validation.currentRunStrictPolicy !== "not-evaluated" ||
+      replay.evidence.acquisition !== "imported" ||
+      replay.expectedCode !== null ||
+      JSON.stringify(replay.transactions) !== JSON.stringify(source.transactions) ||
+      JSON.stringify(replay.coverage) !== JSON.stringify(source.coverage)
+    )
+      throw new Error(`Packed recorded ${sample} evidence smoke failed`);
+  }
+
   writeFileSync(
     path.join(consumerDir, "attributed.ts"),
     `import { builderCodeDataSuffix } from "@base-attribution-os/viem";

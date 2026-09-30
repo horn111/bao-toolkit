@@ -90,7 +90,8 @@ export default function B20GuidePage() {
       </section>
       <footer className="b20-footer">
         Collection limits: 100 supplied hashes, 200 logs per transaction, 32 token candidates, and a
-        4 MiB artifact. No external pilot or native execution qualification has been recorded.
+        4 MiB artifact. Recorded network observations do not qualify an integration. No external
+        pilot has been recorded.
       </footer>
     </main>
   );

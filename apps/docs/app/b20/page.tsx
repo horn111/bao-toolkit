@@ -92,8 +92,8 @@ export default function B20Page() {
           })}
         </div>
         <p className="b20-note">
-          These receipts demonstrate the analyzer. Native B20 execution with the suffix has not been
-          tested.
+          These receipts demonstrate the analyzer. This before/after transfer has not been tested on
+          a native B20 runtime.
         </p>
       </section>
 

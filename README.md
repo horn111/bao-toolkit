@@ -53,8 +53,10 @@ wallet batches, agent transaction tools, and x402 Builder Code extensions.
 The working tree also includes [B20 inspection](docs/b20/overview.md) and
 [transaction replay](docs/b20/replay.md). Inspect token initialization, compare
 Builder Code attribution with receipt evidence, and validate or recheck reports
-through `bao b20 inspect`, `replay`, and `verify`. This is unreleased work;
-application readiness remains untested.
+through `bao b20 inspect`, `replay`, and `verify`. The candidate site's `/b20`
+section provides a before/after example, static reports, and artifact downloads.
+The [technical pilot kit](docs/b20/pilot-kit.md) covers candidate installation
+and reproduction. This is unreleased work; application readiness remains untested.
 
 Install the adapter for your transaction client and the CLI:
 

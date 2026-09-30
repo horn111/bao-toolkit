@@ -6,6 +6,11 @@ verification. See [transaction replay](replay.md) for receipt evidence and
 Builder Code coverage across an explicitly supplied transaction set.
 Existing attribution commands and Proof Set v1 are unchanged.
 
+The candidate site's `/b20` route shows the before/after transfer and five
+validated synthetic reports. Report pages expose their full JSON and capture
+downloads. See the [technical pilot kit](pilot-kit.md) for candidate installation,
+sample selection, and collection/recheck instructions.
+
 ## Offline demonstration
 
 ```sh

@@ -54,6 +54,9 @@ importers:
 
   apps/docs:
     dependencies:
+      '@base-attribution-os/b20':
+        specifier: workspace:*
+        version: link:../../packages/b20
       '@base-attribution-os/core':
         specifier: workspace:*
         version: link:../../packages/core

@@ -353,6 +353,56 @@ console.log("B20 pure API and RPC subpath smoke passed");
     throw new Error("Packed B20 replay smoke failed");
 
   writeFileSync(
+    path.join(consumerDir, "b20-broken-capture.json"),
+    readFileSync(path.join(repoRoot, "fixtures/b20/synthetic/replay/direct-broken.capture.json")),
+  );
+  run(
+    "pnpm",
+    [
+      "exec",
+      "bao",
+      "b20",
+      "replay",
+      "--input",
+      "b20-broken-capture.json",
+      "--chain-id",
+      "84532",
+      "--expect",
+      "bc_example",
+      "--offline",
+      "--format",
+      "json",
+      "--output",
+      "b20-broken-report.json",
+    ],
+    consumerDir,
+  );
+  const brokenReplay = JSON.parse(
+    readFileSync(path.join(consumerDir, "b20-broken-report.json"), "utf8"),
+  );
+  if (
+    brokenReplay.coverage.directAttribution.percent !== 0 ||
+    JSON.stringify(brokenReplay.transactions[0].operation) !==
+      JSON.stringify(replayReport.transactions[0].operation)
+  )
+    throw new Error("Packed B20 before/after CLI smoke failed");
+  writeFileSync(
+    path.join(consumerDir, "b20-example-smoke.mjs"),
+    `import { readFileSync } from "node:fs";
+import { withAttributionSuffix } from "@base-attribution-os/viem";
+import { createB20ReplayReport } from "@base-attribution-os/b20";
+const capture = JSON.parse(readFileSync("b20-broken-capture.json", "utf8"));
+const tx = capture.transactions[0].transaction;
+const fixed = withAttributionSuffix({ to: tx.to, data: tx.input }, { codes: ["bc_example"] });
+tx.input = fixed.data;
+const report = createB20ReplayReport(capture, { expectedCode: "bc_example" });
+if (report.coverage.directAttribution.percent !== 100 || fixed.to !== tx.to) throw new Error("Packed viem B20 correction failed");
+console.log("Packed B20 client correction passed");
+`,
+  );
+  run("node", ["b20-example-smoke.mjs"], consumerDir);
+
+  writeFileSync(
     path.join(consumerDir, "attributed.ts"),
     `import { builderCodeDataSuffix } from "@base-attribution-os/viem";
 

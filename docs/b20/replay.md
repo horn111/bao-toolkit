@@ -17,7 +17,9 @@ node packages/cli/dist/index.js b20 verify --input fixtures/b20/synthetic/replay
 
 Both captures describe the same token, recipient, and amount. The fixture
 generator calls BAO's `appendDataSuffix` to construct the fixed calldata.
-The broken report shows missing attribution and 0/1 direct-call coverage;
+The client example in `examples/viem-basic/src/b20-transfer.ts` prepares the same
+transfer through the existing `withAttributionSuffix` adapter. The generator
+uses that example to construct both payloads. The broken report shows missing attribution and 0/1 direct-call coverage;
 the fixed report shows the expected code and 1/1 coverage. These are synthetic
 receipts, not native execution or an external pilot.
 

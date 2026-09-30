@@ -1,6 +1,6 @@
 # B20 implementation status
 
-Updated: 2026-09-29.
+Updated: 2026-09-30.
 
 ## Checkout and scope
 
@@ -10,9 +10,10 @@ The owner approved pushing this slice on `feat/b20-inspection` for review before
 the replay increment. No package release or production deployment is included.
 
 P0/P1 is pushed in draft PR #21 (`feat/b20-inspection`, commit `75fb942`), with
-all PR checks passing. The next local increment on `feat/b20-replay` adds P2
-transaction replay and the offline broken/fixed example and replay recheck from
-P3. The entire P1–P4 Foundation is not complete.
+all PR checks passing. The local `feat/b20-replay` branch contains P2 replay
+(`db5dbe1`) and the P3/P4 client example, static reports, and pilot kit. P0–P4
+are code-complete as a release candidate. Live qualification and external
+validation remain incomplete; no package release or deployment is claimed.
 
 ## P0/P1 implementation
 
@@ -102,17 +103,63 @@ Measured sizes are 173.40 KiB and 52.50 KiB. Built CLI examples confirm 0/1
 direct attribution before the suffix fix and 1/1 afterward; offline verification
 confirms internal consistency while retaining synthetic provenance.
 
+## P3/P4 client example and public reports
+
+- `examples/viem-basic/src/b20-transfer.ts` constructs the broken and fixed
+  payloads using the existing `withAttributionSuffix` adapter. The fixture
+  generator uses that same client path; token, method, recipient, and raw amount
+  remain unchanged. The helper prepares requests without broadcasting.
+- The existing docs app adds `/b20`, `/b20/guide`, and five statically registered
+  report pages. The opening comparison shows direct attribution moving from
+  0/1 to 1/1 under explicitly synthetic receipt evidence.
+- Registry admission parses and recomputes each artifact. Report and capture
+  downloads return the exact selected evidence. Unknown IDs return 404.
+- Provenance, discovery, attribution, execution, unresolved evidence, runtime
+  qualification, and application readiness remain separate. Synthetic hashes
+  have no explorer links. The B20 registry contains five synthetic reports and
+  zero recorded reports; the legacy Observatory registry and totals are unchanged.
+- [pilot-kit.md](pilot-kit.md), the B20 integration issue template, and the
+  proposed release brief describe candidate installation, sample selection,
+  collection, rechecking, correction, and external acceptance evidence.
+
+P3/P4 validation:
+
+| Check                           | Result                                                                                                                                                                                                                                      |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm lint`, `pnpm format`      | Passed.                                                                                                                                                                                                                                     |
+| `pnpm typecheck`                | Passed, 21 tasks.                                                                                                                                                                                                                           |
+| `pnpm test`                     | Passed, 301 tests in 23 files.                                                                                                                                                                                                              |
+| `pnpm build`                    | Passed, 14 tasks, including all static B20 page/export/capture paths. The existing no-output warning for the viem example remains.                                                                                                          |
+| `pnpm verify:release-candidate` | Passed for all nine packages. Installed CLI replay reproduces 0/1 and 1/1; the installed viem helper corrects the missing suffix without changing the operation. Legacy SDK/scanner/Action smoke passes.                                    |
+| `pnpm size`                     | Passed; B20 173.40/176 KiB and CLI 52.50/56 KiB, with existing package budgets passing.                                                                                                                                                     |
+| Production site                 | Nine pages return 200; all five downloaded report/capture pairs match their registered artifacts, pass CLI offline verification, and reproduce through CLI replay. Unknown report, export, and capture routes return 404.                   |
+| Browser behavior                | Report navigation, evidence disclosures, and a JSON download work. The downloaded report passes built CLI offline verification.                                                                                                             |
+| Responsive UI                   | Desktop 1440×900 and mobile 390×844 captures reviewed in two bounded rounds. Both outcomes and report links fit the mobile opening screen; document width remains within the viewport, including a 320 px check. Final finish review: ship. |
+
+The exact six-tarball `package.json` in the pilot kit also installs offline in a
+clean consumer with pnpm 9.15.4 and reproduces both downloaded captures through
+the installed CLI. The finish review's verdict pass scored its three material
+fixes resolved: mobile comparison visibility, neutral synthetic hashes, and
+readiness in the report's opening context.
+
+The original docs identity, wordmark, typography, and shared navigation remain
+in use. Temporary design briefs, screenshots, and review notes are ignored.
+All new chain-shaped evidence remains synthetic. These checks establish the
+candidate's analyzer, publication, and install behavior, not native B20 execution.
+
 ## Completion states and next increment
 
-- **Code completion:** P0/P1 and P2 implemented; full Foundation incomplete.
+- **Code completion:** P0–P4 implemented and validated as a local release candidate.
 - **Live qualification:** not performed; needs an explicitly configured endpoint,
   a real observation, and a recorded chain/block/capability context.
 - **External validation:** not performed; no pilot subject or acceptance evidence.
 
-The synthetic broken/fixed replay example and historical recheck are available
-locally. Remaining Foundation work includes native execution qualification,
-static public report pages, and the pilot kit. No public B20 report page or
-external validation is claimed.
+Q1 is the next qualification step: use an explicitly supplied read-only endpoint,
+real token or transaction hashes, and a declared selection basis to collect and
+recheck a small sample. Native execution requires a suitable B20 environment.
+External usefulness requires a named integration and maintainer reproduction.
+The static public-report surface is implemented locally; it is not deployed.
+P5's scoped B20 Ready comparison awaits a concrete integration subject.
 
 ## PR CI dependency repair
 

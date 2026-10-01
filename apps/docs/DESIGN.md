@@ -224,7 +224,7 @@ components:
 
 **Creative North Star: "Pixel construction set"**
 
-Base App OS uses a dark petrol canvas, teal surfaces, seafoam actions, and mint lettering. The approved world combines authored planetary pixels, a stepped outline, and square interface parts. Crisp graphics and large pixel headings establish the identity; explanations, controls, and evidence remain readable.
+Base App OS uses a dark petrol canvas, teal surfaces, seafoam actions, and mint lettering. The approved world combines a static pixel planet, carved cyan rock fragments, front-facing pixel architecture, stepped outlines, and square interface parts. Crisp graphics and large pixel headings establish the identity; explanations, controls, and evidence remain readable.
 
 The same palette and local fonts connect the homepage, guides, and retained tools. The homepage has generous chapter spacing and expressive display type. Guides use a quieter reading hierarchy, and tools use compact forms, code, and data. Their different densities are intentional; a guide or evidence table does not inherit the homepage's absolute composition.
 
@@ -232,26 +232,28 @@ The same palette and local fonts connect the homepage, guides, and retained tool
 
 - Authored BAO Block hero lettering, Pixelify chapter headings, Space Grotesk explanations, and JetBrains Mono commands.
 - Flat petrol and teal surfaces, thin rules, and square shared controls.
-- Irregular planetary pixels and the BAO pixel mark on a clean, grid-free canvas.
-- Local pointer displacement and spring return in both hero artwork and footer lettering.
+- A static pixel planet, the BAO pixel mark, and irregular rocky fragments on a clean, grid-free canvas.
+- Direct aiming, building, beacon, and excavation controls in the homepage scenes and footer workshop.
 - Text labels and provenance beside status colors, examples, and evidence.
 
-Extracted from [global tokens](app/globals.css), [homepage styles](app/home.css), [shared site styles](app/_components/site.css), [guide styles](app/docs/docs.css), [font declarations](app/layout.tsx), and [pixel behavior](app/_components/pixel-field.tsx). The [app activity dashboard](app/dashboard/activity.css) supplies the activity-prefixed local tokens. The retained attribution evidence view at `/dashboard/evidence`, B20, and proof styles supply the other tool-specific exceptions described below.
+Extracted from [global tokens](app/globals.css), [homepage styles](app/home.css), [shared site styles](app/_components/site.css), [guide styles](app/docs/docs.css), [font declarations](app/layout.tsx), [meteor behavior](app/_components/meteor-scene.tsx), [carved rock geometry](app/_components/meteor-rock.ts), [chapter constructions](app/_components/pixel-construction.tsx), and [footer workshop](app/_components/footer-builder.tsx). The [app activity dashboard](app/dashboard/activity.css) supplies the activity-prefixed local tokens. The retained attribution evidence view at `/dashboard/evidence`, B20, and proof styles supply the other tool-specific exceptions described below.
 
 ## Colors
 
 The palette moves from deep petrol through teal to seafoam and mint, with muted cyan copy and warm semantic feedback. Frontmatter records the implemented values; sidecar tonal ramps are synthesized palette previews, not additional shipped tokens.
 
+Cyan rock crust, dark cavities, amber windows, and yellow excavator details are local artwork colors. They do not extend the shared action or status palette.
+
 ### Primary
 
-- **Seafoam accent** (accent): filled actions, links, selection, focus outlines, active comparison buttons, and footer pixels.
+- **Seafoam accent** (accent): filled actions, links, selection, focus outlines, active comparison buttons, and footer excavation controls.
 - **Hover mint** (hover-mint): the brighter hover state of primary actions and start links.
 - **Petrol action ink** (accent-ink): dark lettering on seafoam fills.
 
 ### Secondary
 
 - **Frame mint** (frame-line): the recurring homepage perimeter, caption and quickstart outlines, module-rail separators, and stroke icons.
-- **Pixel teal** (pixel-teal): darker particles within the footer word. The planetary raster carries its own authored tonal variation.
+- **Pixel teal** (pixel-teal): local teal in construction artwork and footer controls. The planetary raster and cyan-crusted meshes carry their own authored tonal variation.
 - **Activity wallet mint** (activity-wallet): the active-wallet tile on `/dashboard`, with activity-wallet-ink for its count and activity-wallet-muted for labels and detail.
 - **Activity fee teal** (activity-fee): the recorded gas-cost tile, with activity-fee-copy for labels and detail and text-main for the measured value.
 
@@ -322,7 +324,7 @@ Keep code and evidence overflow within their own scrollable regions. The activit
 
 ## Elevation & Depth
 
-The shared website is flat. It builds depth through petrol and teal tonal layers, thin borders, generous gaps, and the light and shade of the planetary artwork. Shared cards, navigation, actions, and command strips do not cast shadows.
+The shared website is flat. It builds depth through petrol and teal tonal layers, thin borders, generous gaps, the planetary raster, lit rock meshes, and layered pixel architecture. Shared cards, navigation, actions, and command strips do not cast shadows. Scene lighting belongs to the artwork rather than a new panel elevation.
 
 The retained attribution evidence view's pressed network segment has a small soft shadow (0 1px 4px #00000020). This local state is the only extracted shadow token; it is not a default card elevation. Activity dashboard tiles remain flat and separate through their paper, mint, blue-teal, and charcoal fills.
 
@@ -330,7 +332,7 @@ The retained attribution evidence view's pressed network segment has a small sof
 
 ## Shapes
 
-Shared panels, inputs, action fills, tags, and segmented navigation have square corners through the zero-radius tokens. The stepped hero perimeter, the two stepped hero panels, and the crisp-edge monogram are the signature geometry. The desktop caption outline has a 28px left inset above its lower extension in an 827×172 viewBox; the quickstart has a top-right step at x401/y22 in a 428×206 viewBox. Both are authored SVG paths with a flat canvas fill and a non-scaling 1px stroke. At the shared mobile breakpoint these outlines give way to rectangular stacked panels. Artwork uses nearest-neighbor rendering; interface rules stay thin and sharp.
+Shared panels, inputs, action fills, tags, and segmented navigation have square corners through the zero-radius tokens. The stepped hero perimeter, the two stepped hero panels, and the crisp-edge monogram are the signature geometry. The desktop caption outline has a 28px left inset above its lower extension in an 827×172 viewBox; the quickstart has a top-right step at x401/y22 in a 428×206 viewBox. Both are authored SVG paths with a flat canvas fill and a non-scaling 1px stroke. At the shared mobile breakpoint these outlines give way to rectangular stacked panels. Static pixel artwork, chapter architecture, and the footer canvas keep crisp edges through nearest-neighbor rendering; meteor meshes use carved three-dimensional geometry. Interface rules stay thin and sharp.
 
 Stroke icons use inline SVG paths with approximately 1.4–2px strokes. They serve modules, files, copying, and directional links. The mark uses a 48×60 viewBox with an orthogonal five-level column and three detached rectangles.
 
@@ -376,15 +378,31 @@ Successful copying switches the icon to a check and announces "Copied" in a stat
 
 The attribution example has a labeled toolbar, two aria-pressed controls, a mono request, and a distinct result band. Before uses caution amber; After uses protected green. The example is explicitly illustrative. Do not turn that feedback into a claim that source analysis, hosted CI, runtime behavior, or deployment readiness was verified.
 
-### Pixel fields
+### Hero meteor scene
 
-The planet and asteroid fragments each use the shared PixelField, and the footer uses it to sample the BAO word. Nearby pixels move away from the local pointer and spring back; the headline, copy, and controls stay still. The input listens on each field's parent, so the artwork can respond while remaining outside the pointer hit layer.
+The planet remains a static Next Image. Six carved Three.js rock meshes occupy the right scene and lower-left fragment bay. Broken overhangs and deep dark cavities give them volume. Seamless object-space procedural shading forms continuous cyan mineral crust, warped fractures, fine grain, and pits, with derivative-based relief under MeshStandard lighting. Slow rotation reveals the carved form. Triangle winding follows the volume's inside-to-outside direction so closed rock surfaces keep consistent FrontSide faces; the accepted material, normals, triangle count, and raycasting remain. Raycasting selects the actual mesh for pointer aiming. Press and drag a rock to show a direction arrow, then release to launch it; a short press launches in the selected direction. Motion stays within bounded artwork regions, clear of the headline, captions, quickstart, and module rail.
 
-The implemented spring uses attraction 0.065 and velocity damping 0.82. The influence radius is bounded between 55px and 130px. Raster fields cap at 850 particles, word sampling uses a step based on 2400 target samples, and device-pixel ratio is capped at 1.5. Drawing stops when the field settles, when it is offscreen, or when the tab is hidden.
+Each rock has a labeled native button. Focus a rock, use arrow keys to choose a direction, and press Enter or Space to launch. Direct pointer and keyboard manipulation remain available without a visible instruction, Launch, or Reset panel. Visible focus and polite status support the interaction. If WebGL cannot load or loses its context, cropped sprites from the existing drift-rocks artwork retain the interaction on labeled rock buttons. At 1200px and below the scene has its own space in the flowing hero layout.
 
-Fine-pointer capability and reduced-motion preferences gate the effect. Coarse pointers and reduced motion retain the static image or text fallback. No touch animation is added. Canvas overlays are hidden from assistive technology and do not capture pointer events.
+Small irregular rock sprites reuse crops of the existing drift-rocks artwork. Decorative scatter is halved to 48 page fragments, 11 hero fragments, and 8 shared-footer fragments. Their positions, rotations, sizes, and flips avoid a repeating pattern. Hero scatter stays in the artwork bays and responsive scene space; decorative sprites ignore input and are hidden from assistive technology. The backdrop has no star dots or orbital linework. Functional borders and the temporary meteor aiming arrow remain readable.
 
-Raster fields sample the already loaded Next Image element, including its responsive optimized source. They do not request a second original image for the canvas. Footer sampling waits for local fonts to be ready.
+### Chapter constructions
+
+Front-facing pixel architecture fills the left chapter spaces: a workshop beneath the product introduction heading and one slender tower filling the evidence column's remaining free height. The workshop retains its 184×112 backing canvas within 552px. The tower keeps an 80-pixel backing width displayed at 240px; ResizeObserver adds actual pixel rows at three display pixels per source pixel instead of stretching its facade. Its desktop area fills the remaining column with a 600px minimum height; at 1200px and below it uses 492px.
+
+Pointer movement lights nearby windows. Activating the workshop cycles through four, five, and six floors before rebuilding; the tower sends a beacon signal through four states. Short light scans follow activation. Native buttons support click, tap, Enter, and Space, with accessible labels, visible focus, and status announcements. Architecture has no visible captions or interaction coaching.
+
+### Footer excavator workshop
+
+The shared footer contains a playable excavator delivery site in place of the BAO word. Drive the vehicle, lower its open bucket onto a loose cube, close to scoop one cube, then raise and carry it to the yellow building outline. The cube stays at the bucket while carried. Opening the loaded bucket drops it under gravity; the delivered count increases only when it lands on the marked target. A missed or low release leaves a loose cube that can be scooped again. Loose cubes collide and support each other in stacks; picking a supporting lower cube lets the cubes above settle under gravity. Swept contacts constrain the carried cube against loose cubes, the ground, and built blocks. Successful deliveries assemble a four-column, four-row building (16 blocks).
+
+Focus the scene, then use Left/Right or A/D to drive, Up/Down or W/S to raise and lower the bucket independently, F to turn, and Space/E to scoop, open, or drop. A new drive press steps one block width (32 world pixels); held controls continue movement. Pointer and touch controls offer both drive directions, both bucket directions, a state-dependent Scoop/Open/Drop action, Turn, and Restart. Turning mirrors the cab, boom, bucket, and carried-cube position. A loaded turn requires a clear path within the world bounds; a blocked turn preserves the previous facing and explains the obstruction. Bucket state, delivery count, and written status explain pickup, release, misses, blocked turns, and completion. Completion shows 16 / 16 blocks and a workshop-complete message; Restart restores the excavator, supply, and foundation.
+
+The workshop keeps a 12:5 canvas within a 660px maximum width. Its yellow and ochre vehicle and marker belong to the game artwork; its actions retain the existing seafoam and mint roles. Game control type is local: footer controls use 13px, and footer instructions and status use 12px. The game heading uses Space Grotesk at 17px, becoming 16px below 600px. These sizes do not replace the shared reading hierarchy.
+
+The footer's Updates on X link opens in a new tab with `target="_blank"` and `rel="noopener noreferrer"`.
+
+Meteors and the footer cap device-pixel ratio at 1.5; chapter architecture uses low-resolution backing canvases, with observed pixel-row growth for the tower. Animation pauses offscreen and while the tab is hidden. Reduced motion suppresses passive meteor drift and rotation and holds chapter light scans static. Bucket curl and the completion flag apply immediately while deliberate aiming, launching, state changes, driving, turning, lifting, scooping, and cube physics remain available. Architecture redraws on input and short activation scans; the footer runs animation frames during movement, falling or settling cubes, or short bucket/completion effects. Canvas layers and decorative sprites are hidden from assistive technology; accessible labels, visible focus, and status carry the interaction, with visible instructions confined to the footer game. Observers, listeners, animation frames, and WebGL geometry, materials, and renderer resources are released on teardown.
 
 ### Evidence navigation
 
@@ -405,7 +423,7 @@ Period and chart-metric controls expose aria-pressed and use paper mint with dar
 - **Do** use the shipped petrol, teal, seafoam, and mint roles across the homepage, guides, and retained tools.
 - **Do** keep shared controls square, use thin rules, and separate major sections with the observed spacing.
 - **Do** keep BAO Block Bold in the hero, Pixelify in chapter and footer display roles, Space Grotesk in explanations, and JetBrains Mono in commands and evidence.
-- **Do** retain local cursor response in both hero pixels and footer lettering, with static fallbacks and the existing performance guards.
+- **Do** keep the planet static and preserve deliberate hero aiming, chapter architecture controls, and footer excavation controls with their performance guards. Keep visible homepage interaction instructions inside the footer game.
 - **Do** keep status words, candidate labels, example labels, source links, and scope explanations beside their evidence.
 - **Do** preserve visible keyboard focus, native disclosures, selectable commands, and contained horizontal scrolling.
 
@@ -415,5 +433,7 @@ Period and chart-metric controls expose aria-pressed and use paper mint with dar
 - **Don't** reintroduce the superseded light canvas, Base-blue actions, or serif display family.
 - **Don't** replace readable paragraphs, hashes, editable code, or data tables with pixel display type.
 - **Don't** apply the homepage's absolute composition or display density to every guide or tool.
-- **Don't** animate text and controls with the particle field, run it continuously after settling, or remove reduced-motion and coarse-pointer fallbacks.
+- **Don't** animate homepage copy and controls with the scenes, run scenes offscreen or while the tab is hidden, or remove deliberate keyboard and pointer controls under reduced motion.
+- **Don't** add gradients, decorative orbital lines, star dots, or unrelated picture layers to this homepage backdrop.
+- **Don't** add visible tutorial panels, interaction hints, or architecture captions outside the homepage footer game.
 - **Don't** infer adoption, production readiness, contract safety, or complete project coverage from examples or published samples.

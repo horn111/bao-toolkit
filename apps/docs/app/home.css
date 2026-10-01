@@ -1,3 +1,40 @@
+.product-home {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+
+.space-backdrop-hero {
+  z-index: 0;
+}
+
+.space-backdrop-hero .space-rock {
+  --hero-fragment-x: var(--fragment-desktop-x);
+  --hero-fragment-y: var(--fragment-desktop-y);
+}
+
+@media (max-width: 1200px) {
+  .space-backdrop-hero .space-rock {
+    --hero-fragment-x: var(--fragment-mobile-x);
+    --hero-fragment-y: calc(
+      224px + clamp(24px, 8.2cqw, 72px) * 3.3 + var(--fragment-scatter-y) * 160px
+    );
+  }
+}
+
+@media (max-width: 600px) {
+  .space-backdrop-hero .space-rock {
+    --hero-fragment-y: calc(
+      max(358px, 217px + clamp(24px, 8.2cqw, 72px) * 3.3) + var(--fragment-scatter-y) * 132px
+    );
+  }
+}
+
+.home-content,
+.landing-stage {
+  position: relative;
+}
+
 .landing-stage {
   position: relative;
   width: 100%;
@@ -7,8 +44,7 @@
   background: var(--canvas);
 }
 
-.planet-art,
-.drift-art {
+.planet-art {
   position: absolute;
   pointer-events: none;
 }
@@ -20,15 +56,7 @@
   height: 53.13%;
 }
 
-.drift-art {
-  left: 1.61%;
-  top: 53.67%;
-  width: 35.05%;
-  height: 27.74%;
-}
-
-.planet-art img,
-.drift-art img {
+.planet-art img {
   object-fit: cover;
   image-rendering: pixelated;
 }
@@ -99,6 +127,7 @@
   display: none;
 }
 .landing-title span {
+  z-index: 2;
   position: absolute;
   white-space: nowrap;
   font-size: var(--hero-size, 6.95cqw);
@@ -122,6 +151,7 @@
   transform: scaleX(0.883);
 }
 .hero-caption {
+  z-index: 3;
   position: absolute;
   left: 20.63%;
   top: 68.54%;
@@ -187,6 +217,7 @@
   white-space: nowrap;
 }
 .hero-quickstart {
+  z-index: 3;
   position: absolute;
   left: 72.73%;
   top: 66.1%;
@@ -245,6 +276,7 @@
   background: #8bece4;
 }
 .module-rail {
+  z-index: 3;
   position: absolute;
   left: 3.05%;
   top: 91.07%;
@@ -724,13 +756,6 @@
     height: auto;
     aspect-ratio: 2 / 1;
   }
-  .drift-art {
-    left: 2%;
-    top: 490px;
-    width: min(58%, 420px);
-    height: auto;
-    aspect-ratio: 1880 / 837;
-  }
   .hero-frame {
     inset: 20px 10px auto;
     height: 560px;
@@ -902,9 +927,6 @@
     left: 8%;
     top: 330px;
     width: 130%;
-  }
-  .drift-art {
-    top: 405px;
   }
   .hero-frame {
     height: 460px;

@@ -1,21 +1,23 @@
 import Image from "next/image";
 import heroArt from "../assets/plates/hero-art.png";
-import driftRocks from "../assets/plates/drift-rocks.png";
 import Link from "next/link";
 import { SiteHeader } from "./_components/site-header";
 import { BrandMark } from "./_components/brand-mark";
 import { CopyCommand } from "./_components/copy-command";
 import { ArrowIcon, FileIcon, ModuleIcon } from "./_components/site-icons";
 import { HomeSections } from "./_components/home-sections";
-import { PixelField } from "./_components/pixel-field";
+import { MeteorScene } from "./_components/meteor-scene";
+import { SpaceBackdrop } from "./_components/space-backdrop";
 import "./home.css";
 
 export default function HomePage() {
   return (
     <main id="main-content" tabIndex={-1} className="product-home">
+      <SpaceBackdrop />
       <section className="landing-stage" aria-labelledby="home-title">
+        <SpaceBackdrop hero />
         <SiteHeader home />
-        <PixelField className="planet-art">
+        <div className="planet-art" aria-hidden="true">
           <Image
             alt=""
             fill
@@ -23,10 +25,8 @@ export default function HomePage() {
             sizes="(max-width: 600px) 130vw, (max-width: 1200px) 760px, 60vw"
             src={heroArt}
           />
-        </PixelField>
-        <PixelField className="drift-art">
-          <Image alt="" fill priority sizes="35vw" src={driftRocks} />
-        </PixelField>
+        </div>
+        <MeteorScene />
         <HeroFrame />
         <h1 id="home-title" className="landing-title">
           <span className="headline-base">BUILD ON BASE.</span>

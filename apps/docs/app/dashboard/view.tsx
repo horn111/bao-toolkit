@@ -59,13 +59,13 @@ export function Dashboard({
     setSearch("");
     setReviewOnly(false);
     setShareStatus("");
-    router.replace(`/dashboard?project=${encodeURIComponent(code)}&network=${chain}`, {
+    router.replace(`/dashboard/evidence?project=${encodeURIComponent(code)}&network=${chain}`, {
       scroll: false,
     });
   }
 
   async function copyLink() {
-    const url = new URL("/dashboard", window.location.origin);
+    const url = new URL("/dashboard/evidence", window.location.origin);
     url.searchParams.set("project", project.code);
     url.searchParams.set("network", network);
     try {

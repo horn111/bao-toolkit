@@ -24,11 +24,13 @@ The product site must explain what each module does, how they work together,
 which parts are released or candidates, and how a developer starts. The tools
 and evidence pages remain usable destinations beneath this product explanation.
 
-The dashboard must explain BAO's incremental value alongside official Base
-analytics: source-path checks, CI regression enforcement, and repeatable onchain
-verification. It must not compete on a duplicate set of activity counters or
-imply that BAO is required to use Builder Codes. Base App provides automatic
-attribution; other clients can use direct SDK integration without BAO.
+The owner approved an app activity dashboard on 2026-10-01 after Base reduced
+its overview to trading and TVL metrics. The dashboard accepts any Builder Code,
+uses the site's pixel-teal identity, and explains operations, wallets, outcomes
+and network costs. It supports indexed data and CSV/JSON imports alongside the
+published evidence view. Monetization is outside this request. Source-path
+checks, CI policy and reproducible proofs remain connected through the evidence
+view. BAO is not required to use Builder Codes; other clients can integrate directly.
 
 ## Capabilities and Constraints
 

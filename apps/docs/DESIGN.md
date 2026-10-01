@@ -19,6 +19,18 @@ colors:
   pastel-green-text: "#83e2d0"
   pastel-yellow-bg: "#3b3423"
   pastel-yellow-text: "#f3d798"
+  activity-panel: "#142528"
+  activity-panel-deep: "#0d2023"
+  activity-paper: "#e0e9df"
+  activity-ink: "#142e30"
+  activity-rule: "#365154"
+  activity-paper-muted: "#3c5655"
+  activity-wallet: "#80b7ad"
+  activity-wallet-ink: "#102e2c"
+  activity-wallet-muted: "#203e3a"
+  activity-fee: "#365d62"
+  activity-fee-copy: "#deefed"
+  activity-evidence: "#c5d1c9"
 typography:
   display:
     fontFamily: '"BAO Block", "Pixelify Sans", monospace'
@@ -84,6 +96,29 @@ typography:
     fontSize: "15px"
     fontWeight: 400
     lineHeight: 1.1
+  activity-headline:
+    fontFamily: '"Pixelify Sans", monospace'
+    fontSize: "clamp(38px, 4vw, 56px)"
+    fontWeight: 700
+    lineHeight: 1.08
+    letterSpacing: "-0.02em"
+  activity-total:
+    fontFamily: '"Pixelify Sans", monospace'
+    fontSize: "clamp(76px, 8vw, 116px)"
+    fontWeight: 500
+    lineHeight: 1
+    letterSpacing: "-0.025em"
+  activity-metric:
+    fontFamily: '"JetBrains Mono", monospace'
+    fontSize: "56px"
+    fontWeight: 400
+    lineHeight: 1.08
+    letterSpacing: "-0.04em"
+  activity-ledger-headline:
+    fontFamily: '"Pixelify Sans", monospace'
+    fontSize: "28px"
+    fontWeight: 500
+    lineHeight: 1.15
 rounded:
   square: "0px"
 spacing:
@@ -100,6 +135,9 @@ spacing:
   "64": "64px"
   "80": "80px"
   "112": "112px"
+  activity-gap: "10px"
+  activity-panel: "22px"
+  activity-compact: "18px"
 components:
   button-primary:
     backgroundColor: "{colors.accent}"
@@ -153,6 +191,31 @@ components:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.text-main}"
     rounded: "{rounded.square}"
+  activity-panel:
+    backgroundColor: "{colors.activity-panel}"
+    textColor: "{colors.text-main}"
+    rounded: "{rounded.square}"
+    padding: "{spacing.activity-panel}"
+  activity-total:
+    backgroundColor: "{colors.activity-paper}"
+    textColor: "{colors.activity-ink}"
+    rounded: "{rounded.square}"
+    padding: "{spacing.activity-panel}"
+  activity-wallet:
+    backgroundColor: "{colors.activity-wallet}"
+    textColor: "{colors.activity-wallet-ink}"
+    rounded: "{rounded.square}"
+    padding: "{spacing.activity-panel}"
+  activity-fee:
+    backgroundColor: "{colors.activity-fee}"
+    textColor: "{colors.text-main}"
+    rounded: "{rounded.square}"
+    padding: "{spacing.activity-panel}"
+  activity-evidence:
+    backgroundColor: "{colors.activity-evidence}"
+    textColor: "{colors.activity-ink}"
+    rounded: "{rounded.square}"
+    padding: "{spacing.activity-panel}"
 ---
 
 # Design System: Base App OS
@@ -173,7 +236,7 @@ The same palette and local fonts connect the homepage, guides, and retained tool
 - Local pointer displacement and spring return in both hero artwork and footer lettering.
 - Text labels and provenance beside status colors, examples, and evidence.
 
-Extracted from [global tokens](app/globals.css), [homepage styles](app/home.css), [shared site styles](app/_components/site.css), [guide styles](app/docs/docs.css), [font declarations](app/layout.tsx), and [pixel behavior](app/_components/pixel-field.tsx). The retained dashboard, B20, and proof styles supply the tool-specific exceptions described below.
+Extracted from [global tokens](app/globals.css), [homepage styles](app/home.css), [shared site styles](app/_components/site.css), [guide styles](app/docs/docs.css), [font declarations](app/layout.tsx), and [pixel behavior](app/_components/pixel-field.tsx). The [app activity dashboard](app/dashboard/activity.css) supplies the activity-prefixed local tokens. The retained attribution evidence view at `/dashboard/evidence`, B20, and proof styles supply the other tool-specific exceptions described below.
 
 ## Colors
 
@@ -189,6 +252,8 @@ The palette moves from deep petrol through teal to seafoam and mint, with muted 
 
 - **Frame mint** (frame-line): the recurring homepage perimeter, caption and quickstart outlines, module-rail separators, and stroke icons.
 - **Pixel teal** (pixel-teal): darker particles within the footer word. The planetary raster carries its own authored tonal variation.
+- **Activity wallet mint** (activity-wallet): the active-wallet tile on `/dashboard`, with activity-wallet-ink for its count and activity-wallet-muted for labels and detail.
+- **Activity fee teal** (activity-fee): the recorded gas-cost tile, with activity-fee-copy for labels and detail and text-main for the measured value.
 
 ### Tertiary
 
@@ -204,6 +269,8 @@ The palette moves from deep petrol through teal to seafoam and mint, with muted 
 - **Teal rule** (border): separators, field strokes, and quiet panel boundaries.
 - **Mint ice** (text-main): main copy and display text. The source's text-accent alias resolves to the same value.
 - **Muted cyan** (text-muted): explanations, captions, metadata, and secondary navigation.
+- **Activity charcoal layers** (activity-panel / activity-panel-deep): the activity chart, success and outcome tiles, lookup, destinations, and ledger. Activity-rule separates their controls and rows.
+- **Activity paper mint** (activity-paper): the primary operation count, selected period and chart controls, and resting chart bars. Activity-evidence gives the attribution panel a quieter paper surface. Activity-ink and activity-paper-muted provide their dark text roles. These are local panel fills; the page canvas stays petrol.
 
 **The Status With Words Rule.** Color accompanies a specific status, finding, or scope label. It does not replace the explanation.
 
@@ -221,10 +288,11 @@ All four families load from local font files through the root layout. The author
 - **Display:** the desktop hero uses BAO Block Bold in its inline-size container, with zero tracking. The first line uses the display token's default size; KNOW WHAT overrides it to 6.21cqw and SHIPPED to 6.8cqw. Individually positioned spans use horizontal scales of 0.874, 0.955, and 0.883 to preserve the approved widths. At 1200px and below they enter normal flow, lose those transforms, and use clamp(24px, 8.2cqw, 72px) with a parent line height of 1.1.
 - **Headline:** homepage chapter headings use the headline token. The footer shares its size, weight, and tracking with a line height of 1.1. Below the small-screen breakpoint, homepage and footer headings use 42px.
 - **Docs headline:** guide and documentation titles use Space Grotesk, balanced wrapping, and the docs-headline token. Small-screen titles use 36px. Guide section headings are 28px/1.3 at weight 500 and become 25px on small screens.
-- **Tool headline:** Doctor and other retained tool heroes use the tool-headline token and become 40px below their tool breakpoint. Dashboard and B20 use the same body family and 400 weight with their own 1.12 line height and tighter tracking.
+- **Tool headline:** Doctor and other retained tool heroes use the tool-headline token and become 40px below their tool breakpoint. The attribution evidence view at `/dashboard/evidence` and B20 use the same body family and 400 weight with their own 1.12 line height and tighter tracking.
+- **Activity display:** `/dashboard` uses activity-headline for its page title, activity-total for its primary operation count, and activity-ledger-headline for Operations. Longer total strings use clamp(40px, 5vw, 68px); ordinary totals become 88px at 680px and below. The primary count is a short pixel display treatment, while supporting measurements remain mono.
 - **Title:** evidence-ledger headings use the title token. Documentation index headings use 25px/1.4 at weight 500; compact tool headings use 16–18px and weight 600.
 - **Body:** the base body token is for controls and compact interface copy. Homepage and footer explanations use body-copy; homepage paragraphs cap at 70ch. Guides use 17px/1.8, cap at 72ch, and become 16px/1.75 on small screens. Introductory guide copy uses 20px/1.6 and becomes 18px.
-- **Code:** examples use the code token; guide command blocks use 13px/1.9. Compact fields use the input token. Small-screen code becomes 12px where explicitly styled. Numeric dashboard totals use JetBrains Mono and tabular figures.
+- **Code:** examples use the code token; guide command blocks use 13px/1.9. Compact fields use the input token. Small-screen code becomes 12px where explicitly styled. Activity wallet counts use activity-metric and become 48px at 680px and below; gas uses clamp(30px, 3.3vw, 46px), then 36px on small screens. Success percentages, outcome counts, fees, hashes, and table data retain JetBrains Mono and tabular figures. Attribution evidence totals remain mono.
 - **Actions and navigation:** use the action, text-action, and navigation roles. Desktop homepage navigation uses mono type with 13px and 14px minimums; the quickstart title has a 16px minimum and its command a 12px minimum. Caption copy has a 14px minimum. The shared mobile menu uses fixed readable sizes.
 
 **The Readable Evidence Rule.** Keep paragraph text, editable code, commands, hashes, and table data in the reading or code families. Pixel type belongs to the shipped display and short outcome treatments.
@@ -239,21 +307,24 @@ The retained tool container has a 1440px maximum and 24px side padding; document
 
 Spacing tokens collect recurring measured steps from 8px control gaps through 112px chapter padding. They describe existing usage rather than a newly imposed mathematical scale.
 
+The activity dashboard uses a twelve-column composition with a 10px gap. The operation-count tile occupies three columns and two rows; wallet and success tiles share the next three columns; the chart takes the remaining six. The next row divides four columns for gas and eight for outcomes. Destinations and attribution follow in a 1.15fr / 1fr pair. Activity panels use 22px padding with local 18px compact variants. This arrangement belongs to `/dashboard`.
+
 ### Responsive behavior
 
 - **1200px and below:** the shared header switches to a native disclosure menu. The hero drops its fixed ratio, puts copy and actions into flow, and uses a two-column module rail. A readable product definition follows the headline; quickstart comes before the detailed caption. Homepage chapters and the footer become single columns; major chapter padding remains 80px.
 - **900px and below:** guides become one column. The desktop contents navigation gives way to an in-guide disclosure; the related-guide area becomes static. Proof layouts also collapse at this breakpoint.
 - **600px and below:** homepage and footer side gutters become 20px, the hero caption stacks, the module rail becomes one column, major chapter padding becomes 48px, and the footer links use two columns. The introduction keeps 64px padding. Secondary tool links become a compact native chooser. Guide copy, code, and section spacing tighten without changing the font roles.
 - **360px and below:** the brand name uses 16px type, 10px gap, and 12px side padding to fit on one line.
-- **Retained tools:** Doctor moves from three columns to two at 1024px, then one at 768px; its shared container uses 16px side padding below 768px. On narrow screens its fixture list becomes a select, text inputs use 16px, and findings precede the editor. Dashboard toolbar wrapping starts at 1050px, with overview and detail columns stacking at 720px. B20 comparisons stack at 720px. Proof layouts tighten again at 640px.
+- **Activity dashboard:** metric and panel-heading padding tightens at 1200px. At 980px the overview becomes six columns: the total stays beside wallet and success, the chart spans the next row, and gas sits beside outcomes below it. At 680px the lookup wraps, the total spans the full width, wallet and success share a row, and chart, gas, outcomes, destinations, and attribution stack. Overview and secondary gaps become 8px.
+- **Retained tools:** Doctor moves from three columns to two at 1024px, then one at 768px; its shared container uses 16px side padding below 768px. On narrow screens its fixture list becomes a select, text inputs use 16px, and findings precede the editor. The attribution evidence toolbar at `/dashboard/evidence` wraps at 1050px, with overview and detail columns stacking at 720px. B20 comparisons stack at 720px. Proof layouts tighten again at 640px.
 
-Keep code and evidence overflow within their own scrollable regions. The dashboard ledger retains an 820px minimum table width and a labeled, keyboard-focusable horizontal scroll region.
+Keep code and evidence overflow within their own scrollable regions. The activity ledger has a 730px minimum table width inside a labeled, keyboard-focusable horizontal scroll region. The retained attribution evidence ledger uses its existing 820px minimum.
 
 ## Elevation & Depth
 
 The shared website is flat. It builds depth through petrol and teal tonal layers, thin borders, generous gaps, and the light and shade of the planetary artwork. Shared cards, navigation, actions, and command strips do not cast shadows.
 
-The retained dashboard's pressed network segment has a small soft shadow (0 1px 4px #00000020). This local state is the only extracted shadow token; it is not a default card elevation.
+The retained attribution evidence view's pressed network segment has a small soft shadow (0 1px 4px #00000020). This local state is the only extracted shadow token; it is not a default card elevation. Activity dashboard tiles remain flat and separate through their paper, mint, blue-teal, and charcoal fills.
 
 **The Flat Surface Rule.** Use the existing surface colors and rules to separate panels. Reserve the retained segment shadow for that selected control.
 
@@ -263,15 +334,15 @@ Shared panels, inputs, action fills, tags, and segmented navigation have square 
 
 Stroke icons use inline SVG paths with approximately 1.4–2px strokes. They serve modules, files, copying, and directional links. The mark uses a 48×60 viewBox with an orthogonal five-level column and three detached rectangles.
 
-Retained tools still contain local rounded status pills, dots, small progress tracks, a 3px selector, and a 5px search container. These are recorded as existing exceptions, not promoted into the shared radius vocabulary.
+Retained tools, including `/dashboard/evidence`, still contain local rounded status pills, dots, small progress tracks, a 3px selector, and a 5px search container. These are recorded as existing exceptions, not promoted into the shared radius vocabulary. The activity dashboard uses square panels, fields, status markers, and progress tracks. Its success circle is an SVG measurement, with a thin track and a seafoam arc proportional to the recorded ratio.
 
 ## Components
 
 ### Buttons and text actions
 
-The filled action uses seafoam and petrol ink, square corners, a 52px minimum height, and a 28px gap to its arrow. Its hover fill is hover mint. Compact secondary dashboard actions use a bordered dark surface, 44px minimum height, and 9px 14px padding; hover changes to inset teal. Standalone dashboard and B20 actions have at least 44px height. Text actions combine seafoam copy with an underline offset by 6px; the quiet rule color of the underline brightens on hover.
+The filled action uses seafoam and petrol ink, square corners, a 52px minimum height, and a 28px gap to its arrow. Its hover fill is hover mint. Compact secondary attribution-evidence actions use a bordered dark surface, 44px minimum height, and 9px 14px padding; hover changes to inset teal. Standalone attribution-evidence and B20 actions have at least 44px height. Activity actions use 8px 14px padding and a 40px minimum height; Load activity uses 44px and changes from seafoam to text-main on hover. Text actions combine seafoam copy with an underline offset by 6px; the quiet rule color of the underline brightens on hover.
 
-Global keyboard focus uses a 2px seafoam outline with 4px offset. State transitions use the shared 150ms easing; dashboard color transitions use 150ms. Reduced-motion preferences remove transitions and smooth scrolling.
+Global keyboard focus uses a 2px seafoam outline with 4px offset. State transitions use the shared 150ms easing; attribution-evidence color transitions use 150ms. Activity chart bars use a 160ms ease-out background transition. Reduced-motion preferences remove transitions and smooth scrolling. The activity attribution panel uses dark ink for focus outlines on its pale fill.
 
 ### Candidate tags and status feedback
 
@@ -318,6 +389,14 @@ Raster fields sample the already loaded Next Image element, including its respon
 ### Evidence navigation
 
 B20 reports start with section links and a transaction index. Native transaction disclosures retain the relation, hash, execution, and attribution summary when closed; the first transaction starts open. Capture metadata and raw evidence stay in nested disclosures. Proof pages offer the actual replay inputs and published manifest, with an exact offline rebuild command and an explicit chain-recheck limitation. Historical manifest titles remain intact and are labeled as historical.
+
+### Activity measurements and inspection
+
+The activity dashboard pairs each total with a written metric and its data scope. Published samples retain their source label and count only the supplied operations. The success circle uses recorded execution statuses; unavailable ratios show the track without a value arc. A circle does not add a new rounded-card style.
+
+At the user's request, activity panels carry static pixel fragments with varied placement, orientation, and scale. The authored [SVG mask](public/ui/activity-pixels.svg) uses irregular stepped squares without a repeating grid. Fixed scales of 0.5, 0.75, 1, and 1.25 preserve integer pixel geometry: lookup and destinations use 112×80px at bottom-right with a vertical flip; total uses 280×200px at bottom-left rotated 180 degrees; wallets use 112×80px at top-right; success uses 168×120px at bottom-right with a vertical flip; gas and attribution use 224×160px at top-left with a horizontal flip; outcomes use 168×120px at bottom-left rotated 180 degrees; ledger uses 168×120px at top-left with a horizontal flip. The chart keeps its 168×120px fragments at top-right, limited to the header above plotted data. Each nonrepeating mask is bounded by its panel. Keep the center quiet for text and measurements. Dark and fee panels use text-main ink at no more than 7% opacity; total, wallet, and attribution panels use activity-ink at no more than 5%. The decoration sits behind content in an isolated layer, ignores pointer input, and never animates. Keep it clear of chart marks and data rather than extending it across the panel.
+
+Period and chart-metric controls expose aria-pressed and use paper mint with dark ink when selected. Daily bars filter the operations ledger, with arrow-key inspection and a native UTC day selector of at least 44px height. The ledger keeps search, result filtering, transaction links, share, export, pagination, and source details beside the data. Empty states explain missing measurements without invented activity.
 
 ## Do's and Don'ts
 

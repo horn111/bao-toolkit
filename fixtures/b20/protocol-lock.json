@@ -1,0 +1,35 @@
+{
+  "id": "base-std-1505323-inspect-v1",
+  "source": {
+    "repository": "https://github.com/base/base-std",
+    "commit": "150532313c10a410fd81d74d5f1ca0df43865822",
+    "hashEncoding": "sha256 of UTF-8 source normalized to LF with final newline",
+    "files": [
+      {
+        "path": "src/interfaces/IB20Factory.sol",
+        "sha256": "15209e20f635cae06c306b368e4487d0315e02cbedf953c72de4ed9a806dab1f"
+      },
+      {
+        "path": "src/StdPrecompiles.sol",
+        "sha256": "b51fda6154c32ef99f26fa56495a265585fbd656eb849f37dfc243f505126a9b"
+      },
+      {
+        "path": "test/lib/mocks/MockB20Factory.sol",
+        "sha256": "5e104c7b74ed625b0eac9dbe5474f68c935d0e6b1c187ae0447c9ce497916a1d"
+      },
+      {
+        "path": "CHANGELOG.md",
+        "sha256": "a3521cc289d4385243c1c99343bef28fae17babf24fc3b733416d89e21eabe13"
+      }
+    ]
+  },
+  "sourceDigest": "0xf94bc2a2d18330180dfc1a22e0c586c608791524946a22f1b22f871a49bc4d4d",
+  "abiDigest": "0xe70ab0b0c27749f616b75ef52f041c2e6dacdf2dd656f76132ab70ee1434e7fd",
+  "factory": "0xb20f000000000000000000000000000000000000",
+  "prefix": "0xb2000000000000000000",
+  "variantByte": 10,
+  "chains": [8453, 84532],
+  "initializationSelector": "0x6a45ba98",
+  "runtimeQualification": "not-qualified",
+  "activationBlocks": null
+}

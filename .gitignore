@@ -21,3 +21,5 @@ yarn-error.log*
 /docs/launch/
 /apps/docs/public/social/
 /apps/docs/public/bao-x-header*.png
+/.impeccable/
+/apps/docs/.impeccable/

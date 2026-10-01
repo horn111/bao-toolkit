@@ -1,0 +1,18 @@
+{
+  "kind": "bao.b20-input",
+  "schemaVersion": 1,
+  "chainId": 84532,
+  "selection": {
+    "mode": "sample",
+    "description": "Two factory creation transactions from the complete B20Created response for Base Sepolia blocks 47506060-47507059. No application completeness or expected Builder Code claim.",
+    "completeness": "unknown"
+  },
+  "transactions": [
+    {
+      "hash": "0x23f6a75934e163ff3eefe71b24b197c9dab7527b18f927e821592efd1f230737"
+    },
+    {
+      "hash": "0x79f71eb05b9ffbd35054e531f7d6108a2050595ad7302f418cd0ddf6b95db8bf"
+    }
+  ]
+}

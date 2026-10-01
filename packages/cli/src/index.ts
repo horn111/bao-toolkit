@@ -2,6 +2,7 @@
 import { realpathSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import type { Hex } from "@base-attribution-os/core";
+import { b20Command, validateB20Arguments } from "./commands/b20.js";
 import { checkCalldataCommand } from "./commands/check-calldata.js";
 import { checkTransactionCommand } from "./commands/check-tx.js";
 import { checkUserOperationFileCommand } from "./commands/check-user-op.js";
@@ -16,6 +17,7 @@ import { scanRepoCommand } from "./commands/scan-repo.js";
 import { CliError, printResult, required } from "./output.js";
 
 export { checkCalldataCommand } from "./commands/check-calldata.js";
+export { b20Command, formatB20Inspection } from "./commands/b20.js";
 export { checkTransactionCommand } from "./commands/check-tx.js";
 export {
   checkUserOperationCommand,
@@ -91,6 +93,13 @@ async function run(argv: string[]): Promise<void> {
       .filter(Boolean);
     const result = encodeCommand({ code: options.code, codes });
     printResult(result, json);
+    return setExitCode(result.ok);
+  }
+
+  if (command === "b20") {
+    validateB20Arguments(rest);
+    const result = await b20Command(rest[0], options);
+    if (!options.output) console.log(result.message.trimEnd());
     return setExitCode(result.ok);
   }
 
@@ -315,6 +324,12 @@ function helpText(): string {
 
 Usage:
   bao init --builder-code bc_abc123
+  bao b20 inspect --address 0x... --chain-id 8453 --block finalized --rpc-url-env BASE_RPC_URL
+  bao b20 inspect --input capture.json --chain-id 84532 --offline --format json
+  bao b20 verify --input report.json --offline
+  bao b20 verify --input report.json --rpc-url-env BASE_RPC_URL
+  bao b20 replay --hashes 0x...,0x... --chain-id 84532 --expect bc_example --rpc-url-env BASE_RPC_URL
+  bao b20 replay --input capture.json --chain-id 84532 --expect bc_example --offline --format json
   bao doctor [--changed-since origin/main] [--format human|json|sarif]
   bao encode --code bc_abc123
   bao decode --calldata 0x...

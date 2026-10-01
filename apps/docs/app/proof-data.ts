@@ -57,6 +57,33 @@ export function getPublishedProof(code: string): AttributionProofSet | undefined
   return publishedProofs.get(code);
 }
 
+export function getProofReportDownloads(proof: AttributionProofSet) {
+  return proof.reports.map((_, index) => ({
+    name: `proof-${proof.builderCode}-${index + 1}.json`,
+    href: `/proof/${proof.builderCode}/reports/${index + 1}`,
+  }));
+}
+
+export function proofArtifactResponse(code: string, reportNumber?: string): Response {
+  const proof = getPublishedProof(code);
+  if (!proof) return new Response("Proof set not found", { status: 404 });
+  if (reportNumber !== undefined && !/^[1-9]\d*$/.test(reportNumber)) {
+    return new Response("Replay report not found", { status: 404 });
+  }
+  const index = reportNumber === undefined ? undefined : Number(reportNumber) - 1;
+  const artifact = index === undefined ? proof : proof.reports[index];
+  if (!artifact) return new Response("Replay report not found", { status: 404 });
+  const filename =
+    index === undefined ? `proof-set-${code}.json` : getProofReportDownloads(proof)[index].name;
+  return new Response(`${JSON.stringify(artifact, null, 2)}\n`, {
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Disposition": `attachment; filename="${filename}"`,
+      "X-Content-Type-Options": "nosniff",
+    },
+  });
+}
+
 export function getPublishedProofTransactions(proofSet: AttributionProofSet) {
   const unique = new Map<
     string,

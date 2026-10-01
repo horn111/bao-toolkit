@@ -1,0 +1,77 @@
+{
+  "kind": "bao.b20-report",
+  "schemaVersion": 1,
+  "mode": "inspect",
+  "producer": {
+    "name": "@base-attribution-os/b20",
+    "version": "0.1.0"
+  },
+  "generatedAt": "2026-09-29T12:00:00.000Z",
+  "chainId": 84532,
+  "protocolProfileId": "base-std-1505323-inspect-v1",
+  "protocolSourceDigest": "0xf94bc2a2d18330180dfc1a22e0c586c608791524946a22f1b22f871a49bc4d4d",
+  "evidenceDigest": "0x333ad07b1bed62a8f9582faac44b1a960f245723ff90804245b8afa6dac67fb3",
+  "evidence": {
+    "kind": "bao.b20-inspection-capture",
+    "schemaVersion": 1,
+    "chainId": 84532,
+    "address": "0xb200000000000000000000111111111111111111",
+    "protocolProfileId": "base-std-1505323-inspect-v1",
+    "protocolSourceDigest": "0xf94bc2a2d18330180dfc1a22e0c586c608791524946a22f1b22f871a49bc4d4d",
+    "acquisition": "synthetic",
+    "capturedAt": "2026-09-29T12:00:00.000Z",
+    "requestedBlock": "123",
+    "chainResponse": "0x14a34",
+    "block": {
+      "number": "123",
+      "hash": "0xabababababababababababababababababababababababababababababababab",
+      "timestamp": "1790683200",
+      "statePosition": "end-of-block"
+    },
+    "blockAfter": {
+      "number": "123",
+      "hash": "0xcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+      "timestamp": "1790683200",
+      "statePosition": "end-of-block"
+    },
+    "initialization": {
+      "id": "initialization",
+      "method": "eth_call",
+      "request": {
+        "to": "0xb20f000000000000000000000000000000000000",
+        "data": "0x6a45ba98000000000000000000000000b200000000000000000000111111111111111111",
+        "block": {
+          "blockHash": "0xabababababababababababababababababababababababababababababababab",
+          "requireCanonical": true
+        }
+      },
+      "result": {
+        "status": "returned",
+        "data": "0x0000000000000000000000000000000000000000000000000000000000000001"
+      }
+    }
+  },
+  "token": {
+    "address": "0xb200000000000000000000111111111111111111",
+    "variant": "asset",
+    "classification": "conflict",
+    "confirmation": "none",
+    "evidenceIds": ["initialization"]
+  },
+  "consistency": "conflicting",
+  "runStatus": "partial",
+  "readiness": "not-tested",
+  "runtimeQualification": "not-qualified",
+  "policy": {
+    "name": "observe",
+    "decision": "fail"
+  },
+  "diagnostics": ["B20_RUNTIME_NOT_QUALIFIED", "B20_BLOCK_CHANGED"],
+  "limitations": [
+    "Classification describes supplied evidence under the pinned source profile. The profile has no qualified deployment or activation-height registry.",
+    "State is end-of-block, not transaction-time state. Application readiness and attribution are not tested by inspection.",
+    "Acquisition is the producer's claim. Offline validation does not independently confirm RPC data or chain consensus.",
+    "The evidence digest detects content changes; it is not an authenticity signature.",
+    "Only hash-pinned state queries are supported. No fallback to latest or number-pinned state."
+  ]
+}

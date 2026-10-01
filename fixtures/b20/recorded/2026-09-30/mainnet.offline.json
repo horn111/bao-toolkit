@@ -1,0 +1,17 @@
+{
+  "kind": "bao.b20-validation",
+  "schemaVersion": 1,
+  "mode": "offline",
+  "networkRecheck": "not-performed",
+  "acquisition": "imported",
+  "producerAcquisitionClaim": "rpc",
+  "producerPolicyClaim": {
+    "name": "observe",
+    "decision": "pass"
+  },
+  "currentRunStrictPolicy": "not-evaluated",
+  "valid": true,
+  "evidenceDigest": "0xe7af7e06f493d11937f226c20eba84dd4e157c5ab738e2c3f2f36e1312823469",
+  "message": "Internally consistent; network recheck not performed.",
+  "readiness": "not-tested"
+}

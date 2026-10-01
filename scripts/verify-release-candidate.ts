@@ -21,6 +21,7 @@ type PackedPackage = {
 const repoRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const packagesToVerify = [
   { dir: "packages/core", packageName: "@base-attribution-os/core" },
+  { dir: "packages/b20", packageName: "@base-attribution-os/b20" },
   { dir: "packages/wallet", packageName: "@base-attribution-os/wallet" },
   { dir: "packages/scanner", packageName: "@base-attribution-os/scanner" },
   { dir: "packages/viem", packageName: "@base-attribution-os/viem" },
@@ -231,6 +232,245 @@ console.log("Proof Set package smoke passed");
 `,
   );
   run("node", ["proof-set-smoke.mjs"], consumerDir);
+
+  writeFileSync(
+    path.join(consumerDir, "b20-capture.json"),
+    readFileSync(path.join(repoRoot, "fixtures/b20/synthetic/asset-initialized.capture.json")),
+  );
+  writeFileSync(
+    path.join(consumerDir, "b20-smoke.mjs"),
+    `import { readFileSync, writeFileSync } from "node:fs";
+import { createRequire } from "node:module";
+globalThis.fetch = () => { throw new Error("Network forbidden in offline smoke"); };
+const { createB20InspectionReport, parseB20Report, validateB20ReportOffline } = await import("@base-attribution-os/b20");
+const { inspectB20Token } = await import("@base-attribution-os/b20/rpc");
+const require = createRequire(import.meta.url);
+if (typeof require("@base-attribution-os/b20").parseB20Report !== "function" || typeof require("@base-attribution-os/b20/rpc").inspectB20Token !== "function") throw new Error("B20 CJS exports failed");
+if (typeof inspectB20Token !== "function") throw new Error("B20 RPC export failed");
+const capture = JSON.parse(readFileSync("b20-capture.json", "utf8"));
+const report = parseB20Report(createB20InspectionReport(capture));
+const validation = validateB20ReportOffline(report);
+if (report.token.classification !== "confirmed-initialized" || validation.acquisition !== "synthetic" || validation.networkRecheck !== "not-performed") throw new Error("B20 evidence smoke failed");
+writeFileSync("b20-api-report.json", JSON.stringify(report));
+console.log("B20 pure API and RPC subpath smoke passed");
+`,
+  );
+  run("node", ["b20-smoke.mjs"], consumerDir);
+  run(
+    "pnpm",
+    [
+      "exec",
+      "bao",
+      "b20",
+      "inspect",
+      "--input",
+      "b20-capture.json",
+      "--chain-id",
+      "84532",
+      "--offline",
+      "--format",
+      "json",
+      "--output",
+      "b20-cli-report.json",
+    ],
+    consumerDir,
+  );
+  run(
+    "pnpm",
+    [
+      "exec",
+      "bao",
+      "b20",
+      "verify",
+      "--input",
+      "b20-cli-report.json",
+      "--offline",
+      "--format",
+      "json",
+      "--output",
+      "b20-validation.json",
+    ],
+    consumerDir,
+  );
+  const apiReport = JSON.parse(readFileSync(path.join(consumerDir, "b20-api-report.json"), "utf8"));
+  const cliReport = JSON.parse(readFileSync(path.join(consumerDir, "b20-cli-report.json"), "utf8"));
+  if (JSON.stringify(apiReport) !== JSON.stringify(cliReport))
+    throw new Error("Packed B20 API/CLI reports differ");
+
+  writeFileSync(
+    path.join(consumerDir, "b20-replay-capture.json"),
+    readFileSync(path.join(repoRoot, "fixtures/b20/synthetic/replay/direct-fixed.capture.json")),
+  );
+  run(
+    "pnpm",
+    [
+      "exec",
+      "bao",
+      "b20",
+      "replay",
+      "--input",
+      "b20-replay-capture.json",
+      "--chain-id",
+      "84532",
+      "--expect",
+      "bc_example",
+      "--offline",
+      "--format",
+      "json",
+      "--output",
+      "b20-replay-report.json",
+    ],
+    consumerDir,
+  );
+  run(
+    "pnpm",
+    [
+      "exec",
+      "bao",
+      "b20",
+      "verify",
+      "--input",
+      "b20-replay-report.json",
+      "--offline",
+      "--format",
+      "json",
+      "--output",
+      "b20-replay-validation.json",
+    ],
+    consumerDir,
+  );
+  const replayReport = JSON.parse(
+    readFileSync(path.join(consumerDir, "b20-replay-report.json"), "utf8"),
+  );
+  const replayValidation = JSON.parse(
+    readFileSync(path.join(consumerDir, "b20-replay-validation.json"), "utf8"),
+  );
+  if (
+    replayReport.coverage.directAttribution.percent !== 100 ||
+    replayValidation.currentRunStrictPolicy !== "not-evaluated" ||
+    replayReport.evidence.acquisition !== "synthetic"
+  )
+    throw new Error("Packed B20 replay smoke failed");
+
+  writeFileSync(
+    path.join(consumerDir, "b20-broken-capture.json"),
+    readFileSync(path.join(repoRoot, "fixtures/b20/synthetic/replay/direct-broken.capture.json")),
+  );
+  run(
+    "pnpm",
+    [
+      "exec",
+      "bao",
+      "b20",
+      "replay",
+      "--input",
+      "b20-broken-capture.json",
+      "--chain-id",
+      "84532",
+      "--expect",
+      "bc_example",
+      "--offline",
+      "--format",
+      "json",
+      "--output",
+      "b20-broken-report.json",
+    ],
+    consumerDir,
+  );
+  const brokenReplay = JSON.parse(
+    readFileSync(path.join(consumerDir, "b20-broken-report.json"), "utf8"),
+  );
+  if (
+    brokenReplay.coverage.directAttribution.percent !== 0 ||
+    JSON.stringify(brokenReplay.transactions[0].operation) !==
+      JSON.stringify(replayReport.transactions[0].operation)
+  )
+    throw new Error("Packed B20 before/after CLI smoke failed");
+  writeFileSync(
+    path.join(consumerDir, "b20-example-smoke.mjs"),
+    `import { readFileSync } from "node:fs";
+import { withAttributionSuffix } from "@base-attribution-os/viem";
+import { createB20ReplayReport } from "@base-attribution-os/b20";
+const capture = JSON.parse(readFileSync("b20-broken-capture.json", "utf8"));
+const tx = capture.transactions[0].transaction;
+const fixed = withAttributionSuffix({ to: tx.to, data: tx.input }, { codes: ["bc_example"] });
+tx.input = fixed.data;
+const report = createB20ReplayReport(capture, { expectedCode: "bc_example" });
+if (report.coverage.directAttribution.percent !== 100 || fixed.to !== tx.to) throw new Error("Packed viem B20 correction failed");
+console.log("Packed B20 client correction passed");
+`,
+  );
+  run("node", ["b20-example-smoke.mjs"], consumerDir);
+
+  for (const [sample, chainId] of [
+    ["mainnet", "8453"],
+    ["sepolia", "84532"],
+  ] as const) {
+    const fixtureDir = path.join(repoRoot, "fixtures/b20/recorded/2026-09-30");
+    const reportFile = `recorded-${sample}.report.json`;
+    const captureFile = `recorded-${sample}.capture.json`;
+    const validationFile = `recorded-${sample}.validation.json`;
+    const replayFile = `recorded-${sample}.replay.json`;
+    writeFileSync(
+      path.join(consumerDir, reportFile),
+      readFileSync(path.join(fixtureDir, `${sample}.report.json`)),
+    );
+    writeFileSync(
+      path.join(consumerDir, captureFile),
+      readFileSync(path.join(fixtureDir, `${sample}.capture.json`)),
+    );
+    run(
+      "pnpm",
+      [
+        "exec",
+        "bao",
+        "b20",
+        "verify",
+        "--input",
+        reportFile,
+        "--offline",
+        "--format",
+        "json",
+        "--output",
+        validationFile,
+      ],
+      consumerDir,
+    );
+    run(
+      "pnpm",
+      [
+        "exec",
+        "bao",
+        "b20",
+        "replay",
+        "--input",
+        captureFile,
+        "--chain-id",
+        chainId,
+        "--offline",
+        "--format",
+        "json",
+        "--output",
+        replayFile,
+      ],
+      consumerDir,
+    );
+    const source = JSON.parse(readFileSync(path.join(consumerDir, reportFile), "utf8"));
+    const validation = JSON.parse(readFileSync(path.join(consumerDir, validationFile), "utf8"));
+    const replay = JSON.parse(readFileSync(path.join(consumerDir, replayFile), "utf8"));
+    if (
+      !validation.valid ||
+      validation.acquisition !== "imported" ||
+      validation.producerAcquisitionClaim !== "rpc" ||
+      validation.networkRecheck !== "not-performed" ||
+      validation.currentRunStrictPolicy !== "not-evaluated" ||
+      replay.evidence.acquisition !== "imported" ||
+      replay.expectedCode !== null ||
+      JSON.stringify(replay.transactions) !== JSON.stringify(source.transactions) ||
+      JSON.stringify(replay.coverage) !== JSON.stringify(source.coverage)
+    )
+      throw new Error(`Packed recorded ${sample} evidence smoke failed`);
+  }
 
   writeFileSync(
     path.join(consumerDir, "attributed.ts"),

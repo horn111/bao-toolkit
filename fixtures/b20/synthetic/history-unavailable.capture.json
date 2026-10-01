@@ -1,0 +1,41 @@
+{
+  "kind": "bao.b20-inspection-capture",
+  "schemaVersion": 1,
+  "chainId": 84532,
+  "address": "0xb200000000000000000000111111111111111111",
+  "protocolProfileId": "base-std-1505323-inspect-v1",
+  "protocolSourceDigest": "0xf94bc2a2d18330180dfc1a22e0c586c608791524946a22f1b22f871a49bc4d4d",
+  "acquisition": "synthetic",
+  "capturedAt": "2026-09-29T12:00:00.000Z",
+  "requestedBlock": "123",
+  "chainResponse": "0x14a34",
+  "block": {
+    "number": "123",
+    "hash": "0xabababababababababababababababababababababababababababababababab",
+    "timestamp": "1790683200",
+    "statePosition": "end-of-block"
+  },
+  "blockAfter": {
+    "number": "123",
+    "hash": "0xabababababababababababababababababababababababababababababababab",
+    "timestamp": "1790683200",
+    "statePosition": "end-of-block"
+  },
+  "initialization": {
+    "id": "initialization",
+    "method": "eth_call",
+    "request": {
+      "to": "0xb20f000000000000000000000000000000000000",
+      "data": "0x6a45ba98000000000000000000000000b200000000000000000000111111111111111111",
+      "block": {
+        "blockHash": "0xabababababababababababababababababababababababababababababababab",
+        "requireCanonical": true
+      }
+    },
+    "result": {
+      "status": "failed",
+      "reason": "unavailable-history",
+      "rpcCode": -32000
+    }
+  }
+}

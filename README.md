@@ -1,17 +1,21 @@
-# Base Attribution OS
+# Base App OS / BAO
 
 [![npm](https://img.shields.io/npm/v/@base-attribution-os/core?label=npm&color=0052ff)](https://www.npmjs.com/package/@base-attribution-os/core)
 [![CI](https://github.com/horn111/base-attribution-os/actions/workflows/ci.yml/badge.svg)](https://github.com/horn111/base-attribution-os/actions/workflows/ci.yml)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D20.11-3c873a.svg)](package.json)
 [![License: MIT](https://img.shields.io/badge/license-MIT-111111.svg)](LICENSE)
 
-**Attribution infrastructure for Base builders.**
+**A developer toolkit from application code to transaction evidence on Base.**
 
-Base Attribution OS adds ERC-8021 Builder Code attribution to transaction code,
+Base App OS adds ERC-8021 Builder Code attribution to transaction code,
 audits supported transaction paths, verifies calldata and onchain results, and
 enforces coverage in CI.
 
-[Live demo](https://base-attribution-os.vercel.app) ·
+BAO combines attribution adapters, source audits, reproducible Proof Sets, and
+unreleased B20 inspection and replay. Existing `@base-attribution-os/*` package
+names, `bao` commands, and the repository URL remain stable.
+
+[Product site](https://base-attribution-os.vercel.app) ·
 [Attribution Observatory](https://base-attribution-os.vercel.app/observatory) ·
 [Published proof sets](https://base-attribution-os.vercel.app/observatory) ·
 [v0.5.0 release](https://github.com/horn111/base-attribution-os/releases/tag/v0.5.0) ·
@@ -49,6 +53,14 @@ BAO also recognizes attribution patterns around Privy, raw RPC calls, smart
 wallet batches, agent transaction tools, and x402 Builder Code extensions.
 
 ## Quickstart
+
+The working tree also includes [B20 inspection](docs/b20/overview.md) and
+[transaction replay](docs/b20/replay.md). Inspect token initialization, compare
+Builder Code attribution with receipt evidence, and validate or recheck reports
+through `bao b20 inspect`, `replay`, and `verify`. The candidate site's `/b20`
+section provides a before/after example, static reports, and artifact downloads.
+The [technical pilot kit](docs/b20/pilot-kit.md) covers candidate installation
+and reproduction. This is unreleased work; application readiness remains untested.
 
 Install the adapter for your transaction client and the CLI:
 

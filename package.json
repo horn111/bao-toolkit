@@ -67,5 +67,10 @@
     "typescript": "^5.7.2",
     "typescript-eslint": "8.60.1",
     "vitest": "^4.1.11"
+  },
+  "pnpm": {
+    "overrides": {
+      "@actions/http-client>undici": "6.28.1"
+    }
   }
 }

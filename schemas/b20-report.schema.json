@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BAO B20 replay report v1 envelope",
+  "description": "Editor/interchange envelope. Use parseB20ReplayReport for strict nested evidence validation, identity joins, digests, and recomputation. This schema alone cannot establish evidence consistency or RPC provenance.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "schemaVersion",
+    "mode",
+    "producer",
+    "chainId",
+    "protocolProfileId",
+    "protocolSourceDigest",
+    "generatedAt",
+    "expectedCode",
+    "evidenceDigest",
+    "evidence",
+    "transactions",
+    "coverage",
+    "runStatus",
+    "consistency",
+    "readiness",
+    "runtimeQualification",
+    "policy",
+    "limitations"
+  ],
+  "properties": {
+    "kind": { "const": "bao.b20-report" },
+    "schemaVersion": { "const": 1 },
+    "mode": { "const": "replay" },
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "const": "@base-attribution-os/b20" },
+        "version": { "const": "0.1.0" }
+      }
+    },
+    "chainId": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "protocolProfileId": { "const": "base-std-1505323-replay-v1" },
+    "protocolSourceDigest": { "$ref": "#/$defs/hash" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "expectedCode": {
+      "anyOf": [{ "type": "null" }, { "type": "string", "pattern": "^[a-z0-9_]{1,32}$" }]
+    },
+    "evidenceDigest": { "$ref": "#/$defs/hash" },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "schemaVersion",
+        "input",
+        "protocolProfileId",
+        "protocolSourceDigest",
+        "acquisition",
+        "capturedAt",
+        "chainResponse",
+        "transactions"
+      ],
+      "properties": {
+        "kind": { "const": "bao.b20-replay-capture" },
+        "schemaVersion": { "const": 1 },
+        "input": { "$ref": "b20-input.schema.json" },
+        "protocolProfileId": { "const": "base-std-1505323-replay-v1" },
+        "protocolSourceDigest": { "$ref": "#/$defs/hash" },
+        "acquisition": { "enum": ["rpc", "imported", "synthetic"] },
+        "capturedAt": { "type": "string", "format": "date-time" },
+        "chainResponse": { "type": "string", "pattern": "^0x(?:0|[1-9a-f][a-f0-9]{0,63})$" },
+        "transactions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "items": { "type": "object" }
+        }
+      }
+    },
+    "transactions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": { "type": "object" }
+    },
+    "coverage": { "type": "object" },
+    "runStatus": { "enum": ["complete", "partial", "failed"] },
+    "consistency": { "enum": ["consistent", "conflicting"] },
+    "readiness": { "const": "not-tested" },
+    "runtimeQualification": { "const": "not-qualified" },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "decision"],
+      "properties": {
+        "name": { "enum": ["observe", "strict-attribution"] },
+        "decision": { "enum": ["pass", "fail"] }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "maxItems": 16,
+      "items": { "type": "string", "maxLength": 1000 }
+    }
+  },
+  "$defs": { "hash": { "type": "string", "pattern": "^0x[a-f0-9]{64}$" } }
+}

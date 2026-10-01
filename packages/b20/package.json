@@ -1,0 +1,52 @@
+{
+  "name": "@base-attribution-os/b20",
+  "version": "0.1.0",
+  "description": "Source-pinned B20 token inspection and reproducible evidence for Base Attribution OS.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.11"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/horn111/base-attribution-os.git",
+    "directory": "packages/b20"
+  },
+  "homepage": "https://github.com/horn111/base-attribution-os#readme",
+  "bugs": {
+    "url": "https://github.com/horn111/base-attribution-os/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./rpc": {
+      "types": "./dist/rpc/index.d.ts",
+      "import": "./dist/rpc/index.js",
+      "require": "./dist/rpc/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts src/rpc/index.ts --format esm,cjs --dts --clean",
+    "clean": "rimraf dist",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@base-attribution-os/core": "workspace:*",
+    "viem": "2.56.0"
+  }
+}

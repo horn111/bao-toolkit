@@ -1,0 +1,50 @@
+name: B20 integration evidence
+description: Share a reproducible B20 discovery or Builder Code attribution finding
+title: "[B20]: "
+labels: ["integration"]
+body:
+  - type: markdown
+    attributes:
+      value: "Provide public or sanitized evidence. Exclude private keys, seed phrases, RPC credentials, and customer data. Synthetic examples and network captures need separate labels."
+  - type: input
+    id: integration
+    attributes:
+      label: Integration and versions
+      description: Public repository or minimal snippet; client and wallet versions.
+    validations:
+      required: true
+  - type: input
+    id: context
+    attributes:
+      label: Chain ID and expected Builder Code
+      placeholder: "84532, bc_your_code"
+    validations:
+      required: true
+  - type: textarea
+    id: selection
+    attributes:
+      label: Sample and selection basis
+      description: Public transaction hashes or a labeled synthetic capture. Explain which transactions are included and which may be missing.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Report and recheck
+      description: Attach sanitized report JSON, diagnostics, and the RPC recheck result, or describe unavailable evidence. Offline validation is not a network recheck.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and observed behavior
+      description: Name the affected operation and attribution scope; include a minimal correction if available.
+    validations:
+      required: true
+  - type: checkboxes
+    id: publication
+    attributes:
+      label: Public evidence registration
+      options:
+        - label: I authorize the maintainer to register the sanitized evidence I attached in BAO's public report registry.
+          required: false

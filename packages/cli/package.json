@@ -42,6 +42,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@base-attribution-os/b20": "workspace:*",
     "@base-attribution-os/core": "workspace:*",
     "@base-attribution-os/scanner": "workspace:*",
     "@base-attribution-os/wallet": "workspace:*"

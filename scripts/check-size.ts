@@ -2,7 +2,8 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 
 const MAX_JS_BYTES: Record<string, number> = {
-  cli: 48 * 1024,
+  b20: 176 * 1024,
+  cli: 56 * 1024,
   core: 64 * 1024,
   ethers: 10 * 1024,
   "github-action": 12 * 1024 * 1024,
@@ -27,13 +28,8 @@ async function main(): Promise<void> {
     }
 
     const distDir = path.join(packagesDir, packageName, "dist");
-    const files = await fs.readdir(distDir, { withFileTypes: true }).catch(() => []);
-    const jsFiles = files.filter(
-      (file) => file.isFile() && (file.name.endsWith(".js") || file.name.endsWith(".cjs")),
-    );
-    const sizes = await Promise.all(
-      jsFiles.map(async (file) => (await fs.stat(path.join(distDir, file.name))).size),
-    );
+    const jsFiles = await builtJavaScript(distDir);
+    const sizes = await Promise.all(jsFiles.map(async (file) => (await fs.stat(file)).size));
     const total = sizes.reduce((sum, size) => sum + size, 0);
 
     console.log(`${packageName}: ${formatBytes(total)} / ${formatBytes(budget)}`);
@@ -45,6 +41,17 @@ async function main(): Promise<void> {
   if (failures.length > 0) {
     throw new Error(failures.join("\n"));
   }
+}
+
+async function builtJavaScript(directory: string): Promise<string[]> {
+  const entries = await fs.readdir(directory, { withFileTypes: true }).catch(() => []);
+  const files: string[] = [];
+  for (const entry of entries) {
+    const fullPath = path.join(directory, entry.name);
+    if (entry.isDirectory()) files.push(...(await builtJavaScript(fullPath)));
+    else if (entry.isFile() && /\.(cjs|js)$/.test(entry.name)) files.push(fullPath);
+  }
+  return files;
 }
 
 function formatBytes(bytes: number): string {

@@ -1,0 +1,39 @@
+{
+  "source": "Base public RPC: transaction, receipt and block",
+  "fetchedAt": "2026-10-01T13:36:07.929Z",
+  "rows": [
+    {
+      "hash": "0x6573344cfb346c886806804fb8f8b6cc510c30d7974a1a69c11452a5f8fe4926",
+      "chainId": 8453,
+      "timestamp": "2026-07-01T17:08:45.000Z",
+      "wallet": "0xbb79e9874c36609bdcecd4a644822fba8431fa64",
+      "recipient": "0x3c9a450d5001846de7bb43d9c2047e4dea1d3b09",
+      "success": true,
+      "feeWei": "178229571987",
+      "blockHash": "0x960b80d5d3a0638bf0e68f757940b3f2f29cf23069a8554d02f7b5fa4d17d713",
+      "blockNumber": "0x2dd765d"
+    },
+    {
+      "hash": "0xbf4fe264069c3e59c510d90ae2d306e121a8615e4364ac675634ea9b7635f3d9",
+      "chainId": 84532,
+      "timestamp": null,
+      "wallet": "0x9b53e015f4c454881f88ec727fd0c0358bfababc",
+      "recipient": "0x4c6a09bb4bd8435350f6d5a1e7fd67fb2bc3d52f",
+      "success": true,
+      "feeWei": "1839445843444",
+      "blockHash": "0xa52bf9a4980eee67f9822680cae660ee06966b7803c7e3202207b7f76d331478",
+      "blockNumber": "0x2bb5323"
+    },
+    {
+      "hash": "0x534565e9cb01aa799a248ec30e01c38c14d8e9060c72c3b90493a6a26a3f46d8",
+      "chainId": 84532,
+      "timestamp": null,
+      "wallet": "0x5228fb3123ae9b8fcadf589a8d8985edff1ccf8f",
+      "recipient": "0x5ff137d4b0fdcd49dca30c7cf57e578a026d2789",
+      "success": true,
+      "feeWei": "1510442745376",
+      "blockHash": "0xe3af730aa3151b1fc6a99a7c816d5e43eb31be32270c74fb216d28f4d7be71ab",
+      "blockNumber": "0x2bbfa38"
+    }
+  ]
+}

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BrandMark } from "./brand-mark";
 import { ArrowIcon } from "./site-icons";
 import { MobileNavigation } from "./mobile-navigation";
+import { ToolsMenu } from "./tools-menu";
 import "./site.css";
 
 type Current = "doctor" | "observatory" | "proof" | "smart-wallets" | "dashboard" | "b20" | "docs";
@@ -16,7 +17,7 @@ export function SiteHeader({ current, home = false }: { current?: Current; home?
         </Link>
         <nav className="site-navigation" aria-label="Primary navigation">
           <Link href="/#product">Product</Link>
-          <Link href="/#modules">Modules</Link>
+          <ToolsMenu current={current} />
           <Link href="/#evidence">Evidence</Link>
           <Link href="/docs" aria-current={current === "docs" ? "page" : undefined}>
             Docs
@@ -29,21 +30,24 @@ export function SiteHeader({ current, home = false }: { current?: Current; home?
         <MobileNavigation docs={current === "docs"} />
       </header>
       {!home && current !== "docs" ? (
-        <nav className="tool-navigation" aria-label="BAO tools">
-          {(
-            [
-              ["dashboard", "Dashboard", "/dashboard"],
-              ["doctor", "Doctor", "/doctor"],
-              ["observatory", "Observatory", "/observatory"],
-              ["b20", "B20", "/b20"],
-              ["smart-wallets", "Smart Wallet Kit", "/smart-wallets"],
-            ] as const
-          ).map(([id, label, href]) => (
-            <Link href={href} key={id} aria-current={current === id ? "page" : undefined}>
-              {label}
-            </Link>
-          ))}
-        </nav>
+        <>
+          <ToolsMenu current={current} compact />
+          <nav className="tool-navigation" aria-label="BAO tools">
+            {(
+              [
+                ["dashboard", "Dashboard", "/dashboard"],
+                ["doctor", "Doctor", "/doctor"],
+                ["observatory", "Observatory", "/observatory"],
+                ["b20", "B20", "/b20"],
+                ["smart-wallets", "Smart Wallet Kit", "/smart-wallets"],
+              ] as const
+            ).map(([id, label, href]) => (
+              <Link href={href} key={id} aria-current={current === id ? "page" : undefined}>
+                {label}
+              </Link>
+            ))}
+          </nav>
+        </>
       ) : null}
     </>
   );

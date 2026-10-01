@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteHeader } from "../../_components/site-header";
+import { CopyCommand } from "../../_components/copy-command";
 
 export const metadata: Metadata = {
   title: "B20 replay guide | BAO",
@@ -29,9 +30,9 @@ export default function B20GuidePage() {
           Download the <a href="/b20/reports/direct-broken/capture">before capture</a> and{" "}
           <a href="/b20/reports/direct-fixed/capture">after capture</a>.
         </p>
-        <pre>
-          <code>{`bao b20 replay --input b20-direct-broken.capture.json --chain-id 84532 --expect bc_example --offline\nbao b20 replay --input b20-direct-fixed.capture.json --chain-id 84532 --expect bc_example --offline`}</code>
-        </pre>
+        <CopyCommand
+          command={`bao b20 replay --input b20-direct-broken.capture.json --chain-id 84532 --expect bc_example --offline\nbao b20 replay --input b20-direct-fixed.capture.json --chain-id 84532 --expect bc_example --offline`}
+        />
         <p>
           The direct attribution result changes from 0/1 to 1/1. Both receipts are synthetic. Token
           existence and native execution require network evidence.
@@ -43,9 +44,9 @@ export default function B20GuidePage() {
           Set <code>BASE_RPC_URL</code> locally, then provide transaction hashes from your
           integration. Keep keys and provider credentials outside reports and repository files.
         </p>
-        <pre>
-          <code>{`bao b20 replay --hashes <TX_HASH_A>,<TX_HASH_B> --chain-id 84532 --expect <YOUR_BUILDER_CODE> --rpc-url-env BASE_RPC_URL --format json --output replay.json\nbao b20 verify --input replay.json --rpc-url-env BASE_RPC_URL --format json --output recheck.json`}</code>
-        </pre>
+        <CopyCommand
+          command={`bao b20 replay --hashes <TX_HASH_A>,<TX_HASH_B> --chain-id 84532 --expect <YOUR_BUILDER_CODE> --rpc-url-env BASE_RPC_URL --format json --output replay.json\nbao b20 verify --input replay.json --rpc-url-env BASE_RPC_URL --format json --output recheck.json`}
+        />
         <p>
           The collector checks the endpoint chain and joins transactions, receipts, block headers,
           and token reads. Rechecking preserves the original block context. Replace angle-bracket

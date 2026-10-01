@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SiteHeader } from "../_components/site-header";
+import { CopyCommand } from "../_components/copy-command";
 import { ArrowIcon } from "../_components/site-icons";
 
 export const metadata: Metadata = {
@@ -47,7 +48,7 @@ export default function SmartWalletsPage() {
             Ship Builder Codes through Base Account, Privy, and custom smart wallets without
             guessing whether attribution survived the UserOperation pipeline.
           </p>
-          <code className="hero-command">pnpm add @base-attribution-os/wallet</code>
+          <CopyCommand className="hero-command" command="pnpm add @base-attribution-os/wallet" />
         </div>
       </section>
 
@@ -68,13 +69,13 @@ export default function SmartWalletsPage() {
           <div className="card-header">
             <h2>Capability-aware batches</h2>
           </div>
-          <pre className="smart-code">
-            <code>{`const sent = await sendAttributedCalls(
+          <CopyCommand
+            command={`const sent = await sendAttributedCalls(
   provider,
   { chainId: "0x2105", from, calls },
   { codes: ["bc_app"] },
-);`}</code>
-          </pre>
+);`}
+          />
           <p>
             BAO checks <code>wallet_getCapabilities</code> before the first send and preserves
             paymaster, atomic, and application-defined capabilities.
@@ -85,14 +86,14 @@ export default function SmartWalletsPage() {
           <div className="card-header">
             <h2>One suffix, every contributor</h2>
           </div>
-          <pre className="smart-code">
-            <code>{`attributeUserOperation(userOp, {
+          <CopyCommand
+            command={`attributeUserOperation(userOp, {
   walletCodes: ["bc_wallet"],
   appDataSuffix,
 });
 
-// decoded: bc_wallet, bc_app`}</code>
-          </pre>
+// decoded: bc_wallet, bc_app`}
+          />
           <p>
             Existing suffixes are normalized, duplicates are removed, and the result is appended to
             the final <code>userOp.callData</code> before signing.
@@ -117,7 +118,7 @@ export default function SmartWalletsPage() {
 
       <section className="smart-cta">
         <div>
-          <code>bao check-user-op --input user-op.json --expect bc_wallet,bc_app</code>
+          <CopyCommand command="bao check-user-op --input user-op.json --expect bc_wallet,bc_app" />
         </div>
         <a href="https://github.com/horn111/base-attribution-os/blob/main/docs/smart-wallet-attribution.md">
           Read the integration guide <ArrowIcon />

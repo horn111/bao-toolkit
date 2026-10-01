@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { B20_REPLAY_PROFILE } from "@base-attribution-os/b20";
 import { SiteHeader } from "../../../_components/site-header";
+import { CopyCommand } from "../../../_components/copy-command";
 import {
   chainLabel,
   coverageLabel,
@@ -64,6 +65,14 @@ export default async function B20ReportPage({ params }: Props) {
         <h1>{entry.title}</h1>
         <p>{entry.description}</p>
       </header>
+      <nav className="b20-report-navigation" aria-label="Report sections">
+        <a href="#findings-title">Summary</a>
+        <a href="#transactions-title">Transactions ({report.transactions.length})</a>
+        <a href="#artifact-title">Reproduce</a>
+        <a href="#limits-title">Limitations</a>
+        <a href={`/b20/reports/${entry.id}/export`}>Report JSON</a>
+        <a href={`/b20/reports/${entry.id}/capture`}>Capture JSON</a>
+      </nav>
       <section className="b20-context" aria-label="Report scope and provenance">
         <div className="b20-section-heading">
           <h2>{synthetic ? "Synthetic evidence" : "Recorded evidence"}</h2>
@@ -77,28 +86,31 @@ export default async function B20ReportPage({ params }: Props) {
         <p>
           <strong>Application readiness: Not tested.</strong> Runtime qualification: Not qualified.
         </p>
-        <dl className="b20-facts b20-context-facts">
-          <div>
-            <dt>Supplied scope</dt>
-            <dd>
-              {report.coverage.supplied} supplied hashes · {report.coverage.unique} unique
-            </dd>
-          </div>
-          <div>
-            <dt>{synthetic ? "Modeled block" : "Observation block"}</dt>
-            <dd>{blocks.length ? blocks.join(", ") : "Unavailable"}</dd>
-          </div>
-          <div>
-            <dt>Capture time (UTC)</dt>
-            <dd>
-              <time dateTime={report.evidence.capturedAt}>{report.evidence.capturedAt}</time>
-            </dd>
-          </div>
-          <div>
-            <dt>Selection</dt>
-            <dd>{report.evidence.input.selection.description}</dd>
-          </div>
-        </dl>
+        <details className="b20-details">
+          <summary>Capture time, blocks, and selection</summary>
+          <dl className="b20-facts b20-context-facts">
+            <div>
+              <dt>Supplied scope</dt>
+              <dd>
+                {report.coverage.supplied} supplied hashes · {report.coverage.unique} unique
+              </dd>
+            </div>
+            <div>
+              <dt>{synthetic ? "Modeled block" : "Observation block"}</dt>
+              <dd>{blocks.length ? blocks.join(", ") : "Unavailable"}</dd>
+            </div>
+            <div>
+              <dt>Capture time (UTC)</dt>
+              <dd>
+                <time dateTime={report.evidence.capturedAt}>{report.evidence.capturedAt}</time>
+              </dd>
+            </div>
+            <div>
+              <dt>Selection</dt>
+              <dd>{report.evidence.input.selection.description}</dd>
+            </div>
+          </dl>
+        </details>
       </section>
 
       <section className="b20-section" aria-labelledby="findings-title">
@@ -157,119 +169,146 @@ export default async function B20ReportPage({ params }: Props) {
 
       <section className="b20-section" aria-labelledby="transactions-title">
         <h2 id="transactions-title">Transaction evidence</h2>
-        {report.transactions.map((tx) => {
+        <nav className="b20-transaction-index" aria-label="Transaction index">
+          {report.transactions.map((tx, index) => (
+            <a href={`#tx-${tx.hash}`} key={tx.hash}>
+              {index + 1}. {tx.hash.slice(0, 10)}…{tx.hash.slice(-8)}
+              <span>{labels[tx.relation] ?? tx.relation}</span>
+            </a>
+          ))}
+        </nav>
+        {report.transactions.map((tx, index) => {
           const capture = report.evidence.transactions.find((row) => row.hash === tx.hash)!;
           const explorer = transactionExplorer(report, tx.hash);
           return (
-            <article className="b20-transaction" key={tx.hash}>
-              <h3>{labels[tx.relation] ?? tx.relation}</h3>
-              {explorer ? (
-                <a
-                  className="b20-hash"
-                  href={explorer}
-                  rel="noreferrer"
-                  target="_blank"
-                  aria-label={`Inspect transaction ${tx.hash} on ${chainLabel(report.chainId)} explorer (opens in new tab)`}
-                >
-                  {tx.hash}
-                </a>
-              ) : (
-                <code className="b20-hash">{tx.hash}</code>
-              )}
-              <dl className="b20-facts">
-                <div>
-                  <dt>Attribution · top-level transaction</dt>
-                  <dd>
-                    {report.expectedCode
-                      ? (labels[tx.attribution.status] ?? tx.attribution.status)
-                      : "Expected code not configured"}{" "}
-                    · <code>{tx.attribution.codes.join(", ") || "No decoded code"}</code>
-                  </dd>
-                </div>
-                <div>
-                  <dt>Execution</dt>
-                  <dd>{tx.execution}</dd>
-                </div>
-                <div>
-                  <dt>Direct coverage</dt>
-                  <dd>
-                    {tx.directCoverageEligible
-                      ? "Included"
-                      : "Excluded: required direct-call scope or evidence is unresolved"}
-                  </dd>
-                </div>
-                {tx.operation && (
-                  <>
-                    <div>
-                      <dt>Method</dt>
-                      <dd>
-                        <code>{tx.operation.method}</code>
-                      </dd>
-                    </div>
-                    <div>
-                      <dt>Recipient / spender</dt>
-                      <dd>
-                        <code>{tx.operation.to}</code>
-                      </dd>
-                    </div>
-                    <div>
-                      <dt>Raw amount</dt>
-                      <dd>
-                        <code>{tx.operation.amount}</code> · token base units
-                      </dd>
-                    </div>
-                  </>
+            <details
+              className="b20-transaction"
+              key={tx.hash}
+              id={`tx-${tx.hash}`}
+              open={index === 0}
+            >
+              <summary className="b20-transaction-summary">
+                <h3>{labels[tx.relation] ?? tx.relation}</h3>
+                <code>
+                  {tx.hash.slice(0, 10)}…{tx.hash.slice(-8)}
+                </code>
+                <span>
+                  {tx.execution} ·{" "}
+                  {report.expectedCode
+                    ? (labels[tx.attribution.status] ?? tx.attribution.status)
+                    : "Expected code not configured"}
+                </span>
+                <span className="b20-expand-label">Details</span>
+              </summary>
+              <div className="b20-transaction-body">
+                {explorer ? (
+                  <a
+                    className="b20-hash"
+                    href={explorer}
+                    rel="noreferrer"
+                    target="_blank"
+                    aria-label={`Inspect transaction ${tx.hash} on ${chainLabel(report.chainId)} explorer (opens in new tab)`}
+                  >
+                    {tx.hash}
+                  </a>
+                ) : (
+                  <code className="b20-hash">{tx.hash}</code>
                 )}
-              </dl>
-              {tx.relation === "receipt-event-only" && (
-                <p className="b20-note">
-                  The receipt includes a B20 event. Attribution for the responsible nested
-                  application is not established.
-                </p>
-              )}
-              {tx.diagnostics.length > 0 && (
-                <div className="b20-diagnostics">
-                  <h4>Diagnostics</h4>
-                  <ul>
-                    {tx.diagnostics.map((code) => (
-                      <li key={code}>
-                        <code>{code}</code>
+                <dl className="b20-facts">
+                  <div>
+                    <dt>Attribution · top-level transaction</dt>
+                    <dd>
+                      {report.expectedCode
+                        ? (labels[tx.attribution.status] ?? tx.attribution.status)
+                        : "Expected code not configured"}{" "}
+                      · <code>{tx.attribution.codes.join(", ") || "No decoded code"}</code>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Execution</dt>
+                    <dd>{tx.execution}</dd>
+                  </div>
+                  <div>
+                    <dt>Direct coverage</dt>
+                    <dd>
+                      {tx.directCoverageEligible
+                        ? "Included"
+                        : "Excluded: required direct-call scope or evidence is unresolved"}
+                    </dd>
+                  </div>
+                  {tx.operation && (
+                    <>
+                      <div>
+                        <dt>Method</dt>
+                        <dd>
+                          <code>{tx.operation.method}</code>
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>Recipient / spender</dt>
+                        <dd>
+                          <code>{tx.operation.to}</code>
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>Raw amount</dt>
+                        <dd>
+                          <code>{tx.operation.amount}</code> · token base units
+                        </dd>
+                      </div>
+                    </>
+                  )}
+                </dl>
+                {tx.relation === "receipt-event-only" && (
+                  <p className="b20-note">
+                    The receipt includes a B20 event. Attribution for the responsible nested
+                    application is not established.
+                  </p>
+                )}
+                {tx.diagnostics.length > 0 && (
+                  <div className="b20-diagnostics">
+                    <h4>Diagnostics</h4>
+                    <ul>
+                      {tx.diagnostics.map((code) => (
+                        <li key={code}>
+                          <code>{code}</code>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                <h4>Token findings</h4>
+                {tx.tokens.length ? (
+                  <ul className="b20-token-list">
+                    {tx.tokens.map((token) => (
+                      <li key={token.address}>
+                        <code>{token.address}</code>
+                        <span>
+                          {labels[token.classification] ?? token.classification} ·{" "}
+                          {token.confirmation}
+                        </span>
                       </li>
                     ))}
                   </ul>
-                </div>
-              )}
-              <h4>Token findings</h4>
-              {tx.tokens.length ? (
-                <ul className="b20-token-list">
-                  {tx.tokens.map((token) => (
-                    <li key={token.address}>
-                      <code>{token.address}</code>
-                      <span>
-                        {labels[token.classification] ?? token.classification} ·{" "}
-                        {token.confirmation}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No confirmed token findings in this transaction.</p>
-              )}
-              {tx.events.length > 0 && (
+                ) : (
+                  <p>No confirmed token findings in this transaction.</p>
+                )}
+                {tx.events.length > 0 && (
+                  <details className="b20-details">
+                    <summary>Decoded receipt events ({tx.events.length})</summary>
+                    <pre>
+                      <code>{JSON.stringify(tx.events, null, 2)}</code>
+                    </pre>
+                  </details>
+                )}
                 <details className="b20-details">
-                  <summary>Decoded receipt events ({tx.events.length})</summary>
+                  <summary>Supporting transaction, receipt, block, and token reads</summary>
                   <pre>
-                    <code>{JSON.stringify(tx.events, null, 2)}</code>
+                    <code>{JSON.stringify(capture, null, 2)}</code>
                   </pre>
                 </details>
-              )}
-              <details className="b20-details">
-                <summary>Supporting transaction, receipt, block, and token reads</summary>
-                <pre>
-                  <code>{JSON.stringify(capture, null, 2)}</code>
-                </pre>
-              </details>
-            </article>
+              </div>
+            </details>
           );
         })}
       </section>
@@ -284,9 +323,9 @@ export default async function B20ReportPage({ params }: Props) {
             Download capture JSON
           </a>
         </div>
-        <pre>
-          <code>{`bao b20 verify --input b20-${entry.id}.report.json --offline\nbao b20 replay --input b20-${entry.id}.capture.json --chain-id ${report.chainId}${report.expectedCode ? ` --expect ${report.expectedCode}` : ""} --offline`}</code>
-        </pre>
+        <CopyCommand
+          command={`bao b20 verify --input b20-${entry.id}.report.json --offline\nbao b20 replay --input b20-${entry.id}.capture.json --chain-id ${report.chainId}${report.expectedCode ? ` --expect ${report.expectedCode}` : ""} --offline`}
+        />
         <p>
           Offline validation checks internal consistency. Imported acquisition and policy remain
           producer claims. <Link href="/b20/guide">Read the collection and recheck guide.</Link>

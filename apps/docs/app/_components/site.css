@@ -60,14 +60,14 @@
   top: 2.76%;
   width: 93.48%;
   height: 5.95%;
-  min-height: 0;
+  min-height: 56px;
   margin: 0;
   z-index: 5;
 }
 .home-header .site-brand {
   gap: 1.44cqw;
   padding: 0.48cqw 1.2cqw;
-  font-size: 1.32cqw;
+  font-size: clamp(18px, 1.32cqw, 24px);
 }
 .home-header .site-brand svg {
   width: 2.03cqw;
@@ -75,12 +75,77 @@
 }
 .home-header .site-navigation a {
   font-family: var(--font-mono);
-  font-size: 0.96cqw;
+  font-size: clamp(13px, 0.96cqw, 16px);
 }
 .home-header .site-navigation .site-start {
-  font-size: 1.14cqw;
+  font-size: clamp(14px, 1.14cqw, 18px);
 }
 .mobile-navigation {
+  display: none;
+}
+.tools-menu {
+  position: relative;
+  border-left: 1px solid var(--border);
+}
+.tools-menu > summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  height: 100%;
+  cursor: pointer;
+  list-style: none;
+  font-size: 15px;
+}
+.tools-menu summary::-webkit-details-marker {
+  display: none;
+}
+.tools-chevron {
+  width: 6px;
+  height: 6px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: rotate(45deg);
+  margin-top: -3px;
+}
+.tools-menu[open] > summary,
+.tools-menu > summary:hover {
+  color: var(--accent);
+  background: var(--surface);
+}
+.tools-menu nav {
+  position: absolute;
+  top: 100%;
+  left: -1px;
+  z-index: 12;
+  width: 240px;
+  padding: 8px;
+  border: 1px solid var(--accent);
+  background: var(--canvas);
+}
+.site-navigation .tools-menu nav a,
+.tools-menu nav a {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: flex-start;
+  border: 0;
+  padding: 8px 16px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  white-space: normal;
+}
+.tools-menu nav a:hover,
+.tools-menu nav a[aria-current] {
+  color: var(--accent);
+  background: var(--surface);
+}
+.home-header .tools-menu > summary {
+  font-family: var(--font-mono);
+  font-size: clamp(13px, 0.96cqw, 16px);
+}
+.tool-switcher {
   display: none;
 }
 .command-copy {
@@ -106,13 +171,34 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  min-width: 36px;
-  min-height: 42px;
+  min-width: 44px;
+  min-height: 44px;
+  flex-shrink: 0;
   color: var(--text-main);
   font-size: 11px;
 }
 .command-copy button:hover {
   color: var(--accent);
+}
+.command-copy.command-multiline {
+  align-items: flex-start;
+  padding: 12px;
+  gap: 12px;
+}
+.command-copy.command-multiline code {
+  flex: 1;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.8;
+  padding-top: 8px;
+}
+.proof-downloads {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+.proof-downloads .text-action {
+  font-size: 14px;
 }
 .copy-feedback {
   position: absolute;
@@ -298,7 +384,7 @@
   text-underline-offset: 6px;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
   .site-header {
     grid-template-columns: minmax(0, 1fr) auto;
     margin: 20px 0 40px;
@@ -362,6 +448,8 @@
     background: var(--canvas);
     border: 1px solid var(--accent);
     padding: 8px;
+    max-height: min(680px, 75dvh);
+    overflow-y: auto;
   }
   .mobile-navigation nav a {
     display: flex;
@@ -379,6 +467,17 @@
     background: var(--accent);
     color: var(--accent-ink);
     margin-top: 8px;
+  }
+  .mobile-tool-links {
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+    padding-top: 12px;
+  }
+  .mobile-tool-links > span {
+    display: block;
+    padding: 0 16px 4px;
+    color: var(--text-muted);
+    font-size: 13px;
   }
   .home-header .site-brand {
     gap: 16px;
@@ -411,6 +510,20 @@
   }
 }
 @media (max-width: 600px) {
+  .tool-navigation {
+    display: none;
+  }
+  .tool-switcher {
+    display: block;
+    border: 1px solid var(--border);
+    width: fit-content;
+    margin: -16px 0 28px;
+  }
+  .tool-switcher > summary {
+    justify-content: flex-start;
+    padding: 0 16px;
+    gap: 24px;
+  }
   .command-copy button {
     min-width: 44px;
     min-height: 44px;
@@ -442,5 +555,13 @@
     flex-direction: column;
     gap: 12px;
     line-height: 1.7;
+  }
+}
+@media (max-width: 360px) {
+  .site-brand,
+  .home-header .site-brand {
+    font-size: 16px;
+    gap: 10px;
+    padding-inline: 12px;
   }
 }

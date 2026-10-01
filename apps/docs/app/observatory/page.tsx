@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteHeader } from "../_components/site-header";
+import { CopyCommand } from "../_components/copy-command";
 import {
   getPublishedProofTransactions,
   observatorySummary,
@@ -43,11 +44,16 @@ export default function ObservatoryPage() {
             Static proof sets connect source audits with explorer-verifiable Base transactions. No
             hosted ingestion, private telemetry, or mutable analytics backend.
           </p>
-          <code className="hero-command">
-            bao proof-set --builder-code bc_... --input proof-a.json,proof-b.json
-          </code>
+          <CopyCommand
+            className="hero-command"
+            command="bao proof-set --builder-code bc_your_code --input replay.json"
+          />
         </div>
       </section>
+      <p className="scope-note observatory-command-note">
+        Command template: use your registered code and replay report, or{" "}
+        <Link href="/proof/bc_vwmzy653">download the published BAO inputs</Link>.
+      </p>
 
       <section className="coverage-strip" aria-label="Published proof set coverage">
         <div>

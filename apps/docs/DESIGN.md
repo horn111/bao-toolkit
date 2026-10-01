@@ -95,6 +95,7 @@ spacing:
   "28": "28px"
   "32": "32px"
   "40": "40px"
+  "48": "48px"
   "56": "56px"
   "64": "64px"
   "80": "80px"
@@ -217,14 +218,14 @@ All four families load from local font files through the root layout. The author
 
 ### Hierarchy
 
-- **Display:** the desktop hero uses BAO Block Bold in its inline-size container, with zero tracking. The first line uses the display token's default size; KNOW WHAT overrides it to 6.21cqw and SHIPPED to 6.8cqw. Individually positioned spans use horizontal scales of 0.874, 0.955, and 0.883 to preserve the approved widths. At the shared mobile breakpoint they enter normal flow, lose those transforms, and all use clamp(32px, 8.5vw, 72px) with a parent line height of 1.1.
-- **Headline:** homepage chapter headings use the headline token. The footer shares its size, weight, and tracking with a line height of 1.1; the module overview uses a smaller clamp(36px, 3.5vw, 56px). Below the small-screen breakpoint, homepage and footer headings use 42px.
+- **Display:** the desktop hero uses BAO Block Bold in its inline-size container, with zero tracking. The first line uses the display token's default size; KNOW WHAT overrides it to 6.21cqw and SHIPPED to 6.8cqw. Individually positioned spans use horizontal scales of 0.874, 0.955, and 0.883 to preserve the approved widths. At 1200px and below they enter normal flow, lose those transforms, and use clamp(24px, 8.2cqw, 72px) with a parent line height of 1.1.
+- **Headline:** homepage chapter headings use the headline token. The footer shares its size, weight, and tracking with a line height of 1.1. Below the small-screen breakpoint, homepage and footer headings use 42px.
 - **Docs headline:** guide and documentation titles use Space Grotesk, balanced wrapping, and the docs-headline token. Small-screen titles use 36px. Guide section headings are 28px/1.3 at weight 500 and become 25px on small screens.
 - **Tool headline:** Doctor and other retained tool heroes use the tool-headline token and become 40px below their tool breakpoint. Dashboard and B20 use the same body family and 400 weight with their own 1.12 line height and tighter tracking.
 - **Title:** evidence-ledger headings use the title token. Documentation index headings use 25px/1.4 at weight 500; compact tool headings use 16–18px and weight 600.
 - **Body:** the base body token is for controls and compact interface copy. Homepage and footer explanations use body-copy; homepage paragraphs cap at 70ch. Guides use 17px/1.8, cap at 72ch, and become 16px/1.75 on small screens. Introductory guide copy uses 20px/1.6 and becomes 18px.
 - **Code:** examples use the code token; guide command blocks use 13px/1.9. Compact fields use the input token. Small-screen code becomes 12px where explicitly styled. Numeric dashboard totals use JetBrains Mono and tabular figures.
-- **Actions and navigation:** use the action, text-action, and navigation roles. The desktop homepage header and quickstart use container-scaled mono type; the shared mobile menu uses readable pixel sizes instead.
+- **Actions and navigation:** use the action, text-action, and navigation roles. Desktop homepage navigation uses mono type with 13px and 14px minimums; the quickstart title has a 16px minimum and its command a 12px minimum. Caption copy has a 14px minimum. The shared mobile menu uses fixed readable sizes.
 
 **The Readable Evidence Rule.** Keep paragraph text, editable code, commands, hashes, and table data in the reading or code families. Pixel type belongs to the shipped display and short outcome treatments.
 
@@ -232,18 +233,19 @@ All four families load from local font files through the root layout. The author
 
 The desktop homepage hero is a composition container with aspect ratio 1672 / 941. Its stepped perimeter, offset title, right-hand planet, lower-left fragments, caption panel, quickstart, and four-part module rail use percentages and container units. These positions belong to this homepage surface, not to every future page.
 
-Homepage chapters and the footer center within 92% width and a 1500px maximum. Major chapters use two unequal columns with 7–8% gaps and 112px vertical padding; the introduction, module overview, B20 chapter, and final start panel have their own spacing. Thin horizontal rules separate the long page.
+Homepage chapters and the footer center within 92% width and a 1500px maximum. Major chapters use two unequal columns with 7–8% gaps and 80px vertical padding; the introduction, B20 chapter, and final start panel have their own spacing. The module rail supplies the module index without a repeated overview chapter. An Integrate → Audit and enforce → Verify and retain list introduces the workflow, and an annotated published transaction sits beside the evidence ledger. Thin horizontal rules separate the page.
 
-The retained tool container has a 1440px maximum and 24px side padding; documentation reduces the maximum to 1400px. Guide articles use an 850px first column with a secondary column of at least 200px, separated by an 8% gap. Their table of contents sticks 32px from the top. The document minimum width is 320px.
+The retained tool container has a 1440px maximum and 24px side padding; documentation reduces the maximum to 1400px. Guide articles use an 850px first column with a secondary column of at least 200px, separated by an 8% gap. Their table of contents sticks 32px from the top. The document has no forced minimum width; the narrow layout fits the space remaining inside a 320px viewport with a scrollbar.
 
 Spacing tokens collect recurring measured steps from 8px control gaps through 112px chapter padding. They describe existing usage rather than a newly imposed mathematical scale.
 
 ### Responsive behavior
 
-- **1000px and below:** the shared header switches to a native disclosure menu. The hero drops its fixed ratio, puts copy and actions into flow, and uses a two-column module rail. Homepage chapters and the footer become single columns; major chapter padding becomes 80px.
+- **1200px and below:** the shared header switches to a native disclosure menu. The hero drops its fixed ratio, puts copy and actions into flow, and uses a two-column module rail. A readable product definition follows the headline; quickstart comes before the detailed caption. Homepage chapters and the footer become single columns; major chapter padding remains 80px.
 - **900px and below:** guides become one column. The desktop contents navigation gives way to an in-guide disclosure; the related-guide area becomes static. Proof layouts also collapse at this breakpoint.
-- **600px and below:** homepage and footer side gutters become 20px, the hero caption stacks, the module rail becomes one column, chapter padding becomes 64px, and the footer links use two columns. Guide copy, code, and section spacing tighten without changing the font roles.
-- **Retained tools:** Doctor moves from three columns to two at 1024px, then one at 768px; its shared container uses 16px side padding below 768px. Dashboard toolbar wrapping starts at 1050px, with overview and detail columns stacking at 720px. B20 comparisons stack at 720px. Proof layouts tighten again at 640px.
+- **600px and below:** homepage and footer side gutters become 20px, the hero caption stacks, the module rail becomes one column, major chapter padding becomes 48px, and the footer links use two columns. The introduction keeps 64px padding. Secondary tool links become a compact native chooser. Guide copy, code, and section spacing tighten without changing the font roles.
+- **360px and below:** the brand name uses 16px type, 10px gap, and 12px side padding to fit on one line.
+- **Retained tools:** Doctor moves from three columns to two at 1024px, then one at 768px; its shared container uses 16px side padding below 768px. On narrow screens its fixture list becomes a select, text inputs use 16px, and findings precede the editor. Dashboard toolbar wrapping starts at 1050px, with overview and detail columns stacking at 720px. B20 comparisons stack at 720px. Proof layouts tighten again at 640px.
 
 Keep code and evidence overflow within their own scrollable regions. The dashboard ledger retains an 820px minimum table width and a labeled, keyboard-focusable horizontal scroll region.
 
@@ -267,7 +269,7 @@ Retained tools still contain local rounded status pills, dots, small progress tr
 
 ### Buttons and text actions
 
-The filled action uses seafoam and petrol ink, square corners, a 52px minimum height, and a 28px gap to its arrow. Its hover fill is hover mint. Compact secondary dashboard actions use a bordered dark surface, 42px minimum height, and 9px 14px padding; hover changes to inset teal. Text actions combine seafoam copy with an underline offset by 6px; the quiet rule color of the underline brightens on hover.
+The filled action uses seafoam and petrol ink, square corners, a 52px minimum height, and a 28px gap to its arrow. Its hover fill is hover mint. Compact secondary dashboard actions use a bordered dark surface, 44px minimum height, and 9px 14px padding; hover changes to inset teal. Standalone dashboard and B20 actions have at least 44px height. Text actions combine seafoam copy with an underline offset by 6px; the quiet rule color of the underline brightens on hover.
 
 Global keyboard focus uses a 2px seafoam outline with 4px offset. State transitions use the shared 150ms easing; dashboard color transitions use 150ms. Reduced-motion preferences remove transitions and smooth scrolling.
 
@@ -285,15 +287,17 @@ Shared text fields use the input tokens with a thin rule-colored border. Focus c
 
 Retained segmented controls use inset teal around square buttons. A selected Doctor segment uses dark surface and mint text; selected source-comparison buttons use seafoam with petrol ink. Preserve the implemented aria-pressed state and explanatory result.
 
+Doctor uses “—” and “not measured” when the expected Builder Code is missing or no supported paths are found. The result explains the cause and offers Restore example. Local reports with findings say “review findings” rather than implying protection. A short debounced polite status announces result changes; invalid fields expose aria-invalid and their hint.
+
 ### Navigation
 
 The desktop header is a single outlined strip with a mark-and-name area, five content links, and a filled start cell. Each navigation cell has a thin left separator. Hover applies a dark surface and seafoam lettering. The homepage positions this strip inside the composition; reading and tool pages use it in normal flow.
 
-At the shared mobile breakpoint, a native details/summary menu replaces the desktop cells. Its right-aligned panel uses a petrol background and seafoam border. Escape closes it and restores summary focus; choosing a link closes it. Documentation links carry aria-current, and the secondary tool navigation visibly underlines its current destination.
+The desktop Tools disclosure leads directly to Doctor, Dashboard, Observatory, B20, and Smart Wallet Kit. At the shared mobile breakpoint, a native details/summary menu replaces the desktop cells and includes the same tools. Its right-aligned panel uses a petrol background and seafoam border, with contained scrolling on short screens. Escape closes disclosures and restores summary focus; choosing a link closes them. Documentation links carry aria-current, and tool navigation marks the current destination.
 
 ### Command copying
 
-Command strips keep selectable mono code beside a copy button. Long commands scroll inside the code area. Shared strips have a 44px minimum height; the final homepage start strips use 52px, and small-screen copy buttons provide 44px targets.
+Command strips keep selectable mono code beside a copy button. Compact single-line commands scroll inside the code area. Multiline examples and long proof commands wrap inside their own area while copying the exact original string. Shared copy buttons have 44×44px minimum targets; the final homepage start strips use 52px height.
 
 Successful copying switches the icon to a check and announces "Copied" in a status region. Clipboard failure gives a manual-copy instruction. Feedback clears after 3000ms; neither outcome changes the command.
 
@@ -308,6 +312,12 @@ The planet and asteroid fragments each use the shared PixelField, and the footer
 The implemented spring uses attraction 0.065 and velocity damping 0.82. The influence radius is bounded between 55px and 130px. Raster fields cap at 850 particles, word sampling uses a step based on 2400 target samples, and device-pixel ratio is capped at 1.5. Drawing stops when the field settles, when it is offscreen, or when the tab is hidden.
 
 Fine-pointer capability and reduced-motion preferences gate the effect. Coarse pointers and reduced motion retain the static image or text fallback. No touch animation is added. Canvas overlays are hidden from assistive technology and do not capture pointer events.
+
+Raster fields sample the already loaded Next Image element, including its responsive optimized source. They do not request a second original image for the canvas. Footer sampling waits for local fonts to be ready.
+
+### Evidence navigation
+
+B20 reports start with section links and a transaction index. Native transaction disclosures retain the relation, hash, execution, and attribution summary when closed; the first transaction starts open. Capture metadata and raw evidence stay in nested disclosures. Proof pages offer the actual replay inputs and published manifest, with an exact offline rebuild command and an explicit chain-recheck limitation. Historical manifest titles remain intact and are labeled as historical.
 
 ## Do's and Don'ts
 

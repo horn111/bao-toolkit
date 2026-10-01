@@ -21,7 +21,9 @@ export function CopyCommand({ command, className = "" }: { command: string; clas
     timer.current = setTimeout(() => setStatus(""), 3000);
   }
   return (
-    <div className={`command-copy ${className}`}>
+    <div
+      className={`command-copy ${command.includes("\n") ? "command-multiline" : ""} ${className}`}
+    >
       <code>{command}</code>
       <button
         type="button"

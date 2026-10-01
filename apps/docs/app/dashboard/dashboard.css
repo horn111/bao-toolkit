@@ -298,7 +298,8 @@
   align-items: center;
   gap: 6px;
   color: var(--accent);
-  font-size: 12px;
+  font-size: 14px;
+  min-height: 44px;
   font-weight: 600;
   margin-top: 20px;
 }
@@ -339,7 +340,8 @@
   gap: 5px;
   align-items: center;
   color: var(--accent);
-  font-size: 11px;
+  font-size: 14px;
+  min-height: 44px;
   font-weight: 600;
 }
 .dash-source-results a {

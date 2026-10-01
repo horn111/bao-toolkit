@@ -2,31 +2,14 @@
 
 import { useEffect, useMemo, useRef, useState, type ChangeEvent } from "react";
 import { SiteHeader } from "./_components/site-header";
-
-type Profile = "local" | "ci" | "strict";
-type Variant = "broken" | "fixed";
-type Family = "agent" | "privy" | "rpc" | "wagmi" | "wallet" | "x402";
-type Status = "protected" | "missing" | "wrong-code" | "unresolved";
-
-interface AuditPath {
-  line: number;
-  family: Family;
-  marker: string;
-  status: Status;
-  ruleId?: string;
-  suggestion?: string;
-}
-
-interface AuditCandidate extends Omit<AuditPath, "status"> {
-  index: number;
-}
-
-interface AuditResult {
-  ok: boolean;
-  coverage: number;
-  protected: number;
-  paths: AuditPath[];
-}
+import {
+  auditSource,
+  profiles,
+  type AuditResult,
+  type Family,
+  type Profile,
+  type Variant,
+} from "./doctor-audit";
 
 interface Example {
   id: string;
@@ -36,12 +19,6 @@ interface Example {
   broken: string;
   fixed: string;
 }
-
-const profiles: Record<Profile, { intent: string; unresolvedFails: boolean }> = {
-  local: { intent: "report without blocking", unresolvedFails: false },
-  ci: { intent: "block missing attribution", unresolvedFails: false },
-  strict: { intent: "require verifiable code", unresolvedFails: true },
-};
 
 const examples: Example[] = [
   {
@@ -173,6 +150,17 @@ export default function DoctorPage() {
   );
   const actionYaml = useMemo(() => createActionYaml(builderCode.trim()), [builderCode]);
   const lineNumbers = source.split(/\r?\n/).map((_, index) => index + 1);
+  const summary =
+    result.inputIssue === "builder-code-required"
+      ? "Add your expected Builder Code to check attribution."
+      : result.inputIssue === "no-paths"
+        ? "No supported transaction paths found. Coverage is not measured."
+        : `${result.protected} of ${result.paths.length} paths protected. ${profile === "local" ? "Local reporting" : `${profile} policy`}: ${result.ok ? "complete" : "action required"}.`;
+  const [announcement, setAnnouncement] = useState("");
+  useEffect(() => {
+    const timer = setTimeout(() => setAnnouncement(summary), 350);
+    return () => clearTimeout(timer);
+  }, [summary]);
 
   function selectExample(example: Example): void {
     setActiveExample(example);
@@ -217,16 +205,19 @@ export default function DoctorPage() {
         </div>
       </section>
 
-      <section className="coverage-strip" aria-label="Attribution coverage">
+      <section
+        className={`coverage-strip ${result.coverage === null ? "coverage-unmeasured" : ""}`}
+        aria-label="Attribution coverage"
+      >
         <div>
           <p className="coverage-value">
             {result.protected}/{result.paths.length} paths protected
           </p>
         </div>
         <div className="coverage-track" aria-hidden="true">
-          <span style={{ width: `${result.coverage}%` }} />
+          <span style={{ width: `${result.coverage ?? 0}%` }} />
         </div>
-        <strong>{result.coverage}%</strong>
+        <strong>{result.coverage === null ? "—" : `${result.coverage}%`}</strong>
       </section>
 
       <div className="bento-grid doctor-grid">
@@ -239,12 +230,20 @@ export default function DoctorPage() {
               <span className="form-label">Builder Code</span>
               <input
                 className="text-input"
+                required
+                aria-invalid={builderCode.trim().length === 0}
+                aria-describedby="builder-code-hint"
                 spellCheck={false}
                 value={builderCode}
                 onChange={(event: ChangeEvent<HTMLInputElement>) =>
                   setBuilderCode(event.target.value)
                 }
               />
+              <span id="builder-code-hint" className="field-hint">
+                {builderCode.trim()
+                  ? "The code this snippet should contain."
+                  : "Enter your expected Builder Code, or restore the example below."}
+              </span>
             </label>
             <SegmentedControl
               label="Profile"
@@ -259,7 +258,23 @@ export default function DoctorPage() {
               value={variant}
               onChange={selectVariant}
             />
-            <div className="form-group">
+            <label className="form-group mobile-fixture-select">
+              <span className="form-label">Fixture</span>
+              <select
+                className="text-input"
+                value={activeExample.id}
+                onChange={(event) =>
+                  selectExample(examples.find((example) => example.id === event.target.value)!)
+                }
+              >
+                {examples.map((example) => (
+                  <option key={example.id} value={example.id}>
+                    {example.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <div className="form-group desktop-fixture-list">
               <span className="form-label">Fixture</span>
               <div className="option-list">
                 {examples.map((example) => (
@@ -267,6 +282,7 @@ export default function DoctorPage() {
                     key={example.id}
                     className={`option-item ${example.id === activeExample.id ? "active" : ""}`}
                     type="button"
+                    aria-pressed={example.id === activeExample.id}
                     onClick={() => selectExample(example)}
                   >
                     <span className="option-item-name">{example.label}</span>
@@ -274,6 +290,12 @@ export default function DoctorPage() {
                   </button>
                 ))}
               </div>
+            </div>
+            <div className="doctor-feedback">
+              <p>{summary}</p>
+              <a className="text-action" href="#audit-result">
+                View findings
+              </a>
             </div>
           </div>
         </aside>
@@ -301,8 +323,18 @@ export default function DoctorPage() {
           </div>
         </section>
 
-        <AuditResultPanel profile={profile} result={result} />
+        <AuditResultPanel
+          profile={profile}
+          result={result}
+          onRestore={() => {
+            setBuilderCode("bc_abc123");
+            selectVariant(variant);
+          }}
+        />
       </div>
+      <p className="sr-only" role="status" aria-atomic="true">
+        {announcement}
+      </p>
 
       <section className="bento-card output-card">
         <div className="output-header">
@@ -340,6 +372,7 @@ function SegmentedControl<T extends string>(props: {
             key={option}
             className={`segment-button ${props.value === option ? "active" : ""}`}
             type="button"
+            aria-pressed={props.value === option}
             onClick={() => props.onChange(option)}
           >
             {option}
@@ -350,16 +383,38 @@ function SegmentedControl<T extends string>(props: {
   );
 }
 
-function AuditResultPanel(props: { profile: Profile; result: AuditResult }) {
+function AuditResultPanel(props: { profile: Profile; result: AuditResult; onRestore: () => void }) {
+  const unmeasured = props.result.inputIssue !== null;
+  const review =
+    !unmeasured && props.profile === "local" && props.result.protected < props.result.paths.length;
+  const title =
+    props.result.inputIssue === "builder-code-required"
+      ? "Add a Builder Code"
+      : props.result.inputIssue === "no-paths"
+        ? "No supported paths found"
+        : review
+          ? "Local report complete"
+          : props.result.ok
+            ? "Fixture check passed"
+            : "Action required";
+  const badge = unmeasured
+    ? "not measured"
+    : review
+      ? "review findings"
+      : props.result.ok
+        ? "passing"
+        : "failing";
   return (
-    <section className="bento-card result-panel">
+    <section className="bento-card result-panel" id="audit-result" tabIndex={-1}>
       <div className="card-header result-heading">
         <div>
-          <h2>{props.result.ok ? "Fixture check passed" : "Action required"}</h2>
+          <h2>{title}</h2>
         </div>
-        <div className={`status-badge ${props.result.ok ? "passing" : "failing"}`}>
+        <div
+          className={`status-badge ${unmeasured || review ? "unresolved" : props.result.ok ? "passing" : "failing"}`}
+        >
           <span className="status-dot" />
-          <span>{props.result.ok ? "passing" : "failing"}</span>
+          <span>{badge}</span>
         </div>
       </div>
       <p className="field-hint">
@@ -370,33 +425,50 @@ function AuditResultPanel(props: { profile: Profile; result: AuditResult }) {
         <Metric label="profile" value={props.profile} />
         <Metric label="paths" value={props.result.paths.length} />
         <Metric label="protected" value={props.result.protected} />
-        <Metric label="coverage" value={`${props.result.coverage}%`} />
+        <Metric
+          label="coverage"
+          value={props.result.coverage === null ? "—" : `${props.result.coverage}%`}
+        />
       </div>
-      <div className="analysis-block">
-        <p className="findings-title">Transaction paths</p>
-        <div className="findings-container">
-          {props.result.paths.map((entry) => (
-            <article
-              className={`finding-card path-${entry.status}`}
-              key={`${entry.marker}-${entry.line}`}
-            >
-              <div className="finding-info">
-                <span className="finding-reason">
-                  {entry.ruleId ? `${entry.ruleId} · ` : ""}
-                  {entry.status}
-                </span>
-                <span className="finding-meta">
-                  line {entry.line} near {entry.marker}
-                </span>
-                {entry.suggestion ? (
-                  <span className="finding-suggestion">{entry.suggestion}</span>
-                ) : null}
-              </div>
-              <span className="finding-family">{entry.family}</span>
-            </article>
-          ))}
+      {unmeasured ? (
+        <div className="doctor-empty">
+          <p>
+            {props.result.inputIssue === "builder-code-required"
+              ? "Enter the Builder Code your project should use. The example code is bc_abc123."
+              : "This snippet has no calls supported by the selected fixture. Check the fixture and source, or restore the example. The preview does not validate TypeScript syntax."}
+          </p>
+          <button type="button" className="text-action" onClick={props.onRestore}>
+            Restore example
+          </button>
         </div>
-      </div>
+      ) : null}
+      {!unmeasured ? (
+        <div className="analysis-block">
+          <p className="findings-title">Transaction paths</p>
+          <div className="findings-container">
+            {props.result.paths.map((entry) => (
+              <article
+                className={`finding-card path-${entry.status}`}
+                key={`${entry.marker}-${entry.line}`}
+              >
+                <div className="finding-info">
+                  <span className="finding-reason">
+                    {entry.ruleId ? `${entry.ruleId} · ` : ""}
+                    {entry.status}
+                  </span>
+                  <span className="finding-meta">
+                    line {entry.line} near {entry.marker}
+                  </span>
+                  {entry.suggestion ? (
+                    <span className="finding-suggestion">{entry.suggestion}</span>
+                  ) : null}
+                </div>
+                <span className="finding-family">{entry.family}</span>
+              </article>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }
@@ -417,187 +489,6 @@ function CopyButton(props: { copied: boolean; onClick: () => void }) {
       <span>{props.copied ? "Copied" : "Copy"}</span>
     </button>
   );
-}
-
-function auditSource(
-  source: string,
-  family: Family,
-  builderCode: string,
-  profile: Profile,
-): AuditResult {
-  const candidates = findCandidates(source, family);
-  const paths = candidates.map((candidate): AuditPath => {
-    const evidenceSource = attributionEvidence(source, family, candidate);
-    const discoveredCodes: string[] = evidenceSource?.match(/\bbc_[A-Za-z0-9._:-]+\b/g) ?? [];
-    const hasExpectedCode = builderCode.length > 0 && discoveredCodes.includes(builderCode);
-    const wrongCode = discoveredCodes.find((code) => code !== builderCode);
-    const helper = evidenceSource !== undefined;
-    const path = {
-      family: candidate.family,
-      line: candidate.line,
-      marker: candidate.marker,
-    };
-    if (wrongCode && !hasExpectedCode)
-      return {
-        ...path,
-        status: "wrong-code",
-        ruleId: "BAO002",
-        suggestion: "Use the configured Builder Code.",
-      };
-    if (helper && hasExpectedCode) return { ...path, status: "protected" };
-    if (helper)
-      return {
-        ...path,
-        status: "unresolved",
-        ruleId: "BAO003",
-        suggestion: "Expose the Builder Code to strict CI.",
-      };
-    if (family === "wallet")
-      return {
-        ...path,
-        status: "missing",
-        ruleId: "BAO005",
-        suggestion: "Use capability-aware Smart Wallet Attribution Kit middleware.",
-      };
-    if (family === "x402")
-      return {
-        ...path,
-        status: "missing",
-        ruleId: "BAO006",
-        suggestion: "Register the official Builder Code extension.",
-      };
-    return {
-      ...path,
-      status: "missing",
-      ruleId: "BAO001",
-      suggestion: "Add dataSuffix or a BAO helper.",
-    };
-  });
-  const protectedCount = paths.filter((entry) => entry.status === "protected").length;
-  const failures = paths.filter(
-    (entry) =>
-      entry.status === "missing" ||
-      entry.status === "wrong-code" ||
-      (entry.status === "unresolved" && profiles[profile].unresolvedFails),
-  );
-  return {
-    ok: paths.length > 0 && (profile === "local" || failures.length === 0),
-    coverage: paths.length === 0 ? 100 : Math.round((protectedCount / paths.length) * 100),
-    protected: protectedCount,
-    paths,
-  };
-}
-
-function findCandidates(source: string, family: Family): AuditCandidate[] {
-  const patterns =
-    family === "x402"
-      ? [{ marker: "x402Client", regex: /\bnew\s+x402Client\s*\(/g }]
-      : family === "wallet"
-        ? [
-            { marker: "sendCalls", regex: /\bsendCalls\s*\(/g },
-            { marker: "sendAttributedCalls", regex: /\bsendAttributedCalls\s*\(/g },
-          ]
-        : family === "rpc"
-          ? [{ marker: "eth_sendTransaction", regex: /["']eth_sendTransaction["']/g }]
-          : [
-              { marker: "sendTransaction", regex: /\bsendTransaction\s*\(/g },
-              { marker: "writeContract", regex: /\bwriteContract\s*\(/g },
-            ];
-  return patterns.flatMap(({ marker, regex }) =>
-    Array.from(source.matchAll(regex), (match) => ({
-      family,
-      marker,
-      line: lineNumberAtIndex(source, match.index ?? 0),
-      index: match.index ?? 0,
-    })),
-  );
-}
-
-function attributionEvidence(
-  source: string,
-  family: Family,
-  candidate: AuditCandidate,
-): string | undefined {
-  if (family === "x402") {
-    const declarationStart = Math.max(0, source.lastIndexOf("const ", candidate.index));
-    const declaration = source.slice(declarationStart, candidate.index + 64);
-    const clientName = declaration.match(
-      /\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*new\s+x402Client\s*\(/,
-    )?.[1];
-    if (!clientName) return undefined;
-    const escapedClient = clientName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const registration = source.match(
-      new RegExp(
-        `\\b${escapedClient}\\.registerExtension\\s*\\(\\s*new\\s+BuilderCodeClientExtension\\s*\\([^;]+`,
-      ),
-    )?.[0];
-    return registration;
-  }
-
-  const callStart =
-    family === "rpc"
-      ? Math.max(0, source.lastIndexOf("request(", candidate.index))
-      : candidate.index;
-  const direct = callSourceAt(source, callStart);
-  if (family === "wallet") {
-    return /\b(?:sendAttributedCalls|withUserOperationAttribution|attributeUserOperation)\b/.test(
-      direct,
-    )
-      ? direct
-      : undefined;
-  }
-  if (family === "rpc") {
-    return /\b(?:appendDataSuffix|DATA_SUFFIX|dataSuffix)\b/.test(direct) ? direct : undefined;
-  }
-  if (
-    /\b(?:appendDataSuffix|createDataSuffix|useAttributionSuffix|withViemDataSuffix)\b/.test(direct)
-  ) {
-    return direct;
-  }
-  if (/\bdataSuffix\b/.test(direct)) {
-    const declarations = Array.from(
-      source
-        .slice(0, candidate.index)
-        .matchAll(
-          /\bconst\s+dataSuffix\s*=\s*(?:useAttributionSuffix|createDataSuffix|builderCodeDataSuffix)\s*\([^;]+/g,
-        ),
-    );
-    const declaration = declarations.at(-1)?.[0];
-    return declaration ? `${declaration}\n${direct}` : undefined;
-  }
-  return undefined;
-}
-
-function callSourceAt(source: string, start: number): string {
-  const open = source.indexOf("(", start);
-  if (open < 0) return source.slice(start, source.indexOf("\n", start));
-  let depth = 0;
-  let quote: '"' | "'" | "`" | undefined;
-  let escaped = false;
-
-  for (let index = open; index < source.length; index += 1) {
-    const character = source[index];
-    if (quote) {
-      if (escaped) escaped = false;
-      else if (character === "\\") escaped = true;
-      else if (character === quote) quote = undefined;
-      continue;
-    }
-    if (character === '"' || character === "'" || character === "`") {
-      quote = character;
-      continue;
-    }
-    if (character === "(") depth += 1;
-    if (character === ")") {
-      depth -= 1;
-      if (depth === 0) return source.slice(start, index + 1);
-    }
-  }
-  return source.slice(start);
-}
-
-function lineNumberAtIndex(source: string, index: number): number {
-  return source.slice(0, index).split(/\r?\n/).length;
 }
 
 function createActionYaml(builderCode: string): string {

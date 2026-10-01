@@ -2,7 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteHeader } from "../../_components/site-header";
 import { CheckIcon } from "../../_components/site-icons";
-import { getPublishedProof, getPublishedProofTransactions, shortHash } from "../../proof-data";
+import { CopyCommand } from "../../_components/copy-command";
+import {
+  getPublishedProof,
+  getPublishedProofTransactions,
+  getProofReportDownloads,
+  shortHash,
+} from "../../proof-data";
 
 type ProofPageProps = { params: Promise<{ code: string }> };
 
@@ -34,7 +40,7 @@ export default async function ProofPage({ params }: ProofPageProps) {
         <div className="hero-controls">
           <p className="lede">
             {proof
-              ? `${proof.title} publishes a reproducible set of replay reports backed by decoded ERC-8021 calldata and explorer-verifiable transactions.`
+              ? "This published snapshot contains replay reports backed by decoded ERC-8021 calldata and explorer-verifiable transactions. Download the inputs to reproduce its manifest."
               : "No public BAO proof set has been published for this Builder Code yet. Generate replay reports, then combine them into a static manifest."}
           </p>
           <Link className="hero-command command-link" href="/observatory">
@@ -43,7 +49,7 @@ export default async function ProofPage({ params }: ProofPageProps) {
         </div>
       </section>
 
-      {proof ? <VerifiedProof code={code} proof={proof} /> : <EmptyProof code={code} />}
+      {proof ? <VerifiedProof code={code} proof={proof} /> : <EmptyProof />}
     </main>
   );
 }
@@ -53,6 +59,7 @@ function VerifiedProof(props: {
   proof: NonNullable<ReturnType<typeof getPublishedProof>>;
 }) {
   const transactions = getPublishedProofTransactions(props.proof);
+  const downloads = getProofReportDownloads(props.proof);
   return (
     <>
       <section className="proof-verdict">
@@ -62,8 +69,10 @@ function VerifiedProof(props: {
         <div>
           <h2>Expected Builder Code verified</h2>
           <p>
-            {props.proof.summary.attributed} of {props.proof.summary.total} unique transactions
-            contain <code>{props.code}</code> and {props.proof.summary.verified} are RPC verified.
+            {props.proof.summary.attributed} of {props.proof.summary.total} unique{" "}
+            {props.proof.summary.total === 1 ? "transaction contains" : "transactions contain"}{" "}
+            <code>{props.code}</code>; {props.proof.summary.verified}{" "}
+            {props.proof.summary.verified === 1 ? "is" : "are"} RPC verified in this snapshot.
           </p>
         </div>
         <strong>{props.proof.summary.coverage}%</strong>
@@ -74,6 +83,9 @@ function VerifiedProof(props: {
           <div className="card-header">
             <h2>{props.proof.title}</h2>
           </div>
+          {props.proof.title === "Base Attribution OS" ? (
+            <p className="scope-note">Historical manifest title. The product is now Base App OS.</p>
+          ) : null}
           <dl className="proof-manifest">
             <div>
               <dt>Builder Code</dt>
@@ -98,9 +110,24 @@ function VerifiedProof(props: {
           <div className="card-header">
             <h2>Build the same manifest</h2>
           </div>
-          <pre className="compact-code">
-            <code>{`bao proof-set --builder-code ${props.code} --title "${props.proof.title}" --input proof-a.json,proof-b.json --output proof-set.json`}</code>
-          </pre>
+          <p>
+            Save these inputs in one directory, then run the command there. It rebuilds the recorded
+            manifest offline; it does not recheck the chain.
+          </p>
+          <div className="proof-downloads">
+            {downloads.map((download, index) => (
+              <a className="text-action" href={download.href} key={download.href}>
+                Download replay report {index + 1}
+              </a>
+            ))}
+            <a className="text-action" href={`/proof/${props.code}/export`}>
+              Download published manifest
+            </a>
+          </div>
+          <CopyCommand
+            className="command-multiline"
+            command={`bao proof-set --builder-code ${props.code} --title "${props.proof.title}" --input ${downloads.map((entry) => entry.name).join(",")} --output proof-set.json`}
+          />
         </section>
       </div>
 
@@ -109,7 +136,9 @@ function VerifiedProof(props: {
           <div className="editor-header-title">
             <h2>Proof Set progress</h2>
           </div>
-          <span className="ledger-count">{props.proof.reports.length} reports</span>
+          <span className="ledger-count">
+            {props.proof.reports.length} {props.proof.reports.length === 1 ? "report" : "reports"}
+          </span>
         </div>
         <div className="table-scroll">
           <table className="proof-table">
@@ -180,7 +209,7 @@ function VerifiedProof(props: {
   );
 }
 
-function EmptyProof(props: { code: string }) {
+function EmptyProof() {
   return (
     <section className="bento-card empty-proof">
       <div className="empty-proof-mark">?</div>
@@ -191,9 +220,19 @@ function EmptyProof(props: { code: string }) {
           bounded Proof Set manifest.
         </p>
       </div>
-      <pre className="compact-code">
-        <code>{`bao proof-set --builder-code ${props.code} --title "Example project" --input proof-a.json,proof-b.json --output proof-set.json`}</code>
-      </pre>
+      <p className="scope-note">
+        Command template: replace bc_your_code and the input filename with your registered code and
+        replay report.
+      </p>
+      <CopyCommand
+        className="command-multiline"
+        command={
+          'bao proof-set --builder-code bc_your_code --title "Example project" --input replay.json --output proof-set.json'
+        }
+      />
+      <Link className="text-action" href="/docs/transaction-proofs">
+        Create a replay report
+      </Link>
     </section>
   );
 }

@@ -177,6 +177,9 @@ a.b20-hash,
   margin-bottom: 6px;
 }
 .b20-report-list h3 a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   color: var(--accent);
   text-decoration: underline;
 }
@@ -234,6 +237,84 @@ a.b20-hash,
   padding: 24px 0;
   border-bottom: 1px solid var(--border);
 }
+.b20-report-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  padding-block: 12px;
+  border-block: 1px solid var(--border);
+}
+.b20-report-navigation a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--accent);
+}
+.b20-section > h2 {
+  scroll-margin-top: 24px;
+}
+.b20-transaction-index {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-block: 20px;
+  border-top: 1px solid var(--border);
+}
+.b20-transaction-index a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--accent);
+  font-size: 14px;
+  min-height: 44px;
+}
+.b20-transaction-index a span {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.b20-transaction-summary {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 20px;
+  cursor: pointer;
+  list-style: none;
+  min-height: 44px;
+}
+.b20-transaction-summary::-webkit-details-marker {
+  display: none;
+}
+.b20-transaction-summary h3 {
+  margin: 0;
+}
+.b20-transaction-summary code {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.b20-transaction-summary > span {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.b20-transaction-summary .b20-expand-label {
+  color: var(--accent);
+  text-align: right;
+}
+.b20-transaction-summary .b20-expand-label::after {
+  content: " +";
+}
+.b20-transaction[open] .b20-expand-label::after {
+  content: " −";
+}
+.b20-transaction {
+  scroll-margin-top: 24px;
+}
+.b20-transaction-body {
+  margin-top: 24px;
+}
+.b20-guide > .command-copy {
+  margin-block: 20px;
+}
 .b20-hash {
   display: block;
   margin-bottom: 14px;
@@ -281,6 +362,23 @@ a.b20-hash,
   font-weight: 700;
 }
 @media (max-width: 720px) {
+  .b20-transaction-index {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .b20-transaction-summary h3 {
+    grid-column: 1 / -1;
+  }
+  .b20-transaction-summary > code {
+    grid-column: 1;
+  }
+  .b20-transaction-summary > span:not(.b20-expand-label) {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+  .b20-transaction-summary .b20-expand-label {
+    grid-column: 2;
+    grid-row: 2;
+  }
   .b20-mobile-outcomes {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));

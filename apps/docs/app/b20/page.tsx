@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteHeader } from "../_components/site-header";
+import { CopyCommand } from "../_components/copy-command";
 import {
   b20PublicationSummary,
   getB20Report,
@@ -134,9 +135,9 @@ export default function B20Page() {
           Download a report’s capture, then run the candidate CLI. Offline validation checks
           internal consistency; a network recheck requires an explicit RPC endpoint.
         </p>
-        <pre>
-          <code>{`bao b20 replay --input b20-direct-broken.capture.json --chain-id 84532 --expect bc_example --offline\nbao b20 replay --input b20-direct-fixed.capture.json --chain-id 84532 --expect bc_example --offline`}</code>
-        </pre>
+        <CopyCommand
+          command={`bao b20 replay --input b20-direct-broken.capture.json --chain-id 84532 --expect bc_example --offline\nbao b20 replay --input b20-direct-fixed.capture.json --chain-id 84532 --expect bc_example --offline`}
+        />
         <div className="b20-actions">
           <a className="b20-action" href="/b20/reports/direct-broken/capture">
             Download before capture

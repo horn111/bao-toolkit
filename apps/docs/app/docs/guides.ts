@@ -22,6 +22,21 @@ export const guides: Guide[] = [
     source: "README.md",
     sections: [
       {
+        id: "builder-code",
+        title: "Get your Builder Code",
+        paragraphs: [
+          "Register your project on Base Dashboard (base.dev), then copy its code from Settings → Builder Code. Use that exact code throughout your app and BAO policy.",
+          "bc_abc123 is a placeholder in this guide. BAO does not register a code for you. You can explore the browser examples before connecting your own project.",
+        ],
+        links: [
+          { label: "Open Base Dashboard", href: "https://base.dev" },
+          {
+            label: "Official Builder Code guide",
+            href: "https://docs.base.org/specifications/builder-codes/overview",
+          },
+        ],
+      },
+      {
         id: "install",
         title: "Install the adapter and CLI",
         paragraphs: [
@@ -54,12 +69,14 @@ export const guides: Guide[] = [
         title: "Check the full project",
         paragraphs: [
           "Run Doctor again and inspect every supported transaction path. Resolve missing or wrong codes. Treat unresolved configuration as a finding to investigate. The browser Doctor is an illustrative snippet preview; merge and release checks belong in the full-project CLI or Action.",
+          "A passing strict audit has supported paths, the expected code on each path, and no blocking findings. If no paths are found, check the scan scope and supported integration before treating the app as covered. Source checks do not prove that a submitted transaction kept its code; verify a transaction next.",
         ],
         code: "pnpm exec bao doctor --profile strict",
         links: [
           { label: "Configure source audits", href: "/docs/source-audits" },
           { label: "Add the CI check", href: "/docs/ci" },
           { label: "Try the browser Doctor", href: "/doctor" },
+          { label: "Verify a submitted transaction", href: "/docs/transaction-proofs" },
         ],
       },
     ],

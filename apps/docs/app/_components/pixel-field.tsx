@@ -13,12 +13,10 @@ type Particle = {
 };
 
 export function PixelField({
-  src,
   word,
   className,
   children,
 }: {
-  src?: string;
   word?: string;
   className: string;
   children: ReactNode;
@@ -40,8 +38,8 @@ export function PixelField({
       visible = false,
       frame = 0,
       width = 0,
-      height = 0,
-      image: HTMLImageElement | undefined;
+      height = 0;
+    const image = root.querySelector<HTMLImageElement>("img") ?? undefined;
     let particles: Particle[] = [];
     const pointer = { x: -1000, y: -1000, active: false };
     const enabled = () => !reduce.matches && fine.matches && !document.hidden;
@@ -98,7 +96,7 @@ export function PixelField({
       if (!frame && visible && enabled()) frame = requestAnimationFrame(tick);
     }
     function prepare() {
-      if (disposed || !context || !sampleContext) return;
+      if (disposed || !context || !sampleContext || !visible) return;
       const bounds = root!.getBoundingClientRect();
       width = Math.round(bounds.width);
       height = Math.round(bounds.height);
@@ -106,7 +104,7 @@ export function PixelField({
         width < 2 ||
         height < 2 ||
         !enabled() ||
-        (src && (!image || !image.complete || !image.naturalWidth))
+        (image && (!image.complete || !image.naturalWidth))
       ) {
         delete root!.dataset.ready;
         return;
@@ -191,10 +189,6 @@ export function PixelField({
         frame = 0;
         pointer.active = false;
         delete root!.dataset.ready;
-      } else if (src && !image) {
-        image = new window.Image();
-        image.onload = prepare;
-        image.src = src;
       } else prepare();
     }
     const resize = new ResizeObserver(prepare);
@@ -216,11 +210,7 @@ export function PixelField({
     reduce.addEventListener("change", visibility);
     fine.addEventListener("change", visibility);
     document.addEventListener("visibilitychange", visibility);
-    if (src && enabled()) {
-      image = new window.Image();
-      image.onload = prepare;
-      image.src = src;
-    }
+    image?.addEventListener("load", prepare);
     if (word)
       void document.fonts.ready.then(() => {
         if (!disposed) prepare();
@@ -235,9 +225,9 @@ export function PixelField({
       reduce.removeEventListener("change", visibility);
       fine.removeEventListener("change", visibility);
       document.removeEventListener("visibilitychange", visibility);
-      if (image) image.onload = null;
+      image?.removeEventListener("load", prepare);
     };
-  }, [src, word]);
+  }, [word]);
   return (
     <div className={`pixel-surface ${className}`} ref={surface}>
       {children}

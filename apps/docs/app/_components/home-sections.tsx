@@ -1,11 +1,18 @@
 import Link from "next/link";
-import { publishedProofSets, observatorySummary } from "../proof-data";
+import {
+  featuredProof,
+  getPublishedProofTransactions,
+  publishedProofSets,
+  observatorySummary,
+  shortHash,
+} from "../proof-data";
 import { b20PublicationSummary, publishedB20Reports } from "../b20/registry";
 import { ArrowIcon } from "./site-icons";
 import { SourceExample } from "./source-example";
 import { CopyCommand } from "./copy-command";
 
 export function HomeSections() {
+  const example = getPublishedProofTransactions(featuredProof)[0];
   return (
     <div className="home-content">
       <section id="product" className="product-intro">
@@ -23,41 +30,23 @@ export function HomeSections() {
             Add Builder Code attribution to your client. Catch gaps in source code. Inspect native
             token evidence. Keep a report you can reproduce.
           </p>
+          <ol className="product-flow">
+            <li>
+              <Link href="/docs/attribution">Integrate</Link>
+              <span>Add the code where your app builds a transaction.</span>
+            </li>
+            <li>
+              <Link href="/docs/ci">Audit and enforce</Link>
+              <span>Keep the same attribution policy in your app and CI.</span>
+            </li>
+            <li>
+              <Link href="/docs/transaction-proofs">Verify and retain</Link>
+              <span>Check submitted hashes and save the evidence.</span>
+            </li>
+          </ol>
           <Link className="text-action" href="/docs/quickstart">
             Meet your new toolkit <ArrowIcon />
           </Link>
-        </div>
-      </section>
-
-      <section id="modules" className="modules-overview" aria-labelledby="modules-title">
-        <h2 id="modules-title">
-          Four modules.
-          <br />
-          One connected workflow.
-        </h2>
-        <div className="module-index">
-          <a href="#attribution">
-            <strong>Attribution</strong>
-            <span>Keep your Builder Code in the request.</span>
-            <ArrowIcon />
-          </a>
-          <a href="#source-audits">
-            <strong>Source audits</strong>
-            <span>Find supported paths that lose attribution.</span>
-            <ArrowIcon />
-          </a>
-          <a href="#b20">
-            <strong>
-              B20 evidence <span className="candidate-tag">Candidate</span>
-            </strong>
-            <span>Inspect token and receipt evidence separately.</span>
-            <ArrowIcon />
-          </a>
-          <a href="#transaction-proofs">
-            <strong>Transaction proofs</strong>
-            <span>Replay a selected sample. Publish inspectable results.</span>
-            <ArrowIcon />
-          </a>
         </div>
       </section>
 
@@ -97,7 +86,7 @@ export function HomeSections() {
             <code>{`$ bao doctor
 
 Frameworks: smart-wallet, wagmi, x402
-Coverage: 3/4 paths protected (75%)
+Coverage: 2/3 paths protected (67%)
 
 + wagmi   app/mint.tsx:18  protected
 + x402    src/pay.ts:9    protected
@@ -196,6 +185,47 @@ Coverage: 3/4 paths protected (75%)
           </Link>
         </div>
         <div className="evidence-ledger">
+          <div className="evidence-example">
+            <h3>Inside the BAO snapshot</h3>
+            <p>
+              Published transaction evidence · {example.network}. This snapshot is separate from the
+              illustrative source examples above.
+            </p>
+            <dl>
+              <div>
+                <dt>Transaction</dt>
+                <dd>
+                  <a href={example.transaction.explorerUrl}>
+                    {shortHash(example.transaction.hash)} <ArrowIcon />
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>Decoded Builder Code</dt>
+                <dd>
+                  <code>{example.transaction.codes.join(", ")}</code>
+                </dd>
+              </div>
+              <div>
+                <dt>What was checked</dt>
+                <dd>
+                  {example.transaction.verified
+                    ? "Calldata acquired over RPC; expected code decoded."
+                    : "Recorded calldata decoded; RPC verification unavailable."}
+                </dd>
+              </div>
+              <div>
+                <dt>What you can retain</dt>
+                <dd>
+                  The replay input and the published manifest. Neither proves complete project
+                  coverage.
+                </dd>
+              </div>
+            </dl>
+            <Link className="text-action" href={`/proof/${featuredProof.builderCode}`}>
+              Open and reproduce this snapshot <ArrowIcon />
+            </Link>
+          </div>
           <h3>Published attribution Proof Sets</h3>
           <p>
             {observatorySummary.proofSets} registered snapshots · {observatorySummary.verified}{" "}
@@ -233,52 +263,6 @@ Coverage: 3/4 paths protected (75%)
               </Link>
             ))}
         </div>
-      </section>
-
-      <section className="workflow-chapter" aria-labelledby="workflow-title">
-        <h2 id="workflow-title">
-          Make it part
-          <br />
-          of how you ship.
-        </h2>
-        <ol className="workflow-list">
-          <li>
-            <span className="workflow-step">1</span>
-            <div>
-              <h3>Integrate</h3>
-              <p>
-                Choose the adapter for your transaction client and register your project’s Builder
-                Code.
-              </p>
-              <Link href="/docs/attribution">
-                Add attribution <ArrowIcon />
-              </Link>
-            </div>
-          </li>
-          <li>
-            <span className="workflow-step">2</span>
-            <div>
-              <h3>Audit and enforce</h3>
-              <p>Find gaps locally, then run the same project policy in pull requests.</p>
-              <Link href="/docs/ci">
-                Add the CI check <ArrowIcon />
-              </Link>
-            </div>
-          </li>
-          <li>
-            <span className="workflow-step">3</span>
-            <div>
-              <h3>Verify and retain</h3>
-              <p>
-                Replay explicit transaction hashes. Keep reproducible reports and publish the
-                evidence you intend to share.
-              </p>
-              <Link href="/docs/transaction-proofs">
-                Create a Proof Set <ArrowIcon />
-              </Link>
-            </div>
-          </li>
-        </ol>
       </section>
 
       <section className="start-chapter">

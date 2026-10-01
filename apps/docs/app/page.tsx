@@ -15,10 +15,16 @@ export default function HomePage() {
     <main id="main-content" tabIndex={-1} className="product-home">
       <section className="landing-stage" aria-labelledby="home-title">
         <SiteHeader home />
-        <PixelField className="planet-art" src={heroArt.src}>
-          <Image alt="" fill priority sizes="60vw" src={heroArt} />
+        <PixelField className="planet-art">
+          <Image
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 600px) 130vw, (max-width: 1200px) 760px, 60vw"
+            src={heroArt}
+          />
         </PixelField>
-        <PixelField className="drift-art" src={driftRocks.src}>
+        <PixelField className="drift-art">
           <Image alt="" fill priority sizes="35vw" src={driftRocks} />
         </PixelField>
         <HeroFrame />
@@ -27,6 +33,9 @@ export default function HomePage() {
           <span className="headline-know">KNOW WHAT</span>
           <span className="headline-shipped">SHIPPED.</span>
         </h1>
+        <p className="hero-summary">
+          One toolkit for attribution, code audits, and native token evidence.
+        </p>
         <div className="hero-caption">
           <PanelOutline kind="caption" />
           <BrandMark className="caption-mark" />
@@ -51,7 +60,7 @@ export default function HomePage() {
             Read the quickstart <ArrowIcon />
           </Link>
         </aside>
-        <nav className="module-rail" aria-label="Product modules">
+        <nav id="modules" className="module-rail" aria-label="Product modules">
           <Link href="/#attribution">
             <ModuleIcon kind="attribution" />
             Attribution <ArrowIcon />

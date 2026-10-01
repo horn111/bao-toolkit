@@ -29,10 +29,6 @@
   box-sizing: border-box;
 }
 
-html {
-  min-width: 320px;
-}
-
 body {
   margin: 0;
   background: var(--canvas);
@@ -46,7 +42,8 @@ body {
 
 button,
 input,
-textarea {
+textarea,
+select {
   border: none;
   background: none;
   color: inherit;
@@ -131,6 +128,18 @@ pre {
   font-size: 12px;
   padding: 10px 12px;
   white-space: nowrap;
+}
+.hero-controls > .command-copy {
+  flex: 1;
+  max-width: 520px;
+}
+.observatory-command-note {
+  margin: -24px 0 32px;
+}
+.observatory-command-note a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .coverage-strip {
@@ -397,7 +406,53 @@ pre {
 
 .field-hint {
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: 13px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.mobile-fixture-select {
+  display: none;
+}
+.doctor-feedback {
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+}
+.doctor-feedback .text-action {
+  font-size: 14px;
+}
+.doctor-empty {
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+}
+.doctor-empty button {
+  cursor: pointer;
+  justify-self: start;
+  text-align: left;
+}
+.coverage-unmeasured strong {
+  color: var(--text-muted);
+}
+.status-badge.unresolved {
+  color: var(--pastel-yellow-text);
+  background: var(--pastel-yellow-bg);
+}
+.status-badge.unresolved .status-dot {
+  background: currentColor;
+}
+#audit-result {
+  scroll-margin-top: 24px;
 }
 
 .option-list {
@@ -819,6 +874,25 @@ pre {
 
   .bento-card.result-panel {
     grid-column: span 1;
+  }
+  .doctor-grid .input-card {
+    grid-row: 1;
+  }
+  .doctor-grid .result-panel {
+    grid-row: 2;
+  }
+  .doctor-grid .editor-card {
+    grid-row: 3;
+  }
+  .doctor-grid .desktop-fixture-list {
+    display: none;
+  }
+  .doctor-grid .mobile-fixture-select {
+    display: flex;
+  }
+  .doctor-grid .text-input {
+    font-size: 16px;
+    min-height: 44px;
   }
 
   .bento-card {

@@ -1,0 +1,123 @@
+.meteor-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.meteor-canvas,
+.meteor-aim {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.meteor-hit {
+  --rock-radius: 0.05;
+  position: absolute;
+  width: calc(var(--rock-radius) * 148.5cqw);
+  height: calc(var(--rock-radius) * 148.5cqw);
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  transform: translate(-50%, -50%);
+  clip-path: polygon(24% 8%, 74% 2%, 96% 35%, 88% 77%, 51% 99%, 11% 83%, 0 43%);
+  background-image: var(--rock-image);
+  background-size: var(--rock-bg-size);
+  background-position: var(--rock-bg-position);
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  cursor: grab;
+  touch-action: none;
+  pointer-events: auto;
+}
+
+.meteor-scene:not([data-mode="ready"]) .meteor-hit {
+  clip-path: none;
+}
+
+.meteor-scene[data-mode="ready"] .meteor-hit {
+  background: transparent;
+}
+
+.meteor-hit:disabled {
+  cursor: default;
+  pointer-events: none;
+}
+
+.meteor-hit[data-grabbed="true"] {
+  cursor: grabbing;
+}
+
+.meteor-hit:focus-visible {
+  outline: none;
+  background: rgb(131 222 219 / 14%) !important;
+}
+
+.meteor-focus-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: #e0f8f7;
+  stroke-width: 1.5px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.meteor-hit:focus-visible .meteor-focus-frame {
+  opacity: 1;
+}
+
+.meteor-aim {
+  overflow: visible;
+  opacity: 0;
+  fill: none;
+  stroke: #e0f8f7;
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.meteor-scene[data-aiming="true"] .meteor-aim {
+  opacity: 1;
+}
+
+.meteor-aim line {
+  stroke-dasharray: 4 6;
+}
+
+.meteor-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 1200px) {
+  .meteor-scene {
+    position: relative;
+    inset: auto;
+    order: 3;
+    flex-shrink: 0;
+    width: 100%;
+    height: 260px;
+    margin: -180px 0 24px;
+  }
+}
+
+@media (max-width: 600px) {
+  .meteor-scene {
+    height: 220px;
+    margin-top: -130px;
+  }
+}

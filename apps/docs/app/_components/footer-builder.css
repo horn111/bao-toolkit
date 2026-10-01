@@ -1,0 +1,183 @@
+.footer-builder {
+  width: 100%;
+  max-width: 660px;
+  min-width: 0;
+  justify-self: center;
+  color: #e0f8f7;
+}
+
+.footer-builder-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.footer-builder-heading h3 {
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.footer-builder-count {
+  color: #83dedb;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.footer-builder-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 12 / 5;
+  outline-offset: 5px;
+  cursor: default;
+}
+
+.footer-builder-stage canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+.footer-builder-bucket-state {
+  position: absolute;
+  left: 0;
+  top: 5px;
+  color: #83dedb;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.footer-builder-stage:focus-visible,
+.footer-builder-controls button:focus-visible {
+  outline: 2px solid #e0f8f7;
+  outline-offset: 4px;
+}
+
+.footer-builder-controls {
+  display: grid;
+  grid-template-columns: repeat(4, 44px) minmax(80px, 1fr) auto auto;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.footer-builder-controls button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 8px 12px;
+  color: #83dedb;
+  border: 1px solid #107977;
+  background: #001619;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  transition:
+    background-color 140ms ease-out,
+    color 140ms ease-out;
+}
+
+.footer-builder-controls button svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.footer-builder-controls button:hover:not(:disabled),
+.footer-builder-controls button:active:not(:disabled) {
+  color: #e0f8f7;
+  background: #0b4142;
+}
+
+.footer-builder-controls .footer-builder-bucket-action {
+  color: #001619;
+  background: #27d8c9;
+  border-color: #27d8c9;
+}
+
+.footer-builder-controls .footer-builder-bucket-action:hover:not(:disabled),
+.footer-builder-controls .footer-builder-bucket-action:active:not(:disabled) {
+  color: #001619;
+  background: #83dedb;
+}
+
+.footer-builder-controls button:disabled {
+  color: #508180;
+  border-color: #174342;
+  background: #001619;
+  cursor: default;
+}
+
+.footer-builder-help {
+  margin-top: 12px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 1.5;
+  color: #83dedb;
+}
+
+.footer-builder-help kbd {
+  font-family: inherit;
+  color: #e0f8f7;
+}
+
+.footer-builder-status {
+  min-height: 20px;
+  margin-top: 4px;
+  color: #e0f8f7;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.footer-builder-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 600px) {
+  .footer-builder-heading h3 {
+    font-size: 16px;
+  }
+
+  .footer-builder-controls {
+    grid-template-columns: repeat(4, minmax(44px, 1fr));
+    gap: 6px;
+  }
+
+  .footer-builder-bucket-action {
+    grid-column: 1 / 3;
+  }
+
+  .footer-builder-controls button {
+    padding-inline: 10px;
+  }
+
+  .footer-builder-utility-label {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-builder-controls button {
+    transition: none;
+  }
+}

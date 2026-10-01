@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { ArrowIcon } from "./site-icons";
-import { PixelField } from "./pixel-field";
+import { FooterBuilder } from "./footer-builder";
+import { SpaceBackdrop } from "./space-backdrop";
 import "./site.css";
 export function SiteFooter() {
   return (
     <footer className="site-footer">
+      <SpaceBackdrop count={8} />
       <div className="footer-main">
         <div className="footer-copy">
           <h2>Build the next thing.</h2>
@@ -19,11 +21,7 @@ export function SiteFooter() {
             Explore the source <ArrowIcon />
           </a>
         </div>
-        <PixelField className="footer-graphic" word="BAO">
-          <div className="footer-pixel-word" aria-hidden="true">
-            BAO
-          </div>
-        </PixelField>
+        <FooterBuilder />
       </div>
       <div className="footer-links">
         <Link href="/docs">Documentation</Link>
@@ -32,7 +30,9 @@ export function SiteFooter() {
         <Link href="/observatory">Observatory</Link>
         <Link href="/b20">B20 candidate</Link>
         <Link href="/smart-wallets">Smart Wallet Kit</Link>
-        <a href="https://x.com/BaseAttribution">Updates on X</a>
+        <a href="https://x.com/BaseAttribution" target="_blank" rel="noopener noreferrer">
+          Updates on X
+        </a>
       </div>
       <div className="footer-fineprint">
         <span>Base App OS · Open source · MIT</span>

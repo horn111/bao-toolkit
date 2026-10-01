@@ -10,17 +10,21 @@ import { b20PublicationSummary, publishedB20Reports } from "../b20/registry";
 import { ArrowIcon } from "./site-icons";
 import { SourceExample } from "./source-example";
 import { CopyCommand } from "./copy-command";
+import { PixelConstruction } from "./pixel-construction";
 
 export function HomeSections() {
   const example = getPublishedProofTransactions(featuredProof)[0];
   return (
     <div className="home-content">
       <section id="product" className="product-intro">
-        <h2>
-          From your app.
-          <br />
-          <span>To the evidence.</span>
-        </h2>
+        <div className="product-intro-visual">
+          <h2>
+            From your app.
+            <br />
+            <span>To the evidence.</span>
+          </h2>
+          <PixelConstruction variant="workshop" />
+        </div>
         <div>
           <p className="section-deck">
             Base App OS is the developer toolkit for building, auditing, and verifying transaction
@@ -183,6 +187,9 @@ Coverage: 2/3 paths protected (67%)
           <Link className="text-action" href="/observatory">
             Explore the Observatory <ArrowIcon />
           </Link>
+          <div className="evidence-architecture">
+            <PixelConstruction variant="tower" />
+          </div>
         </div>
         <div className="evidence-ledger">
           <div className="evidence-example">

@@ -11,9 +11,9 @@ export function SiteHeader({ current, home = false }: { current?: Current; home?
   return (
     <>
       <header className={`topbar site-header ${home ? "home-header" : ""}`}>
-        <Link className="site-brand" href="/" aria-label="Base App OS home">
+        <Link className="site-brand" href="/" aria-label="BAO home">
           <BrandMark />
-          <span>Base App OS</span>
+          <span>BAO</span>
         </Link>
         <nav className="site-navigation" aria-label="Primary navigation">
           <Link href="/#product">Product</Link>

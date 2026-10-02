@@ -84,7 +84,7 @@ function VerifiedProof(props: {
             <h2>{props.proof.title}</h2>
           </div>
           {props.proof.title === "Base Attribution OS" ? (
-            <p className="scope-note">Historical manifest title. The product is now Base App OS.</p>
+            <p className="scope-note">Historical manifest title. The product is now BAO.</p>
           ) : null}
           <dl className="proof-manifest">
             <div>

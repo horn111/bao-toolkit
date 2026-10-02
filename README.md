@@ -1,4 +1,4 @@
-# Base App OS / BAO
+# BAO
 
 [![npm](https://img.shields.io/npm/v/@base-attribution-os/core?label=npm&color=0052ff)](https://www.npmjs.com/package/@base-attribution-os/core)
 [![CI](https://github.com/horn111/base-attribution-os/actions/workflows/ci.yml/badge.svg)](https://github.com/horn111/base-attribution-os/actions/workflows/ci.yml)
@@ -7,7 +7,7 @@
 
 **A developer toolkit from application code to transaction evidence on Base.**
 
-Base App OS adds ERC-8021 Builder Code attribution to transaction code,
+BAO adds ERC-8021 Builder Code attribution to transaction code,
 audits supported transaction paths, verifies calldata and onchain results, and
 enforces coverage in CI.
 

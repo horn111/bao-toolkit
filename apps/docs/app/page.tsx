@@ -1,5 +1,5 @@
 import Image from "next/image";
-import heroArt from "../assets/plates/hero-art.png";
+import heroArt from "../assets/plates/hero-planet.png";
 import Link from "next/link";
 import { SiteHeader } from "./_components/site-header";
 import { BrandMark } from "./_components/brand-mark";
@@ -27,15 +27,17 @@ export default function HomePage() {
           />
         </div>
         <MeteorScene />
-        <HeroFrame />
-        <h1 id="home-title" className="landing-title">
-          <span className="headline-base">BUILD ON BASE.</span>
-          <span className="headline-know">KNOW WHAT</span>
-          <span className="headline-shipped">SHIPPED.</span>
-        </h1>
-        <p className="hero-summary">
-          One toolkit for attribution, code audits, and native token evidence.
-        </p>
+        <div className="hero-copy">
+          <HeroFrame />
+          <h1 id="home-title" className="landing-title">
+            <span className="headline-base">BUILD ON BASE.</span>
+            <span className="headline-know">KNOW WHAT</span>
+            <span className="headline-shipped">SHIPPED.</span>
+          </h1>
+          <p className="hero-summary">
+            One toolkit for attribution, code audits, and native token evidence.
+          </p>
+        </div>
         <div className="hero-caption">
           <PanelOutline kind="caption" />
           <BrandMark className="caption-mark" />
@@ -128,38 +130,52 @@ function HeroFrame() {
     [27, 162],
   ];
   return (
-    <div className="hero-frame" aria-hidden="true">
-      {points.slice(1).map(([x, y], i) => {
-        const [px, py] = points[i];
-        return (
-          <span
-            key={i}
-            style={{
-              left: `${(Math.min(x, px) / 1672) * 100}%`,
-              top: `${(Math.min(y, py) / 941) * 100}%`,
-              width: x === px ? "1px" : `${(Math.abs(x - px) / 1672) * 100}%`,
-              height: y === py ? "1px" : `${(Math.abs(y - py) / 941) * 100}%`,
-            }}
+    <>
+      <div className="hero-frame hero-frame-desktop" aria-hidden="true">
+        {points.slice(1).map(([x, y], i) => {
+          const [px, py] = points[i];
+          return (
+            <span
+              key={i}
+              style={{
+                left: `${(Math.min(x, px) / 1672) * 100}%`,
+                top: `${(Math.min(y, py) / 941) * 100}%`,
+                width: x === px ? "1px" : `${(Math.abs(x - px) / 1672) * 100}%`,
+                height: y === py ? "1px" : `${(Math.abs(y - py) / 941) * 100}%`,
+              }}
+            />
+          );
+        })}
+        {[
+          [48, 139],
+          [1620, 133],
+          [83, 748],
+          [1632, 627],
+        ].map(([x, y]) => (
+          <i
+            key={x}
+            className="frame-cross"
+            style={{ left: `${(x / 1672) * 100}%`, top: `${(y / 941) * 100}%` }}
           />
-        );
-      })}
-      {[
-        [48, 139],
-        [1620, 133],
-        [83, 748],
-        [1632, 627],
-      ].map(([x, y]) => (
-        <i
-          key={x}
-          className="frame-cross"
-          style={{ left: `${(x / 1672) * 100}%`, top: `${(y / 941) * 100}%` }}
-        />
-      ))}
-      <div className="frame-signal">
-        {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
-          <span key={i} />
         ))}
+        <div className="frame-signal">
+          {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
+            <span key={i} />
+          ))}
+        </div>
       </div>
-    </div>
+      <div className="hero-frame hero-frame-mobile" aria-hidden="true">
+        <span className="mobile-frame-top" />
+        <span className="mobile-frame-top-step" />
+        <span className="mobile-frame-top-return" />
+        <span className="mobile-frame-right" />
+        <span className="mobile-frame-bottom" />
+        <span className="mobile-frame-bottom-step" />
+        <span className="mobile-frame-bottom-return" />
+        <span className="mobile-frame-left" />
+        <i className="frame-cross mobile-frame-cross-start" />
+        <i className="frame-cross mobile-frame-cross-end" />
+      </div>
+    </>
   );
 }

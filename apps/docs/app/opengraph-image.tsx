@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-export const alt = "Base App OS — attribution, source audits, and transaction evidence";
+export const alt = "BAO — attribution, source audits, and transaction evidence";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export default async function Image() {
@@ -19,7 +19,7 @@ export default async function Image() {
         padding: "56px",
       }}
     >
-      <div style={{ fontSize: 28, display: "flex", color: "#27d8c9" }}>Base App OS / BAO</div>
+      <div style={{ fontSize: 28, display: "flex", color: "#27d8c9" }}>BAO</div>
       <div
         style={{
           display: "flex",

@@ -11,8 +11,8 @@ export function SiteFooter() {
         <div className="footer-copy">
           <h2>Build the next thing.</h2>
           <p>
-            Base App OS brings attribution, source audits, and inspectable transaction evidence into
-            your development workflow.
+            BAO brings attribution, source audits, and inspectable transaction evidence into your
+            development workflow.
           </p>
           <Link className="primary-action" href="/docs/quickstart">
             Start building <ArrowIcon />
@@ -35,7 +35,7 @@ export function SiteFooter() {
         </a>
       </div>
       <div className="footer-fineprint">
-        <span>Base App OS · Open source · MIT</span>
+        <span>BAO · Open source · MIT</span>
         <span>Independent toolkit. Not affiliated with Base or Coinbase.</span>
         <a href="https://github.com/horn111/base-attribution-os/blob/main/LICENSE">License</a>
       </div>

@@ -14,7 +14,7 @@ adopting it in a project.
 
 ## Product Purpose
 
-Base App OS (BAO) is an independent open-source toolkit for building, checking,
+BAO is an independent open-source toolkit for building, checking,
 and verifying Base application transaction paths. Its operating-system framing
 describes composable developer tools, not a hosted chain, wallet, or custody
 service. Attribution remains one module alongside B20 token evidence, source
@@ -48,8 +48,8 @@ Builder Codes identify projects; they do not identify referring tweets.
 
 ## Brand Commitments
 
-The owner approved the public name Base App OS / BAO on 2026-09-30 and explicitly
-requested a full visual replacement. Pixel graphics are pinned, inspired by the
+The public name is BAO, as confirmed by the owner on 2026-10-02. The owner
+approved a full visual replacement on 2026-09-30. Pixel graphics are pinned, inspired by the
 supplied planetary, demoscene, and stippled-art references. After three blue
 proposals, the owner requested a fourth composition with a teal palette and
 the stepped layout of a new reference. The current palette is deep petrol,

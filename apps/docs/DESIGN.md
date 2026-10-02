@@ -1,5 +1,5 @@
 ---
-name: Base App OS
+name: BAO
 description: A pixel-teal developer toolkit with readable code, source audits, and inspectable transaction evidence.
 colors:
   canvas: "#001619"
@@ -218,13 +218,13 @@ components:
     padding: "{spacing.activity-panel}"
 ---
 
-# Design System: Base App OS
+# Design System: BAO
 
 ## Overview
 
 **Creative North Star: "Pixel construction set"**
 
-Base App OS uses a dark petrol canvas, teal surfaces, seafoam actions, and mint lettering. The approved world combines a static pixel planet, carved cyan rock fragments, front-facing pixel architecture, stepped outlines, and square interface parts. Crisp graphics and large pixel headings establish the identity; explanations, controls, and evidence remain readable.
+BAO uses a dark petrol canvas, teal surfaces, seafoam actions, and mint lettering. The approved world combines a static pixel planet, carved cyan rock fragments, front-facing pixel architecture, stepped outlines, and square interface parts. Crisp graphics and large pixel headings establish the identity; explanations, controls, and evidence remain readable.
 
 The same palette and local fonts connect the homepage, guides, and retained tools. The homepage has generous chapter spacing and expressive display type. Guides use a quieter reading hierarchy, and tools use compact forms, code, and data. Their different densities are intentional; a guide or evidence table does not inherit the homepage's absolute composition.
 

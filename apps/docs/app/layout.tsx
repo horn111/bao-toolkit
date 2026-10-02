@@ -30,8 +30,8 @@ const blockFont = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL("https://base-attribution-os.vercel.app"),
   title: {
-    default: "Base App OS · Build, audit, and verify on Base",
-    template: "%s · Base App OS",
+    default: "BAO · Build, audit, and verify on Base",
+    template: "%s · BAO",
   },
   description:
     "A developer toolkit for Builder Code attribution, source audits, B20 evidence, and reproducible transaction proofs on Base.",

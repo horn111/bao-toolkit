@@ -27,8 +27,8 @@ export function HomeSections() {
         </div>
         <div>
           <p className="section-deck">
-            Base App OS is the developer toolkit for building, auditing, and verifying transaction
-            paths on Base.
+            BAO is the developer toolkit for building, auditing, and verifying transaction paths on
+            Base.
           </p>
           <p>
             Add Builder Code attribution to your client. Catch gaps in source code. Inspect native

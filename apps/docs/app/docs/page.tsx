@@ -13,7 +13,7 @@ export default function DocsPage() {
     <main id="main-content" tabIndex={-1} className="app-container documentation">
       <SiteHeader current="docs" />
       <header className="docs-intro">
-        <h1>Build with Base App OS.</h1>
+        <h1>Build with BAO.</h1>
         <p>
           Start with your transaction client. Follow the path through source audits, CI, and
           reproducible evidence.

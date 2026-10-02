@@ -1,5 +1,5 @@
 ---
-name: BAO
+name: Bao Toolkit
 description: A pixel-teal developer toolkit with readable code, source audits, and inspectable transaction evidence.
 colors:
   canvas: "#001619"
@@ -218,13 +218,13 @@ components:
     padding: "{spacing.activity-panel}"
 ---
 
-# Design System: BAO
+# Design System: Bao Toolkit
 
 ## Overview
 
 **Creative North Star: "Pixel construction set"**
 
-BAO uses a dark petrol canvas, teal surfaces, seafoam actions, and mint lettering. The approved world combines a static pixel planet, carved cyan rock fragments, front-facing pixel architecture, stepped outlines, and square interface parts. Crisp graphics and large pixel headings establish the identity; explanations, controls, and evidence remain readable.
+Bao Toolkit uses a dark petrol canvas, teal surfaces, seafoam actions, and mint lettering. The approved world combines a static pixel planet, carved cyan rock fragments, front-facing pixel architecture, stepped outlines, and square interface parts. Crisp graphics and large pixel headings establish the identity; explanations, controls, and evidence remain readable.
 
 The same palette and local fonts connect the homepage, guides, and retained tools. The homepage has generous chapter spacing and expressive display type. Guides use a quieter reading hierarchy, and tools use compact forms, code, and data. Their different densities are intentional; a guide or evidence table does not inherit the homepage's absolute composition.
 
@@ -380,13 +380,13 @@ The attribution example has a labeled toolbar, two aria-pressed controls, a mono
 
 ### Hero meteor scene
 
-The planet remains a static Next Image. Seven carved Three.js rock meshes occupy the right scene, lower-left fragment bay, and the gap beside “SHIPPED.” The isolated flat rock in that gap has been removed from the replacement `hero-planet.png` plate so only its interactive mesh remains. Broken overhangs and deep dark cavities give the rocks volume. Seamless object-space procedural shading forms continuous cyan mineral crust, warped fractures, fine grain, and pits, with derivative-based relief under MeshStandard lighting. Slow rotation reveals the carved form. Triangle winding follows the volume's inside-to-outside direction so closed rock surfaces keep consistent FrontSide faces. Raycasting selects the actual mesh for pointer aiming. Press and drag a rock to show a direction arrow, then release to launch it; a short press launches in the selected direction.
+The planet remains a static Next Image. Seven carved Three.js rock meshes occupy the right scene, lower-left fragment bay, and the gap beside “SHIPPED.” The isolated flat rock in that gap has been removed from the replacement `hero-planet.png` plate so only its interactive mesh remains. Broken overhangs and deep dark cavities give the rocks volume. Seamless object-space procedural shading forms continuous cyan mineral crust, warped fractures, fine grain, and pits, with derivative-based relief under MeshStandard lighting. Slow rotation reveals the carved form. Triangle winding follows the volume's inside-to-outside direction so closed rock surfaces keep consistent FrontSide faces. Raycasting selects the actual mesh for pointer aiming. Press and drag a rock to set its direction, then release to launch it; a short press launches in the selected direction.
 
 Actual page scrolling imparts a small, capped impulse to every idle mesh. Each rock coasts with exponential damping and a little rotation; dragging, hidden tabs, offscreen scenes, and reduced motion discard passive scroll energy. On desktop, visible mesh edges can cross the decorative frame by up to 18px. The meteor layer sits above the frame and panel edges, with bounded flight regions protecting text, controls, and the viewport. Precise silhouette bounds are measured only near an artwork edge and reused within the animation frame.
 
 Each rock has a labeled native button. Focus a rock, use arrow keys to choose a direction, and press Enter or Space to launch. Direct pointer and keyboard manipulation remain available without a visible instruction, Launch, or Reset panel. Visible focus and polite status support the interaction. If WebGL cannot load or loses its context, cropped sprites from the existing drift-rocks artwork retain the interaction on labeled rock buttons. At 1200px and below the scene has its own space in the flowing hero layout. The responsive text frame follows the title and summary's natural height, starts 20px below the header, and uses 20px interior spacing, fixed 16px stepped corners, and two crosses anchored at opposite corners.
 
-Small irregular rock sprites reuse crops of the existing drift-rocks artwork. Decorative scatter is halved to 48 page fragments, 11 hero fragments, and 8 shared-footer fragments. Their positions, rotations, sizes, and flips avoid a repeating pattern. Hero scatter stays in the artwork bays and responsive scene space; decorative sprites ignore input and are hidden from assistive technology. The backdrop has no star dots or orbital linework. Functional borders and the temporary meteor aiming arrow remain readable.
+Small irregular rock sprites reuse crops of the existing drift-rocks artwork. Decorative scatter is halved to 48 page fragments, 11 hero fragments, and 8 shared-footer fragments. Their positions, rotations, sizes, and flips avoid a repeating pattern. Hero scatter stays in the artwork bays and responsive scene space; decorative sprites ignore input and are hidden from assistive technology. The backdrop has no star dots or orbital linework. Functional borders remain readable. Dragging meteors does not display direction arrows.
 
 ### Chapter constructions
 

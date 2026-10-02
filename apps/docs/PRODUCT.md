@@ -14,7 +14,7 @@ adopting it in a project.
 
 ## Product Purpose
 
-BAO is an independent open-source toolkit for building, checking,
+Bao Toolkit is an independent open-source toolkit for building, checking,
 and verifying Base application transaction paths. Its operating-system framing
 describes composable developer tools, not a hosted chain, wallet, or custody
 service. Attribution remains one module alongside B20 token evidence, source
@@ -30,7 +30,7 @@ uses the site's pixel-teal identity, and explains operations, wallets, outcomes
 and network costs. It supports indexed data and CSV/JSON imports alongside the
 published evidence view. Monetization is outside this request. Source-path
 checks, CI policy and reproducible proofs remain connected through the evidence
-view. BAO is not required to use Builder Codes; other clients can integrate directly.
+view. Bao Toolkit is not required to use Builder Codes; other clients can integrate directly.
 
 ## Capabilities and Constraints
 
@@ -48,7 +48,7 @@ Builder Codes identify projects; they do not identify referring tweets.
 
 ## Brand Commitments
 
-The public name is BAO, as confirmed by the owner on 2026-10-02. The owner
+The public name is Bao Toolkit, as confirmed by the owner on 2026-10-02. The owner
 approved a full visual replacement on 2026-09-30. Pixel graphics are pinned, inspired by the
 supplied planetary, demoscene, and stippled-art references. After three blue
 proposals, the owner requested a fourth composition with a teal palette and
@@ -61,6 +61,6 @@ invent growth, partners, adoption, production qualification, or capabilities.
 
 ## Evidence on Hand
 
-The canonical public manifests live in ../../proofs/sets/. They include BAO on
+The canonical public manifests live in ../../proofs/sets/. They include Bao Toolkit on
 Base mainnet and Stack the Bag on Base Sepolia. Counts describe only the supplied
 evidence and must not imply full-project coverage or verified contract safety.

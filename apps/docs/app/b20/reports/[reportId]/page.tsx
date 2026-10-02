@@ -20,7 +20,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const entry = getB20Report((await params).reportId);
   return {
-    title: entry ? `${entry.title} | BAO B20` : "B20 report not found",
+    title: entry ? `${entry.title} | Bao Toolkit B20` : "B20 report not found",
     description: entry?.description,
   };
 }
@@ -362,8 +362,8 @@ export default async function B20ReportPage({ params }: Props) {
         </ul>
       </section>
       <footer className="b20-footer">
-        Independent BAO report · discovery and attribution in the supplied scope · application
-        readiness not tested.
+        Independent Bao Toolkit report · discovery and attribution in the supplied scope ·
+        application readiness not tested.
       </footer>
     </main>
   );

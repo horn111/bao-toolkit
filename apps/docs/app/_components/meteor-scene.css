@@ -5,8 +5,7 @@
   pointer-events: none;
 }
 
-.meteor-canvas,
-.meteor-aim {
+.meteor-canvas {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -71,24 +70,6 @@
 
 .meteor-hit:focus-visible .meteor-focus-frame {
   opacity: 1;
-}
-
-.meteor-aim {
-  overflow: visible;
-  opacity: 0;
-  fill: none;
-  stroke: #e0f8f7;
-  stroke-width: 1.5px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.meteor-scene[data-aiming="true"] .meteor-aim {
-  opacity: 1;
-}
-
-.meteor-aim line {
-  stroke-dasharray: 4 6;
 }
 
 .meteor-sr-only {

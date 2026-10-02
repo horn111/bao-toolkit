@@ -4,7 +4,7 @@ import { SiteHeader } from "../../_components/site-header";
 import { CopyCommand } from "../../_components/copy-command";
 
 export const metadata: Metadata = {
-  title: "B20 replay guide | BAO",
+  title: "B20 replay guide | Bao Toolkit",
   description:
     "Reproduce synthetic reports, collect explicit transaction hashes, and recheck historical evidence.",
 };
@@ -80,9 +80,9 @@ export default function B20GuidePage() {
           findings. Router and smart-wallet nested application attribution is unresolved.
         </p>
         <p>
-          Use the existing BAO viem helper on the same encoded transfer. Keep token, recipient, and
-          raw amount unchanged. A useful pilot records the omission, corrected payload, and
-          maintainer reproduction independently.
+          Use the existing Bao Toolkit viem helper on the same encoded transfer. Keep token,
+          recipient, and raw amount unchanged. A useful pilot records the omission, corrected
+          payload, and maintainer reproduction independently.
         </p>
         <p>
           Do not include private keys, seed phrases, customer data, or RPC credentials. Agree which

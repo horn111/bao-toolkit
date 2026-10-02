@@ -82,7 +82,8 @@ export function Dashboard({
         <div>
           <h1>Keep your activity attributable.</h1>
           <p>
-            A transaction can succeed without your Builder Code. BAO checks for the missing credit.
+            A transaction can succeed without your Builder Code. Bao Toolkit checks for the missing
+            credit.
           </p>
         </div>
         <div className="dash-share">
@@ -184,11 +185,11 @@ export function Dashboard({
           <h2>
             Analytics count activity.
             <br />
-            BAO checks attribution.
+            Bao Toolkit checks attribution.
           </h2>
           <p>
-            Keep using Base for users, transactions, and gas. Use BAO to find missing Builder Codes
-            in supported source paths and enforce attribution checks in CI.
+            Keep using Base for users, transactions, and gas. Use Bao Toolkit to find missing
+            Builder Codes in supported source paths and enforce attribution checks in CI.
           </p>
           <p>
             A new wallet flow or refactor can omit attribution without breaking the transaction.
@@ -515,7 +516,7 @@ export function Dashboard({
       </details>
 
       <section className="dash-base-context" aria-labelledby="dash-base-title">
-        <h2 id="dash-base-title">Use BAO alongside Base analytics</h2>
+        <h2 id="dash-base-title">Use Bao Toolkit alongside Base analytics</h2>
         <p>
           Base App automatically adds a registered app’s Builder Code. Outside Base App, builders
           integrate attribution themselves. A direct SDK setup can be enough for a simple app.{" "}
@@ -529,7 +530,7 @@ export function Dashboard({
           .
         </p>
         <p>
-          BAO becomes useful when you want repeatable source checks, failing CI checks for
+          Bao Toolkit becomes useful when you want repeatable source checks, failing CI checks for
           attribution regressions, and reusable onchain evidence across supported transaction paths.
           It does not guarantee rewards, recover past unattributed transactions, or measure
           referrals from X.

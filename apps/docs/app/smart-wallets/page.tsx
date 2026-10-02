@@ -77,8 +77,8 @@ export default function SmartWalletsPage() {
 );`}
           />
           <p>
-            BAO checks <code>wallet_getCapabilities</code> before the first send and preserves
-            paymaster, atomic, and application-defined capabilities.
+            Bao Toolkit checks <code>wallet_getCapabilities</code> before the first send and
+            preserves paymaster, atomic, and application-defined capabilities.
           </p>
         </article>
 

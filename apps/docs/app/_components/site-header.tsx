@@ -11,9 +11,9 @@ export function SiteHeader({ current, home = false }: { current?: Current; home?
   return (
     <>
       <header className={`topbar site-header ${home ? "home-header" : ""}`}>
-        <Link className="site-brand" href="/" aria-label="BAO home">
+        <Link className="site-brand" href="/" aria-label="Bao Toolkit home">
           <BrandMark />
-          <span>BAO</span>
+          <span>Bao Toolkit</span>
         </Link>
         <nav className="site-navigation" aria-label="Primary navigation">
           <Link href="/#product">Product</Link>
@@ -32,7 +32,7 @@ export function SiteHeader({ current, home = false }: { current?: Current; home?
       {!home && current !== "docs" ? (
         <>
           <ToolsMenu current={current} compact />
-          <nav className="tool-navigation" aria-label="BAO tools">
+          <nav className="tool-navigation" aria-label="Bao Toolkit tools">
             {(
               [
                 ["dashboard", "Dashboard", "/dashboard"],

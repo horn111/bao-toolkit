@@ -10,7 +10,7 @@ import {
 } from "./registry";
 
 export const metadata: Metadata = {
-  title: "B20 Discovery & Attribution | BAO",
+  title: "B20 Discovery & Attribution | Bao Toolkit",
   description:
     "Inspect a B20 transfer before and after a Builder Code fix, with reproducible synthetic evidence.",
 };
@@ -33,7 +33,7 @@ export default function B20Page() {
         </div>
         <p>
           The token, recipient, raw amount, and modeled execution stay the same. The corrected
-          request uses <code>withAttributionSuffix</code> from BAO’s viem adapter.
+          request uses <code>withAttributionSuffix</code> from Bao Toolkit’s viem adapter.
         </p>
         <div className="b20-mobile-outcomes" aria-label="Direct attribution before and after">
           {(["direct-broken", "direct-fixed"] as const).map((id, index) => {
@@ -153,7 +153,7 @@ export default function B20Page() {
         </p>
       </section>
       <footer className="b20-footer">
-        BAO is an independent project. These reports describe discovery and attribution in a
+        Bao Toolkit is an independent project. These reports describe discovery and attribution in a
         supplied sample; application readiness remains not tested.
       </footer>
     </main>

@@ -72,9 +72,6 @@ export function MeteorScene() {
     const output = canvas.current;
     if (!root || !output) return;
     const hits = Array.from(root.querySelectorAll<HTMLButtonElement>(".meteor-hit"));
-    const aimLine = root.querySelector<SVGLineElement>(".meteor-aim line")!;
-    const aimHead = root.querySelector<SVGPathElement>(".meteor-aim path")!;
-    const aimSvg = root.querySelector<SVGSVGElement>(".meteor-aim")!;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     const compact = window.matchMedia("(max-width: 1200px)");
     const fragments: Fragment[] = FRAGMENTS.map((item) => ({
@@ -210,7 +207,6 @@ export function MeteorScene() {
         hits[index].style.width = `${fragment.radius * height * 2.64}px`;
         hits[index].style.height = `${fragment.radius * height * 2.64}px`;
       });
-      aimSvg.setAttribute("viewBox", `0 0 ${width} ${height}`);
       if (camera && renderer) {
         camera.left = -aspect * 5;
         camera.right = aspect * 5;
@@ -362,27 +358,6 @@ export function MeteorScene() {
       },
     };
 
-    function updateAim() {
-      if (!drag) return;
-      const fragment = fragments[drag.index];
-      const sx = fragment.x * width;
-      const sy = fragment.y * height;
-      const length = Math.hypot(drag.dx, drag.dy);
-      const scale = Math.min(1, (Math.min(width, height) * 0.28) / Math.max(1, length));
-      const ex = sx + drag.dx * scale;
-      const ey = sy + drag.dy * scale;
-      const angle = Math.atan2(ey - sy, ex - sx);
-      aimLine.setAttribute("x1", String(sx));
-      aimLine.setAttribute("y1", String(sy));
-      aimLine.setAttribute("x2", String(ex));
-      aimLine.setAttribute("y2", String(ey));
-      aimHead.setAttribute(
-        "d",
-        `M${ex - Math.cos(angle - 0.48) * 11},${ey - Math.sin(angle - 0.48) * 11} L${ex},${ey} L${ex - Math.cos(angle + 0.48) * 11},${ey - Math.sin(angle + 0.48) * 11}`,
-      );
-      root!.dataset.aiming = String(length > 7);
-    }
-
     function clearDrag() {
       const previous = drag;
       drag = undefined;
@@ -391,7 +366,6 @@ export function MeteorScene() {
         if (previous.target.hasPointerCapture(previous.id))
           previous.target.releasePointerCapture(previous.id);
       }
-      root!.dataset.aiming = "false";
     }
 
     function down(event: PointerEvent) {
@@ -440,7 +414,6 @@ export function MeteorScene() {
       if (!drag || drag.id !== event.pointerId) return;
       drag.dx = event.clientX - drag.sx;
       drag.dy = event.clientY - drag.sy;
-      updateAim();
     }
 
     function up(event: PointerEvent) {
@@ -651,10 +624,6 @@ export function MeteorScene() {
           </svg>
         </button>
       ))}
-      <svg className="meteor-aim" aria-hidden="true">
-        <line />
-        <path />
-      </svg>
       <span className="meteor-sr-only" role="status" aria-live="polite">
         {announcement}
       </span>

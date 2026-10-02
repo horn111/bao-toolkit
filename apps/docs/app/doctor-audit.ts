@@ -81,7 +81,7 @@ export function auditSource(
       ...path,
       status: "missing",
       ruleId: "BAO001",
-      suggestion: "Add dataSuffix or a BAO helper.",
+      suggestion: "Add dataSuffix or a Bao Toolkit helper.",
     };
   });
   const protectedCount = paths.filter((entry) => entry.status === "protected").length;

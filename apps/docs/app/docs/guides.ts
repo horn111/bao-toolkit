@@ -16,7 +16,7 @@ const repo = "https://github.com/horn111/base-attribution-os/blob/main/";
 export const guides: Guide[] = [
   {
     slug: "quickstart",
-    title: "Start building with BAO",
+    title: "Start building with Bao Toolkit",
     description:
       "Install an attribution adapter, add your Builder Code, and run the first source audit.",
     source: "README.md",
@@ -25,8 +25,8 @@ export const guides: Guide[] = [
         id: "builder-code",
         title: "Get your Builder Code",
         paragraphs: [
-          "Register your project on Base Dashboard (base.dev), then copy its code from Settings → Builder Code. Use that exact code throughout your app and BAO policy.",
-          "bc_abc123 is a placeholder in this guide. BAO does not register a code for you. You can explore the browser examples before connecting your own project.",
+          "Register your project on Base Dashboard (base.dev), then copy its code from Settings → Builder Code. Use that exact code throughout your app and Bao Toolkit policy.",
+          "bc_abc123 is a placeholder in this guide. Bao Toolkit does not register a code for you. You can explore the browser examples before connecting your own project.",
         ],
         links: [
           { label: "Open Base Dashboard", href: "https://base.dev" },
@@ -233,20 +233,22 @@ export const guides: Guide[] = [
       },
       {
         id: "replay",
-        title: "Replay the published BAO example",
+        title: "Replay the published Bao Toolkit example",
         paragraphs: [
-          "This command reads a public Base mainnet transaction for BAO’s own code. It requires network access to the public RPC. Use it as a reproducible example; do not use BAO’s Builder Code for your own app.",
+          "This command reads a public Base mainnet transaction for Bao Toolkit’s own code. It requires network access to the public RPC. Use it as a reproducible example; do not use Bao Toolkit’s Builder Code for your own app.",
         ],
         code: "pnpm exec bao replay \\\n  --builder-code bc_vwmzy653 \\\n  --hashes 0x6573344cfb346c886806804fb8f8b6cc510c30d7974a1a69c11452a5f8fe4926 \\\n  --chain-id 8453 \\\n  --rpc-url https://mainnet.base.org \\\n  --format json \\\n  --output bao-replay.json",
-        links: [{ label: "Inspect the registered BAO Proof Set", href: "/proof/bc_vwmzy653" }],
+        links: [
+          { label: "Inspect the registered Bao Toolkit Proof Set", href: "/proof/bc_vwmzy653" },
+        ],
       },
       {
         id: "combine",
         title: "Combine reports into a Proof Set",
         paragraphs: [
-          "Use reports for the same Builder Code. BAO re-decodes calldata and recalculates statuses and counters. Conflicting evidence fails validation. A passing set requires every unique transaction to be RPC verified and attributed to the expected code.",
+          "Use reports for the same Builder Code. Bao Toolkit re-decodes calldata and recalculates statuses and counters. Conflicting evidence fails validation. A passing set requires every unique transaction to be RPC verified and attributed to the expected code.",
         ],
-        code: 'pnpm exec bao proof-set \\\n  --builder-code bc_vwmzy653 \\\n  --title "BAO example" \\\n  --input bao-replay.json \\\n  --output bao-proof-set.json',
+        code: 'pnpm exec bao proof-set \\\n  --builder-code bc_vwmzy653 \\\n  --title "Bao Toolkit example" \\\n  --input bao-replay.json \\\n  --output bao-proof-set.json',
       },
       {
         id: "publish",

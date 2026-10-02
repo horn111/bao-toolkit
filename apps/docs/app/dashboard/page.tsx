@@ -36,7 +36,7 @@ export default async function DashboardPage({
   const configured = activitySourceConfigured();
   const examples = dashboardProjects.map((project) => ({
     code: project.code,
-    title: project.code === "bc_vwmzy653" ? "BAO" : project.title,
+    title: project.code === "bc_vwmzy653" ? "Bao Toolkit" : project.title,
     network: project.transactions[0]?.chainId === 84532 ? (84532 as const) : (8453 as const),
     dataset: publishedActivity(project.code)!,
   }));

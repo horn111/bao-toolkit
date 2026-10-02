@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { getPublishedProof } from "../../proof-data";
 
-export const alt = "BAO proof report";
+export const alt = "Bao Toolkit proof report";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -29,7 +29,7 @@ export default async function Image({ params }: ImageProps) {
       }}
     >
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <div style={{ display: "flex", fontSize: 28, fontWeight: 700 }}>BAO</div>
+        <div style={{ display: "flex", fontSize: 28, fontWeight: 700 }}>Bao Toolkit</div>
         <div style={{ display: "flex", color: "#9ec2c2", fontSize: 22 }}>Attribution Proof Set</div>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>

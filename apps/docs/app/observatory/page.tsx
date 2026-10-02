@@ -52,7 +52,7 @@ export default function ObservatoryPage() {
       </section>
       <p className="scope-note observatory-command-note">
         Command template: use your registered code and replay report, or{" "}
-        <Link href="/proof/bc_vwmzy653">download the published BAO inputs</Link>.
+        <Link href="/proof/bc_vwmzy653">download the published Bao Toolkit inputs</Link>.
       </p>
 
       <section className="coverage-strip" aria-label="Published proof set coverage">

@@ -61,11 +61,17 @@
   image-rendering: pixelated;
 }
 
+.hero-copy {
+  display: contents;
+}
 .hero-frame {
   position: absolute;
   inset: 0;
   pointer-events: none;
   color: #83dedb;
+}
+.hero-frame-mobile {
+  display: none;
 }
 .hero-frame > span {
   position: absolute;
@@ -713,7 +719,7 @@
 @media (max-width: 1200px) {
   .landing-stage {
     aspect-ratio: auto;
-    padding: 116px 20px 0;
+    padding: 96px 20px 0;
     display: flex;
     flex-direction: column;
   }
@@ -722,6 +728,13 @@
     top: 20px;
     width: calc(100% - 40px);
     height: 56px;
+  }
+  .hero-copy {
+    display: block;
+    position: relative;
+    order: 1;
+    padding: 20px 20px 28px;
+    margin-bottom: 180px;
   }
   .landing-title {
     position: relative;
@@ -747,7 +760,7 @@
     font-size: 18px;
     line-height: 1.6;
     max-width: 48ch;
-    margin: 24px 0 180px;
+    margin: 24px 0 0;
   }
   .planet-art {
     left: 15%;
@@ -756,16 +769,80 @@
     height: auto;
     aspect-ratio: 2 / 1;
   }
-  .hero-frame {
-    inset: 20px 10px auto;
-    height: 560px;
+  .hero-frame-desktop {
+    display: none;
   }
-  .frame-signal {
-    gap: 10px;
-    width: 12px;
+  .hero-frame-mobile {
+    display: block;
+    inset: 0;
   }
-  .frame-signal span {
-    height: 5px;
+  .mobile-frame-top {
+    top: 0;
+    left: 0;
+    right: 16px;
+    height: 1px;
+  }
+  .mobile-frame-top-step {
+    top: 0;
+    right: 16px;
+    width: 1px;
+    height: 16px;
+  }
+  .mobile-frame-top-return {
+    top: 16px;
+    right: 0;
+    width: 16px;
+    height: 1px;
+  }
+  .mobile-frame-right {
+    top: 16px;
+    right: 0;
+    bottom: 0;
+    width: 1px;
+  }
+  .mobile-frame-bottom {
+    right: 0;
+    bottom: 0;
+    left: 16px;
+    height: 1px;
+  }
+  .mobile-frame-bottom-step {
+    bottom: 0;
+    left: 16px;
+    width: 1px;
+    height: 16px;
+  }
+  .mobile-frame-bottom-return {
+    bottom: 16px;
+    left: 0;
+    width: 16px;
+    height: 1px;
+  }
+  .mobile-frame-left {
+    top: 0;
+    bottom: 16px;
+    left: 0;
+    width: 1px;
+  }
+  .mobile-frame-cross-start {
+    top: 0;
+    left: 0;
+  }
+  .mobile-frame-cross-end {
+    top: 100%;
+    left: 100%;
+  }
+  .hero-frame-mobile .frame-cross {
+    width: 10px;
+    height: 10px;
+  }
+  .hero-frame-mobile .frame-cross::before {
+    top: 4px;
+    width: 10px;
+  }
+  .hero-frame-mobile .frame-cross::after {
+    left: 4px;
+    height: 10px;
   }
   .hero-caption {
     position: relative;
@@ -919,17 +996,17 @@
   }
 }
 @media (max-width: 600px) {
+  .hero-copy {
+    margin-bottom: 130px;
+  }
   .hero-summary {
-    margin: 20px 0 130px;
+    margin-top: 20px;
     font-size: 17px;
   }
   .planet-art {
     left: 8%;
     top: 330px;
     width: 130%;
-  }
-  .hero-frame {
-    height: 460px;
   }
   .hero-caption {
     padding: 24px 20px;

@@ -8,6 +8,35 @@ export type MeteorBody = {
 
 export type MeteorBounds = { left: number; right: number; top: number; bottom: number };
 
+const SCROLL_DRAG = 2.7;
+const MAX_SCROLL_SPEED = 0.065;
+
+/** Scroll moves the scene past a suspended rock; the rock briefly lags behind it. */
+export function addMeteorScrollImpulse(velocity: number, deltaPixels: number, sceneHeight: number) {
+  if (!Number.isFinite(deltaPixels) || !Number.isFinite(sceneHeight) || sceneHeight <= 0)
+    return velocity;
+  const impulse = Math.min(0.18, Math.max(-0.18, deltaPixels / sceneHeight)) * 0.16;
+  return Math.min(MAX_SCROLL_SPEED, Math.max(-MAX_SCROLL_SPEED, velocity + impulse));
+}
+
+/** Keep scroll inertia separate from an intentional launch, with a short, smooth coast. */
+export function stepMeteorScrollInertia(
+  body: MeteorBody,
+  bounds: MeteorBounds,
+  velocity: number,
+  seconds: number,
+) {
+  const dt = Math.min(Math.max(seconds, 0), 0.06);
+  const damping = Math.exp(-SCROLL_DRAG * dt);
+  body.y += (velocity * (1 - damping)) / SCROLL_DRAG;
+  let nextVelocity = velocity * damping;
+  if (body.y < bounds.top || body.y > bounds.bottom) {
+    body.y = Math.min(bounds.bottom, Math.max(bounds.top, body.y));
+    nextVelocity *= -0.28;
+  }
+  return Math.abs(nextVelocity) < 0.00015 ? 0 : nextVelocity;
+}
+
 /** Positions use the scene's width and height; radius uses its height. */
 export function stepMeteor(body: MeteorBody, bounds: MeteorBounds, seconds: number) {
   const dt = Math.min(Math.max(seconds, 0), 0.06);

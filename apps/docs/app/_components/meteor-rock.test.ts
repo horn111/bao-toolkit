@@ -9,6 +9,7 @@ const liveFragments = [
   { seed: 239, resolution: 14, faces: 3084 },
   { seed: 1411, resolution: 14, faces: 2840 },
   { seed: 61, resolution: 14, faces: 2908 },
+  { seed: 947, resolution: 18, faces: 5476 },
 ];
 
 function topology(geometry: THREE.BufferGeometry) {

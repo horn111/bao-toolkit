@@ -27,7 +27,7 @@ export function HomeSections() {
         </div>
         <div>
           <p className="section-deck">
-            Bao Toolkit is the developer toolkit for building, auditing, and verifying transaction
+            BAO Toolkit is the developer toolkit for building, auditing, and verifying transaction
             paths on Base.
           </p>
           <p>
@@ -63,7 +63,7 @@ export function HomeSections() {
           </h2>
           <p>
             Builder Code attribution can disappear in a refactor without breaking the transaction.
-            Bao Toolkit gives your team a repeatable control over that path.
+            BAO Toolkit gives your team a repeatable control over that path.
           </p>
           <p>
             Use typed helpers with viem, wagmi, or ethers. For smart wallets, negotiate capabilities
@@ -141,7 +141,7 @@ Coverage: 2/3 paths protected (67%)
               A successful token call can still omit your Builder Code.
             </p>
             <p>
-              Bao Toolkit inspects B20 initialization, canonical creation events, direct calldata
+              BAO Toolkit inspects B20 initialization, canonical creation events, direct calldata
               attribution, and receipt comparisons as separate evidence. A router event does not
               establish attribution for the nested app.
             </p>
@@ -193,7 +193,7 @@ Coverage: 2/3 paths protected (67%)
         </div>
         <div className="evidence-ledger">
           <div className="evidence-example">
-            <h3>Inside the Bao Toolkit snapshot</h3>
+            <h3>Inside the BAO Toolkit snapshot</h3>
             <p>
               Published transaction evidence · {example.network}. This snapshot is separate from the
               illustrative source examples above.

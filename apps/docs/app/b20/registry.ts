@@ -42,7 +42,7 @@ export const publishedB20Reports = [
   registerB20Report(
     "direct-fixed",
     "The same transfer with attribution",
-    "The existing Bao Toolkit viem helper preserves the expected code.",
+    "The existing BAO Toolkit viem helper preserves the expected code.",
     fixed,
   ),
   registerB20Report(

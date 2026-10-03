@@ -29,7 +29,7 @@ export function ToolsMenu({ current, compact = false }: { current?: string; comp
         <span aria-hidden="true" className="tools-chevron" />
       </summary>
       <nav
-        aria-label={compact ? "Choose a Bao Toolkit tool" : "Tools"}
+        aria-label={compact ? "Choose a BAO Toolkit tool" : "Tools"}
         onClick={() => {
           if (menu.current) menu.current.open = false;
         }}

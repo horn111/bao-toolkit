@@ -8,7 +8,7 @@ export default function NotFound() {
         <h1>Page not found.</h1>
         <p className="lede">
           This path does not have a published page. Find your next step in the documentation or
-          return to Bao Toolkit.
+          return to BAO Toolkit.
         </p>
         <div>
           <Link className="primary-action" href="/docs">

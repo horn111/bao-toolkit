@@ -63,7 +63,9 @@ export default async function GuidePage({ params }: Props) {
           ))}
           <a
             className="guide-source"
-            href={`https://github.com/horn111/base-attribution-os/blob/main/${guide.source}`}
+            href={`https://github.com/horn111/bao-toolkit/blob/main/${guide.source}`}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Read the maintained source reference <ArrowIcon />
           </a>

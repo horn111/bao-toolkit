@@ -120,7 +120,7 @@ export default function SmartWalletsPage() {
           <CopyCommand command="bao check-user-op --input user-op.json --expect bc_wallet,bc_app" />
         </div>
         <a
-          href="https://github.com/horn111/base-attribution-os/blob/main/docs/smart-wallet-attribution.md"
+          href="https://github.com/horn111/bao-toolkit/blob/main/docs/smart-wallet-attribution.md"
           target="_blank"
           rel="noopener noreferrer"
         >

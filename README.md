@@ -1,4 +1,4 @@
-# Bao Toolkit
+# BAO Toolkit
 
 [![npm](https://img.shields.io/npm/v/@base-attribution-os/core?label=npm&color=0052ff)](https://www.npmjs.com/package/@base-attribution-os/core)
 [![CI](https://github.com/horn111/base-attribution-os/actions/workflows/ci.yml/badge.svg)](https://github.com/horn111/base-attribution-os/actions/workflows/ci.yml)
@@ -7,11 +7,11 @@
 
 **A developer toolkit from application code to transaction evidence on Base.**
 
-Bao Toolkit adds ERC-8021 Builder Code attribution to transaction code,
+BAO Toolkit adds ERC-8021 Builder Code attribution to transaction code,
 audits supported transaction paths, verifies calldata and onchain results, and
 enforces coverage in CI.
 
-Bao Toolkit combines attribution adapters, source audits, reproducible Proof Sets, and
+BAO Toolkit combines attribution adapters, source audits, reproducible Proof Sets, and
 unreleased B20 inspection and replay. Existing `@base-attribution-os/*` package
 names, `bao` commands, and the repository URL remain stable.
 
@@ -24,7 +24,7 @@ names, `bao` commands, and the repository URL remain stable.
 
 ```mermaid
 flowchart LR
-  A["App, wallet, x402 service, or agent"] --> B["Bao Toolkit helper or Builder Code extension"]
+  A["App, wallet, x402 service, or agent"] --> B["BAO Toolkit helper or Builder Code extension"]
   B --> C["ERC-8021 attribution"]
   C --> D["Base transaction"]
   A --> E["bao doctor"]
@@ -39,9 +39,9 @@ flowchart LR
 ## One policy from source code to onchain proof
 
 Builder Code attribution can disappear in a refactor without breaking the
-transaction. Bao Toolkit gives teams a repeatable control at each stage of the path.
+transaction. BAO Toolkit gives teams a repeatable control at each stage of the path.
 
-| Stage     | Bao Toolkit capability                                               |
+| Stage     | BAO Toolkit capability                                               |
 | --------- | -------------------------------------------------------------------- |
 | Integrate | Typed helpers for viem, wagmi, ethers, EIP-5792, and ERC-4337        |
 | Audit     | AST-backed analysis for supported TypeScript transaction paths       |
@@ -49,7 +49,7 @@ transaction. Bao Toolkit gives teams a repeatable control at each stage of the p
 | Enforce   | GitHub Action annotations, changed-only checks, baselines, and SARIF |
 | Prove     | Reproducible multi-report proof sets and local Observatory analytics |
 
-Bao Toolkit also recognizes attribution patterns around Privy, raw RPC calls, smart
+BAO Toolkit also recognizes attribution patterns around Privy, raw RPC calls, smart
 wallet batches, agent transaction tools, and x402 Builder Code extensions.
 
 ## Quickstart
@@ -228,11 +228,11 @@ pnpm exec bao check-tx \
   --expect bc_abc123
 ```
 
-Bao Toolkit has a verified Base mainnet proof transaction for its own Builder Code.
+BAO Toolkit has a verified Base mainnet proof transaction for its own Builder Code.
 See [docs/onchain-proof.md](docs/onchain-proof.md) for the transaction hash and
 the matching `bao check-tx` result.
 
-Do not copy Bao Toolkit's proof code into another project. Register and use your own
+Do not copy BAO Toolkit's proof code into another project. Register and use your own
 Builder Code.
 
 ## Replay and publish attribution proofs
@@ -261,9 +261,9 @@ pnpm exec bao proof-set \
 Use the included [Dune query templates](dune/) to find attributed Base
 transactions. The [Attribution Proof Loop guide](docs/attribution-proof-loop.md)
 documents JSON and CSV inputs, RPC replay, Proof Set manifests, report statuses,
-and publication safety. Explore Bao Toolkit and Stack the Bag evidence in the
+and publication safety. Explore BAO Toolkit and Stack the Bag evidence in the
 [Attribution Observatory](https://base-attribution-os.vercel.app/observatory)
-and inspect Bao Toolkit's
+and inspect BAO Toolkit's
 [published Proof Sets](https://base-attribution-os.vercel.app/observatory).
 
 ## Packages
@@ -300,9 +300,9 @@ The scanner covers known TypeScript patterns across:
 - agent transaction tools;
 - x402 buyer and resource-server Builder Code extensions.
 
-Bao Toolkit performs static analysis. It does not hold keys, submit transactions,
+BAO Toolkit performs static analysis. It does not hold keys, submit transactions,
 execute x402 payments, or replace the official Builder Code validation tool.
-Use that checker for a transaction that already exists; use Bao Toolkit to protect the
+Use that checker for a transaction that already exists; use BAO Toolkit to protect the
 code path before deploy and verify the result afterward.
 
 ## Documentation

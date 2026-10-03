@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-export const alt = "Bao Toolkit — attribution, source audits, and transaction evidence";
+export const alt = "BAO Toolkit — attribution, source audits, and transaction evidence";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export default async function Image() {
@@ -19,7 +19,7 @@ export default async function Image() {
         padding: "56px",
       }}
     >
-      <div style={{ fontSize: 28, display: "flex", color: "#27d8c9" }}>Bao Toolkit</div>
+      <div style={{ fontSize: 28, display: "flex", color: "#27d8c9" }}>BAO Toolkit</div>
       <div
         style={{
           display: "flex",

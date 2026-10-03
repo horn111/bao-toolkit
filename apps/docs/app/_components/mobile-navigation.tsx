@@ -32,7 +32,9 @@ export function MobileNavigation({ docs }: { docs: boolean }) {
         <Link href="/docs" aria-current={docs ? "page" : undefined}>
           Docs
         </Link>
-        <a href="https://github.com/horn111/base-attribution-os">GitHub</a>
+        <a href="https://github.com/horn111/bao-toolkit" target="_blank" rel="noopener noreferrer">
+          GitHub
+        </a>
         <div className="mobile-tool-links">
           <span>Tools</span>
           <Link href="/doctor">Doctor</Link>

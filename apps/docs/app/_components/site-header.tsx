@@ -11,9 +11,9 @@ export function SiteHeader({ current, home = false }: { current?: Current; home?
   return (
     <>
       <header className={`topbar site-header ${home ? "home-header" : ""}`}>
-        <Link className="site-brand" href="/" aria-label="Bao Toolkit home">
+        <Link className="site-brand" href="/" aria-label="BAO Toolkit home">
           <BrandMark />
-          <span>Bao Toolkit</span>
+          <span>BAO Toolkit</span>
         </Link>
         <nav className="site-navigation" aria-label="Primary navigation">
           <Link href="/#product">Product</Link>
@@ -22,7 +22,13 @@ export function SiteHeader({ current, home = false }: { current?: Current; home?
           <Link href="/docs" aria-current={current === "docs" ? "page" : undefined}>
             Docs
           </Link>
-          <a href="https://github.com/horn111/base-attribution-os">GitHub</a>
+          <a
+            href="https://github.com/horn111/bao-toolkit"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>
           <Link className="site-start" href="/docs/quickstart">
             Start building <ArrowIcon />
           </Link>
@@ -32,7 +38,7 @@ export function SiteHeader({ current, home = false }: { current?: Current; home?
       {!home && current !== "docs" ? (
         <>
           <ToolsMenu current={current} compact />
-          <nav className="tool-navigation" aria-label="Bao Toolkit tools">
+          <nav className="tool-navigation" aria-label="BAO Toolkit tools">
             {(
               [
                 ["dashboard", "Dashboard", "/dashboard"],

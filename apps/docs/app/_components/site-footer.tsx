@@ -11,13 +11,18 @@ export function SiteFooter() {
         <div className="footer-copy">
           <h2>Build the next thing.</h2>
           <p>
-            Bao Toolkit brings attribution, source audits, and inspectable transaction evidence into
+            BAO Toolkit brings attribution, source audits, and inspectable transaction evidence into
             your development workflow.
           </p>
           <Link className="primary-action" href="/docs/quickstart">
             Start building <ArrowIcon />
           </Link>
-          <a className="text-action" href="https://github.com/horn111/base-attribution-os">
+          <a
+            className="text-action"
+            href="https://github.com/horn111/bao-toolkit"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Explore the source <ArrowIcon />
           </a>
         </div>
@@ -30,14 +35,20 @@ export function SiteFooter() {
         <Link href="/observatory">Observatory</Link>
         <Link href="/b20">B20 candidate</Link>
         <Link href="/smart-wallets">Smart Wallet Kit</Link>
-        <a href="https://x.com/BaseAttribution" target="_blank" rel="noopener noreferrer">
+        <a href="https://x.com/BAO_toolkit" target="_blank" rel="noopener noreferrer">
           Updates on X
         </a>
       </div>
       <div className="footer-fineprint">
-        <span>Bao Toolkit · Open source · MIT</span>
+        <span>BAO Toolkit · Open source · MIT</span>
         <span>Independent toolkit. Not affiliated with Base or Coinbase.</span>
-        <a href="https://github.com/horn111/base-attribution-os/blob/main/LICENSE">License</a>
+        <a
+          href="https://github.com/horn111/bao-toolkit/blob/main/LICENSE"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          License
+        </a>
       </div>
     </footer>
   );

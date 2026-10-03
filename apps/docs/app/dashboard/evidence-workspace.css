@@ -1,0 +1,186 @@
+.bao-workspace .dashboard-page {
+  --dash-rule: #748582;
+  --dash-blue: #344b43;
+}
+.bao-workspace .dash-toolbar {
+  background: var(--surface);
+  border: 2px solid var(--workspace-dark);
+  padding: 16px;
+  gap: 16px;
+}
+.bao-workspace .dash-project-select select {
+  padding: 8px 28px 8px 10px;
+}
+.bao-workspace .dash-network {
+  padding: 0;
+  gap: 4px;
+  background: transparent;
+}
+.bao-workspace .dash-network button {
+  border: 1px solid var(--border);
+  min-height: 44px;
+}
+.bao-workspace .dash-network [aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--text-main);
+  box-shadow: none;
+}
+.bao-workspace :is(.dash-overview, .dash-ledger, .dash-paths, .dash-seasons) {
+  border: 2px solid var(--workspace-dark);
+}
+.bao-workspace .dash-overview {
+  gap: 0;
+}
+.bao-workspace .dash-coverage {
+  background: var(--workspace-dark);
+  --text-main: #e0e7dc;
+  --dash-muted: #b9c7c4;
+  --dash-blue: #f0d77c;
+  color: var(--text-main);
+  padding: 20px;
+}
+.bao-workspace .dash-meaning {
+  padding: 20px;
+}
+.bao-workspace .dash-meaning h2 {
+  font: 600 24px/1.2 var(--font-display);
+}
+.bao-workspace .dash-coverage-track {
+  background: #536561;
+}
+.bao-workspace :is(.dash-coverage-track, .dash-dot, .dash-search, .dash-path-track) {
+  border-radius: 0;
+}
+.bao-workspace .dash-coverage-reading > strong {
+  font-size: 48px;
+}
+.bao-workspace
+  :is(
+    .dash-meaning a,
+    .dash-method a,
+    .dash-source-results a,
+    .dash-assurance a,
+    .dash-base-context a
+  ) {
+  color: #29483d;
+}
+.bao-workspace .dash-metrics {
+  gap: 14px;
+  margin-block: 14px 24px;
+}
+.bao-workspace .dash-metrics > div {
+  padding: 16px;
+  border: 2px solid var(--workspace-dark);
+  background: var(--workspace-light);
+}
+.bao-workspace .dash-detail-grid {
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.bao-workspace :is(.dash-paths, .dash-seasons) {
+  padding: 18px;
+}
+.bao-workspace :is(.dash-paths, .dash-seasons) > .dash-section-head {
+  margin: -18px -18px 18px;
+  padding: 14px 18px;
+  background: var(--workspace-dark);
+  color: var(--workspace-light);
+}
+.bao-workspace :is(.dash-paths, .dash-seasons) > .dash-section-head h2,
+.bao-workspace .dash-ledger > .dash-section-head h2 {
+  font: 600 20px/1.2 var(--font-display);
+  color: var(--workspace-light);
+}
+.bao-workspace :is(.dash-paths, .dash-seasons) > .dash-section-head .dash-muted {
+  color: #b9c7c4;
+}
+.bao-workspace .dash-path-track span {
+  background: #3e6050;
+}
+.bao-workspace .dash-ledger > .dash-section-head {
+  background: var(--workspace-dark);
+  padding: 16px 20px;
+  color: var(--workspace-light);
+}
+.bao-workspace .dash-ledger > .dash-section-head :is(p, .dash-muted) {
+  color: #b9c7c4;
+}
+.bao-workspace .dash-ledger-tools {
+  padding: 16px 20px;
+}
+.bao-workspace .dash-search {
+  background: var(--workspace-light);
+}
+.bao-workspace .dash-table th {
+  background: #b0beb8;
+}
+.bao-workspace .dash-table tbody tr:hover {
+  background: #dbe1d5;
+}
+.bao-workspace :is(.dash-tx-link, .dash-network-main) {
+  color: #29483d;
+}
+.bao-workspace .dash-ledger .dash-button {
+  color: var(--text-main);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.bao-workspace .dash-button-primary {
+  color: var(--text-main);
+  background: var(--accent);
+  border-color: var(--border);
+}
+.bao-workspace :is(.dash-ledger .dash-button, .dash-button-primary):hover {
+  background: #f5e3a4;
+}
+.bao-workspace .dash-assurance {
+  gap: 24px;
+}
+.bao-workspace .dash-empty {
+  padding: 24px;
+  border: 2px solid var(--workspace-dark);
+  background: var(--surface);
+}
+@media (max-width: 1000px) {
+  .bao-workspace .dash-toolbar {
+    flex-wrap: wrap;
+  }
+  .bao-workspace .dash-overview {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .bao-workspace .dash-meaning {
+    border: 0;
+  }
+}
+@media (max-width: 680px) {
+  .bao-workspace .dash-heading {
+    gap: 16px;
+  }
+  .bao-workspace .dash-metrics {
+    gap: 10px;
+  }
+  .bao-workspace .dash-metrics > div {
+    padding: 12px;
+  }
+  .bao-workspace .dash-metrics dd {
+    font-size: 24px;
+  }
+  .bao-workspace .dash-network {
+    flex-wrap: wrap;
+  }
+  .bao-workspace .dash-coverage-reading {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .bao-workspace .dash-legend {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .bao-workspace .dash-toolbar > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .bao-workspace .dash-ledger-tools {
+    padding: 14px;
+  }
+}

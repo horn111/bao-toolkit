@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SiteHeader } from "../../_components/site-header";
+import { Workspace } from "../../dashboard/workspace";
 import { CopyCommand } from "../../_components/copy-command";
+import "../workspace.css";
 
 export const metadata: Metadata = {
-  title: "B20 replay guide | Bao Toolkit",
+  title: "B20 replay guide | BAO Toolkit",
   description:
     "Reproduce synthetic reports, collect explicit transaction hashes, and recheck historical evidence.",
 };
 
 export default function B20GuidePage() {
   return (
-    <main id="main-content" tabIndex={-1} className="app-container b20-surface">
-      <SiteHeader current="b20" />
+    <Workspace active="b20" className="b20-surface workspace-tool">
       <Link className="b20-back" href="/b20">
         B20 examples and reports
       </Link>
@@ -80,7 +80,7 @@ export default function B20GuidePage() {
           findings. Router and smart-wallet nested application attribution is unresolved.
         </p>
         <p>
-          Use the existing Bao Toolkit viem helper on the same encoded transfer. Keep token,
+          Use the existing BAO Toolkit viem helper on the same encoded transfer. Keep token,
           recipient, and raw amount unchanged. A useful pilot records the omission, corrected
           payload, and maintainer reproduction independently.
         </p>
@@ -94,6 +94,6 @@ export default function B20GuidePage() {
         4 MiB artifact. Recorded network observations do not qualify an integration. No external
         pilot has been recorded.
       </footer>
-    </main>
+    </Workspace>
   );
 }

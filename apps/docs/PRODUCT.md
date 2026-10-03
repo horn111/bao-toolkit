@@ -14,7 +14,7 @@ adopting it in a project.
 
 ## Product Purpose
 
-Bao Toolkit is an independent open-source toolkit for building, checking,
+BAO Toolkit is an independent open-source toolkit for building, checking,
 and verifying Base application transaction paths. Its operating-system framing
 describes composable developer tools, not a hosted chain, wallet, or custody
 service. Attribution remains one module alongside B20 token evidence, source
@@ -26,11 +26,17 @@ and evidence pages remain usable destinations beneath this product explanation.
 
 The owner approved an app activity dashboard on 2026-10-01 after Base reduced
 its overview to trading and TVL metrics. The dashboard accepts any Builder Code,
-uses the site's pixel-teal identity, and explains operations, wallets, outcomes
+explains operations, wallets, outcomes
 and network costs. It supports indexed data and CSV/JSON imports alongside the
 published evidence view. Monetization is outside this request. Source-path
 checks, CI policy and reproducible proofs remain connected through the evidence
-view. Bao Toolkit is not required to use Builder Codes; other clients can integrate directly.
+view. BAO Toolkit is not required to use Builder Codes; other clients can integrate directly.
+
+On 2026-10-03 the owner supplied an ash-grey, graphite, and yellow pixel-desktop
+reference for the dashboard, then requested the same treatment for every product
+in its tools rail: Activity, Evidence, Doctor, Proofs, B20, and Wallets, including
+proof details and B20 guides and reports. These tools share one workspace;
+the homepage and documentation retain their petrol and teal identity.
 
 ## Capabilities and Constraints
 
@@ -48,7 +54,7 @@ Builder Codes identify projects; they do not identify referring tweets.
 
 ## Brand Commitments
 
-The public name is Bao Toolkit, as confirmed by the owner on 2026-10-02. The owner
+The public name is BAO Toolkit, as confirmed by the owner on 2026-10-02. The owner
 approved a full visual replacement on 2026-09-30. Pixel graphics are pinned, inspired by the
 supplied planetary, demoscene, and stippled-art references. After three blue
 proposals, the owner requested a fourth composition with a teal palette and
@@ -61,6 +67,6 @@ invent growth, partners, adoption, production qualification, or capabilities.
 
 ## Evidence on Hand
 
-The canonical public manifests live in ../../proofs/sets/. They include Bao Toolkit on
+The canonical public manifests live in ../../proofs/sets/. They include BAO Toolkit on
 Base mainnet and Stack the Bag on Base Sepolia. Counts describe only the supplied
 evidence and must not imply full-project coverage or verified contract safety.

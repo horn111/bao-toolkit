@@ -1,0 +1,294 @@
+/* Proof and wallet reference windows within the shared pixel workspace. */
+.bao-workspace :is(.proof-workspace, .wallet-workspace) {
+  --reference-rule: #748582;
+}
+.bao-workspace :is(.proof-workspace, .wallet-workspace) :is(h1, h2, h3, p, dd, code) {
+  overflow-wrap: anywhere;
+}
+.bao-workspace :is(.proof-workspace, .wallet-workspace) .bento-card {
+  padding: 18px;
+  gap: 18px;
+  border: 1px solid var(--workspace-dark);
+  border-radius: 0;
+}
+.bao-workspace :is(.proof-workspace, .wallet-workspace) .bento-card > .card-header {
+  margin: -18px -18px 0;
+  padding: 12px 16px;
+  background: var(--workspace-dark);
+  border: 0;
+  color: var(--workspace-light);
+}
+.bao-workspace :is(.proof-workspace, .wallet-workspace) :is(.card-header, .output-header) h2 {
+  color: var(--workspace-light);
+  font: 500 21px/1.2 var(--font-display);
+}
+.bao-workspace :is(.proof-workspace, .wallet-workspace) .command-copy {
+  max-width: 100%;
+  background: var(--workspace-dark);
+  border-color: var(--workspace-dark);
+  color: var(--workspace-light);
+}
+.bao-workspace :is(.proof-workspace, .wallet-workspace) .command-copy button {
+  color: var(--accent);
+}
+.bao-workspace :is(.proof-workspace, .wallet-workspace) .command-copy button:hover {
+  color: #ffe89d;
+}
+.bao-workspace :is(.proof-workspace, .wallet-workspace) .copy-feedback {
+  max-width: 100%;
+  color: var(--text-main);
+  white-space: normal;
+  background: var(--workspace-light);
+  z-index: 1;
+}
+.bao-workspace .proof-workspace .observatory-command-note {
+  margin: 0 0 20px;
+  font-size: 12px;
+}
+.bao-workspace
+  .proof-workspace
+  :is(.observatory-command-note a, .proof-table a, .proof-transactions a) {
+  color: #29483d;
+  text-underline-offset: 4px;
+}
+.bao-workspace .proof-workspace :is(.proof-table a, .proof-transactions a):hover {
+  text-decoration: underline;
+}
+.bao-workspace .proof-workspace .observatory-stats {
+  margin-bottom: 24px;
+  border-color: var(--reference-rule);
+  background: var(--reference-rule);
+}
+.bao-workspace .proof-workspace .observatory-stats .metric-item {
+  padding: 14px 16px;
+}
+.bao-workspace .proof-workspace .metric-value {
+  font: 500 30px/1.2 var(--font-mono);
+  color: var(--text-main);
+}
+.bao-workspace .proof-workspace .metric-label {
+  white-space: normal;
+}
+.bao-workspace .proof-workspace .observatory-stats .metric-item {
+  border-right: 0;
+}
+.bao-workspace .proof-workspace :is(.proof-loop, .proof-set-section) {
+  margin: 24px 0;
+  gap: 12px;
+}
+.bao-workspace .proof-workspace .section-heading h2 {
+  font: 500 24px/1.2 var(--font-display);
+}
+.bao-workspace .proof-workspace .loop-grid {
+  border-color: var(--workspace-dark);
+}
+.bao-workspace .proof-workspace .loop-step {
+  padding: 16px;
+}
+.bao-workspace .proof-workspace .loop-step > span {
+  color: var(--text-muted);
+}
+.bao-workspace .proof-workspace .loop-step h3 {
+  margin-top: 12px;
+}
+.bao-workspace .proof-workspace :is(.proof-set-list, .observatory-grid) {
+  gap: 14px;
+}
+.bao-workspace .proof-workspace .observatory-grid {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+.bao-workspace .proof-workspace .result-heading code {
+  display: block;
+  margin-top: 6px;
+  color: #b9c7c4;
+  font-size: 11px;
+}
+.bao-workspace .proof-workspace .result-heading {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.bao-workspace .proof-workspace .result-heading .status-badge {
+  padding: 6px 8px;
+  font-size: 10px;
+}
+.bao-workspace .proof-workspace .proof-metrics {
+  gap: 12px;
+}
+.bao-workspace .proof-workspace .proof-set-progress {
+  border-radius: 0;
+  height: 5px;
+}
+.bao-workspace .proof-workspace .primary-link {
+  min-height: 44px;
+  font-size: 13px;
+  padding: 10px 14px;
+}
+.bao-workspace .proof-workspace .primary-link:hover {
+  background: #ffe89d;
+}
+.bao-workspace .proof-workspace .transaction-card {
+  padding: 0;
+  gap: 0;
+}
+.bao-workspace .proof-workspace .output-header {
+  padding: 12px 16px;
+  background: var(--workspace-dark);
+  border: 0;
+  flex-wrap: wrap;
+}
+.bao-workspace .proof-workspace :is(.ledger-count, .compact-badge) {
+  padding: 5px 8px;
+  font-size: 10px;
+}
+.bao-workspace .proof-workspace .proof-table :is(th, td) {
+  padding: 14px 16px;
+  border-color: var(--reference-rule);
+}
+.bao-workspace .proof-workspace .proof-table th {
+  background: #dde3d7;
+}
+.bao-workspace .proof-workspace .proof-verdict {
+  gap: 16px;
+  padding: 18px;
+  background: #bccabd;
+  border-color: var(--workspace-dark);
+}
+.bao-workspace .proof-workspace .proof-verdict h2 {
+  font: 500 25px/1.2 var(--font-display);
+  color: var(--text-main);
+}
+.bao-workspace .proof-workspace .proof-verdict p {
+  font-size: 13px;
+}
+.bao-workspace .proof-workspace :is(.proof-seal, .empty-proof-mark) {
+  border-radius: 0;
+  background: var(--workspace-dark);
+  color: var(--accent);
+}
+.bao-workspace .proof-workspace .proof-manifest {
+  border: 0;
+  background: var(--reference-rule);
+}
+.bao-workspace .proof-workspace .proof-manifest dd {
+  white-space: normal;
+}
+.bao-workspace .proof-workspace .proof-transactions article {
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr) auto;
+  gap: 16px;
+  padding: 18px 16px;
+  font-size: 13px;
+}
+.bao-workspace .wallet-workspace .smart-flow {
+  gap: 0;
+  border: 1px solid var(--workspace-dark);
+  margin-bottom: 24px;
+}
+.bao-workspace .wallet-workspace .smart-flow-card {
+  border: 0;
+  border-right: 1px solid var(--reference-rule);
+  gap: 10px;
+  background: #bdc7c2;
+}
+.bao-workspace .wallet-workspace .smart-flow-card:last-child {
+  border-right: 0;
+}
+.bao-workspace .wallet-workspace .workflow-step {
+  color: var(--text-muted);
+}
+.bao-workspace .wallet-workspace .smart-layout {
+  gap: 14px;
+}
+.bao-workspace .wallet-workspace .smart-status {
+  border-radius: 0;
+}
+.bao-workspace .wallet-workspace .smart-outcome-grid {
+  gap: 18px;
+}
+.bao-workspace .wallet-workspace .smart-cta {
+  padding: 16px;
+  gap: 16px;
+  background: #bdc7c2;
+  border-color: var(--workspace-dark);
+  flex-wrap: wrap;
+}
+.bao-workspace .wallet-workspace .smart-cta > div {
+  min-width: 0;
+  max-width: 100%;
+  flex: 1 1 460px;
+}
+.bao-workspace .wallet-workspace .smart-cta .command-copy {
+  flex-direction: row;
+  width: 100%;
+}
+.bao-workspace .wallet-workspace .smart-cta > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: #29483d;
+  white-space: normal;
+}
+.bao-workspace .wallet-workspace .smart-cta > a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.bao-workspace .wallet-workspace .smart-cta > a svg {
+  flex-shrink: 0;
+}
+@media (max-width: 1050px) {
+  .bao-workspace .proof-workspace .observatory-grid,
+  .bao-workspace .wallet-workspace .smart-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .bao-workspace .wallet-workspace .smart-flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .bao-workspace .wallet-workspace .smart-flow-card:nth-child(2) {
+    border-right: 0;
+  }
+  .bao-workspace .wallet-workspace .smart-flow-card:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--reference-rule);
+  }
+  .bao-workspace .proof-workspace .proof-transactions article {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 680px) {
+  .bao-workspace .wallet-workspace .smart-cta > div {
+    flex: initial;
+    width: 100%;
+  }
+  .bao-workspace .wallet-workspace .smart-cta .command-copy code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  .bao-workspace .proof-workspace .proof-verdict {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .bao-workspace .proof-workspace .proof-verdict > strong {
+    grid-column: 1;
+  }
+  .bao-workspace .proof-workspace .proof-transactions article,
+  .bao-workspace .wallet-workspace :is(.smart-flow, .smart-outcome-grid) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .bao-workspace .wallet-workspace .smart-flow-card:not(:last-child) {
+    border-right: 0;
+    border-bottom: 1px solid var(--reference-rule);
+  }
+  .bao-workspace .wallet-workspace .smart-outcome-grid article + article {
+    padding-top: 18px;
+    border-top: 1px solid var(--reference-rule);
+  }
+  .bao-workspace :is(.proof-workspace, .wallet-workspace) .command-multiline {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .bao-workspace :is(.proof-workspace, .wallet-workspace) .command-multiline code {
+    flex-basis: 100%;
+    font-size: 12px;
+  }
+  .bao-workspace :is(.proof-workspace, .wallet-workspace) .command-multiline button {
+    margin-left: auto;
+  }
+}

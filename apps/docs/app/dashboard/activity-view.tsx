@@ -332,79 +332,81 @@ export function ActivityDashboard(props: Props) {
     <div className="activity-dashboard">
       <header className="activity-heading">
         <div>
-          <h1>
-            App activity
-            <span className="activity-title-pixel" aria-hidden="true" />
-          </h1>
+          <h1>App activity</h1>
           <p>A clearer view of what your app puts onchain.</p>
         </div>
         <Link href="/dashboard/evidence" className="activity-text-link">
           Attribution evidence <Icon name="arrow" />
         </Link>
       </header>
-      <form className="activity-lookup" onSubmit={submit}>
-        <label className="activity-code-field">
-          <span>Builder Code</span>
-          <span className="activity-code-input">
-            <span aria-hidden="true">bc /</span>
-            <input
-              value={codeInput}
-              onChange={(event) => {
-                setCodeInput(event.target.value);
-                setError("");
-              }}
-              placeholder="bc_abc123"
-              autoComplete="off"
-              autoCapitalize="none"
-              spellCheck={false}
-              maxLength={255}
-              aria-invalid={Boolean(error)}
-              aria-describedby={error ? "activity-error" : undefined}
-            />
-          </span>
-        </label>
-        <label className="activity-network-field">
-          <span>Network</span>
-          <select
-            value={network}
-            onChange={(event) => changeNetwork(Number(event.target.value) as ActivityNetwork)}
-          >
-            <option value={8453}>Base mainnet</option>
-            <option value={84532}>Base Sepolia</option>
-          </select>
-        </label>
-        <button type="submit" className="activity-button activity-primary" disabled={loading}>
-          {loading ? "Loading activity" : "Load activity"} <Icon name="arrow" />
-        </button>
-      </form>
-      <div className="activity-lookup-under">
-        <div className="activity-examples">
-          <span>Published examples</span>
-          {props.examples.map((example) => (
-            <button
-              key={example.code}
-              onClick={() => useExample(example)}
-              aria-pressed={sample && code === example.code}
+      <section className="activity-source-window" aria-labelledby="activity-source-title">
+        <h2 className="activity-window-title" id="activity-source-title">
+          <Icon name="contract" /> Data source
+        </h2>
+        <form className="activity-lookup" onSubmit={submit}>
+          <label className="activity-code-field">
+            <span>Builder Code</span>
+            <span className="activity-code-input">
+              <span aria-hidden="true">bc /</span>
+              <input
+                value={codeInput}
+                onChange={(event) => {
+                  setCodeInput(event.target.value);
+                  setError("");
+                }}
+                placeholder="bc_abc123"
+                autoComplete="off"
+                autoCapitalize="none"
+                spellCheck={false}
+                maxLength={255}
+                aria-invalid={Boolean(error)}
+                aria-describedby={error ? "activity-error" : undefined}
+              />
+            </span>
+          </label>
+          <label className="activity-network-field">
+            <span>Network</span>
+            <select
+              value={network}
+              onChange={(event) => changeNetwork(Number(event.target.value) as ActivityNetwork)}
             >
-              {example.title} <Icon name="arrow" />
-            </button>
-          ))}
+              <option value={8453}>Base mainnet</option>
+              <option value={84532}>Base Sepolia</option>
+            </select>
+          </label>
+          <button type="submit" className="activity-button activity-primary" disabled={loading}>
+            {loading ? "Loading activity" : "Load activity"} <Icon name="arrow" />
+          </button>
+        </form>
+        <div className="activity-lookup-under">
+          <div className="activity-examples">
+            <span>Published examples</span>
+            {props.examples.map((example) => (
+              <button
+                key={example.code}
+                onClick={() => useExample(example)}
+                aria-pressed={sample && code === example.code}
+              >
+                {example.title} <Icon name="arrow" />
+              </button>
+            ))}
+          </div>
+          <button className="activity-text-link" onClick={() => fileInput.current?.click()}>
+            <Icon name="upload" /> Import CSV / JSON
+          </button>
+          <input
+            ref={fileInput}
+            type="file"
+            accept=".csv,.json,application/json,text/csv"
+            onChange={(event) => {
+              void importFile(event);
+            }}
+            className="activity-file-input"
+            aria-label="Import an activity export"
+            tabIndex={-1}
+          />
         </div>
-        <button className="activity-text-link" onClick={() => fileInput.current?.click()}>
-          <Icon name="upload" /> Import CSV / JSON
-        </button>
-        <input
-          ref={fileInput}
-          type="file"
-          accept=".csv,.json,application/json,text/csv"
-          onChange={(event) => {
-            void importFile(event);
-          }}
-          className="activity-file-input"
-          aria-label="Import an activity export"
-          tabIndex={-1}
-        />
-      </div>
+      </section>
       {error ? (
         <p className="activity-error" role="alert" id="activity-error">
           {error}
@@ -417,7 +419,12 @@ export function ActivityDashboard(props: Props) {
               <Icon name="blocks" />
             </span>
             <div>
-              <h2>{dataset?.title ?? (code || "Your application")}</h2>
+              <h2>
+                {sample
+                  ? (props.examples.find((example) => example.code === code)?.title ??
+                    dataset?.title)
+                  : (dataset?.title ?? (code || "Your application"))}
+              </h2>
               <code>{code || "Enter your Builder Code"}</code>
             </div>
             <span
@@ -532,7 +539,9 @@ export function ActivityDashboard(props: Props) {
             >
               <div className="activity-panel-heading">
                 <div>
-                  <h2 id="activity-chart-title">Activity over time</h2>
+                  <h2 id="activity-chart-title">
+                    <Icon name="blocks" /> Activity over time
+                  </h2>
                   <p>
                     {summary
                       ? shortDate.format(new Date(summary.periodStart)) +
@@ -685,14 +694,16 @@ export function ActivityDashboard(props: Props) {
                     <span>
                       {summary?.undated
                         ? summary.undated + " operations have no recorded date"
-                        : "Select a day to inspect its operations"}
+                        : "All operations in the selected period"}
                     </span>
                   </>
                 )}
               </div>
             </section>
             <section className="activity-outcomes" aria-labelledby="activity-outcomes-title">
-              <h2 id="activity-outcomes-title">Execution results</h2>
+              <h2 className="activity-window-title" id="activity-outcomes-title">
+                <Icon name="blocks" /> Execution results
+              </h2>
               <p>What happened onchain.</p>
               <div className="activity-outcome-track" aria-hidden="true">
                 <span style={{ flex: summary?.successful ?? 0 }} />
@@ -728,7 +739,9 @@ export function ActivityDashboard(props: Props) {
           <section className="activity-destinations" aria-labelledby="activity-destinations-title">
             <div className="activity-panel-heading">
               <div>
-                <h2 id="activity-destinations-title">Where activity goes</h2>
+                <h2 id="activity-destinations-title">
+                  <Icon name="contract" /> Where activity goes
+                </h2>
                 <p>Recorded destination addresses.</p>
               </div>
               <span className="activity-count">
@@ -773,7 +786,9 @@ export function ActivityDashboard(props: Props) {
             id="attribution"
             aria-labelledby="activity-attribution-title"
           >
-            <h2 id="activity-attribution-title">Follow the attribution</h2>
+            <h2 className="activity-window-title" id="activity-attribution-title">
+              <Icon name="link" /> Follow the attribution
+            </h2>
             <p>Inspect the operations carrying your code, then check the paths that create them.</p>
             <dl>
               <div>
@@ -814,7 +829,9 @@ export function ActivityDashboard(props: Props) {
         >
           <div className="activity-panel-heading">
             <div>
-              <h2 id="activity-ledger-title">Operations</h2>
+              <h2 id="activity-ledger-title">
+                <Icon name="contract" /> Operations
+              </h2>
               <p>Open a transaction to inspect the onchain record.</p>
             </div>
             <div className="activity-ledger-actions">
@@ -1048,27 +1065,29 @@ function Metric({
 }) {
   return (
     <div className={"activity-metric activity-metric-" + variant}>
-      <dt>{label}</dt>
+      <dt>
+        <Icon name={variant === "wallets" ? "wallet" : variant === "gas" ? "contract" : "blocks"} />
+        {label}
+      </dt>
       <dd>
         <span className="activity-metric-value" data-long={value.length > 5}>
-          {variant === "success" ? (
-            <svg className="activity-ratio" viewBox="0 0 120 120" aria-hidden="true">
-              <circle className="activity-ratio-track" cx="60" cy="60" r="54" />
-              {ratio !== null && ratio !== undefined ? (
-                <circle
-                  className="activity-ratio-value"
-                  cx="60"
-                  cy="60"
-                  r="54"
-                  pathLength="100"
-                  strokeDasharray={Math.min(100, Math.max(0, ratio)) + " 100"}
-                />
-              ) : null}
-            </svg>
-          ) : null}
           {value}
           {unit ? <small>{unit}</small> : null}
         </span>
+        {variant === "success" ? (
+          <span className="activity-ratio" aria-hidden="true">
+            {Array.from({ length: 20 }, (_, index) => (
+              <i
+                key={index}
+                data-filled={
+                  ratio !== null &&
+                  ratio !== undefined &&
+                  index < Math.round(Math.min(100, Math.max(0, ratio)) / 5)
+                }
+              />
+            ))}
+          </span>
+        ) : null}
         <p>{detail}</p>
       </dd>
     </div>

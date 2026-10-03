@@ -1,0 +1,122 @@
+.bao-workspace .doctor-grid {
+  grid-template-columns: 260px minmax(0, 1fr) minmax(260px, 0.8fr);
+  gap: 14px;
+  align-items: start;
+}
+.doctor-workspace .bento-card {
+  border: 2px solid var(--workspace-dark);
+  padding: 18px;
+  gap: 16px;
+}
+.doctor-workspace :is(.card-header, .editor-header, .output-header) {
+  background: var(--workspace-dark);
+  color: var(--workspace-light);
+  border: 0;
+  padding: 14px 16px;
+}
+.doctor-workspace .card-header {
+  margin: -18px -18px 0;
+}
+.doctor-workspace :is(.card-header, .editor-header, .output-header) h2 {
+  color: var(--workspace-light);
+  font: 600 20px/1.2 var(--font-display);
+}
+.doctor-workspace .form-stack {
+  margin-top: 0;
+  gap: 16px;
+}
+.doctor-workspace .form-label {
+  text-transform: none;
+  letter-spacing: 0;
+}
+.doctor-workspace .segmented-control {
+  background: #b0bdb7;
+}
+.doctor-workspace :is(.segment-button.active, .option-item.active) {
+  background: var(--accent);
+  color: var(--text-main);
+}
+.doctor-workspace :is(.segment-button, .option-item):hover {
+  background: #e0e7dc;
+}
+.doctor-workspace .option-item.active:hover {
+  background: #f5e3a4;
+}
+.doctor-workspace :is(.editor-card, .output-card) {
+  padding: 0;
+  gap: 0;
+}
+.doctor-workspace :is(.editor-container, .output-code-container) {
+  background: var(--workspace-dark);
+}
+.doctor-workspace :is(.code-textarea, .output-code-container code) {
+  color: var(--workspace-light);
+  caret-color: var(--accent);
+}
+.doctor-workspace .line-numbers {
+  background: #344448;
+  color: #b9c7c4;
+  border-color: #657573;
+}
+.doctor-workspace .copy-btn {
+  background: var(--workspace-dark);
+  color: var(--workspace-light);
+  border-color: #899997;
+  min-height: 36px;
+}
+.doctor-workspace .copy-btn:hover {
+  color: var(--workspace-dark);
+  background: var(--accent);
+}
+.doctor-workspace .status-badge {
+  padding: 6px 8px;
+  font-size: 10px;
+  letter-spacing: 0;
+}
+.doctor-workspace .result-heading {
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.doctor-workspace .metrics-row {
+  background: var(--workspace-light);
+}
+.doctor-workspace .finding-card {
+  align-items: flex-start;
+  flex-wrap: wrap;
+  background: #d4ddd4;
+}
+.doctor-workspace .output-card {
+  margin-top: 14px;
+}
+@media (max-width: 1200px) {
+  .bao-workspace .doctor-grid {
+    grid-template-columns: 260px minmax(0, 1fr);
+  }
+  .doctor-workspace .result-panel {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 800px) {
+  .bao-workspace .doctor-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .doctor-workspace :is(.input-card, .editor-card, .result-panel) {
+    grid-column: 1;
+  }
+  .doctor-workspace .result-panel {
+    order: 2;
+  }
+  .doctor-workspace .editor-card {
+    order: 3;
+  }
+  .doctor-workspace .mobile-fixture-select {
+    display: flex;
+  }
+  .doctor-workspace .desktop-fixture-list {
+    display: none;
+  }
+  .doctor-workspace .editor-header {
+    flex-wrap: wrap;
+  }
+}

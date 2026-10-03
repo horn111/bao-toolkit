@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SiteHeader } from "../_components/site-header";
+import { Workspace } from "../dashboard/workspace";
+import "../dashboard/reference-workspace.css";
 import { CopyCommand } from "../_components/copy-command";
 import {
   getPublishedProofTransactions,
@@ -32,9 +33,7 @@ const ledger = publishedProofSets.flatMap((proofSet) =>
 
 export default function ObservatoryPage() {
   return (
-    <main id="main-content" tabIndex={-1} className="app-container">
-      <SiteHeader current="observatory" />
-
+    <Workspace active="proofs" className="workspace-tool proof-workspace">
       <section className="hero observatory-hero">
         <div className="hero-meta">
           <h1>Attribution Observatory</h1>
@@ -52,7 +51,7 @@ export default function ObservatoryPage() {
       </section>
       <p className="scope-note observatory-command-note">
         Command template: use your registered code and replay report, or{" "}
-        <Link href="/proof/bc_vwmzy653">download the published Bao Toolkit inputs</Link>.
+        <Link href="/proof/bc_vwmzy653">download the published BAO Toolkit inputs</Link>.
       </p>
 
       <section className="coverage-strip" aria-label="Published proof set coverage">
@@ -167,7 +166,7 @@ export default function ObservatoryPage() {
           </table>
         </div>
       </section>
-    </main>
+    </Workspace>
   );
 }
 

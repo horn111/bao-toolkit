@@ -1,0 +1,368 @@
+/* Product tools share a pixel-desktop workspace; marketing and docs retain their own theme. */
+body:has(.bao-workspace) {
+  background: #899798;
+}
+.bao-workspace {
+  --canvas: #aebbb9;
+  --surface: #c6ceca;
+  --border: #516163;
+  --text-main: #253237;
+  --text-muted: #415255;
+  --text-accent: #253237;
+  --accent: #f0d77c;
+  --accent-ink: #253237;
+  --accent-bg: #d6d9ba;
+  --pastel-green-bg: #becfc1;
+  --pastel-green-text: #244d3b;
+  --pastel-red-bg: #ead1c8;
+  --pastel-red-text: #843d30;
+  --pastel-yellow-bg: #e5d8a3;
+  --pastel-yellow-text: #514617;
+  --pastel-blue-bg: #bacbd0;
+  --pastel-blue-text: #294650;
+  --workspace-dark: #29363b;
+  --workspace-light: #e0e7dc;
+  color-scheme: light;
+  color: var(--text-main);
+  background: var(--canvas);
+  max-width: 1680px;
+  margin: 20px auto 0;
+  border: 2px solid var(--workspace-dark);
+}
+.bao-workspace ::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.bao-workspace :is(a, button, input, select, summary, [tabindex]):focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+.workspace-header {
+  display: flex;
+  min-height: 64px;
+  align-items: center;
+  gap: 24px;
+  padding: 0 24px;
+  border-bottom: 2px solid var(--workspace-dark);
+  background: var(--workspace-dark);
+  color: var(--workspace-light);
+}
+.workspace-brand {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font: 600 23px/1 var(--font-display);
+  white-space: nowrap;
+}
+.workspace-brand svg {
+  width: 28px;
+  height: 28px;
+  color: var(--accent);
+}
+.workspace-location {
+  border-left: 1px solid #697778;
+  padding-left: 24px;
+  font-size: 12px;
+  color: #b9c7c4;
+}
+.workspace-header nav {
+  display: flex;
+  gap: 24px;
+  margin-left: auto;
+  font-size: 13px;
+}
+.workspace-header nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+}
+.workspace-header nav svg {
+  width: 14px;
+  height: 14px;
+}
+.workspace-header a:hover {
+  color: var(--accent);
+}
+.workspace-layout {
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr);
+}
+.workspace-rail {
+  padding: 18px 8px;
+  border-right: 2px solid var(--workspace-dark);
+  background: #9aa9a8;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+.workspace-rail a {
+  min-height: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid transparent;
+  font-size: 11px;
+  line-height: 1.3;
+}
+.workspace-rail a:hover {
+  background: #c6ceca;
+  border-color: var(--border);
+}
+.workspace-rail a[aria-current="page"] {
+  background: var(--workspace-dark);
+  color: var(--accent);
+  border-color: var(--workspace-dark);
+}
+.workspace-rail a[aria-current="page"] span {
+  color: var(--workspace-light);
+}
+.workspace-content {
+  min-width: 0;
+  padding: 24px 28px 28px;
+}
+.workspace-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px;
+  border-top: 2px solid var(--workspace-dark);
+  background: #bdc7c2;
+  font-size: 11px;
+}
+.workspace-status :is(span, a) {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.workspace-status svg {
+  width: 14px;
+  height: 14px;
+}
+.workspace-status a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+/* Retain shared legal/resource links without the marketing scene in this working surface. */
+.bao-workspace ~ .site-footer {
+  max-width: 1680px;
+  padding: 22px 24px;
+  color: #253237;
+  background: transparent;
+  border: 0;
+}
+.bao-workspace ~ .site-footer :is(.footer-main, .space-backdrop) {
+  display: none;
+}
+.bao-workspace ~ .site-footer .footer-links {
+  padding: 0 0 14px;
+  border-color: #647575;
+  gap: 20px;
+}
+.bao-workspace ~ .site-footer .footer-links a {
+  color: #253237;
+  font-size: 12px;
+}
+.bao-workspace ~ .site-footer .footer-fineprint {
+  padding-top: 14px;
+  color: #33474b;
+  border-color: #647575;
+}
+.bao-workspace ~ .site-footer a:hover {
+  color: #17252b;
+  text-decoration: underline;
+}
+.bao-workspace .dash-heading h1 {
+  font: 600 36px/1.12 var(--font-display);
+}
+.bao-workspace .dash-heading {
+  margin-bottom: 24px;
+}
+.bao-workspace .dash-coverage,
+.bao-workspace .dash-meaning,
+.bao-workspace .dash-paths,
+.bao-workspace .dash-seasons,
+.bao-workspace .dash-ledger {
+  background: var(--surface);
+}
+.bao-workspace .dashboard-page {
+  --dash-blue: #344b43;
+}
+.workspace-tool {
+  font-size: 14px;
+  overflow-wrap: anywhere;
+  scrollbar-color: var(--border) var(--surface);
+}
+.bao-workspace .workspace-tool h1 {
+  font: 600 36px/1.12 var(--font-display);
+  letter-spacing: -0.02em;
+  color: var(--text-main);
+  text-wrap: balance;
+}
+.workspace-tool .hero {
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.workspace-tool .hero-controls {
+  align-items: center;
+  padding-bottom: 20px;
+}
+.workspace-tool .lede {
+  font-size: 14px;
+  max-width: 70ch;
+}
+.workspace-tool :is(input, textarea, select) {
+  caret-color: var(--text-main);
+}
+.workspace-tool :is(.text-input, select) {
+  background: var(--workspace-light);
+  color: var(--text-main);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  min-height: 44px;
+}
+.workspace-tool :is(.text-input, input)::placeholder {
+  color: var(--text-muted);
+}
+.workspace-tool :is(.text-action, .observatory-command-note a, .scope-note a) {
+  color: #29483d;
+}
+.workspace-tool :is(.hero-command, .hero-command code) {
+  background: var(--workspace-dark);
+  color: var(--workspace-light);
+  border-color: var(--workspace-dark);
+}
+.workspace-tool .coverage-strip {
+  border: 2px solid var(--workspace-dark);
+  background: var(--workspace-dark);
+  padding: 16px 20px;
+  gap: 20px;
+}
+.workspace-tool .coverage-strip :is(.coverage-value, strong) {
+  color: var(--workspace-light);
+}
+.workspace-tool .coverage-strip strong {
+  color: var(--accent);
+}
+.workspace-tool .coverage-track {
+  background: #536561;
+}
+.workspace-tool .status-dot {
+  border-radius: 0;
+}
+.workspace-tool :is(.command-copy, .hero-controls > *, .bento-card) {
+  min-width: 0;
+}
+@media (max-width: 900px) {
+  .workspace-tool .hero-controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+@media (max-width: 680px) {
+  .bao-workspace .workspace-tool h1 {
+    font-size: 30px;
+  }
+  .workspace-tool .coverage-strip {
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 14px;
+    gap: 12px;
+  }
+  .workspace-tool .coverage-track {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .workspace-tool :is(.text-input, select) {
+    font-size: 16px;
+  }
+}
+@media (min-width: 1680px) {
+  .bao-workspace {
+    margin-inline: auto;
+  }
+}
+@media (max-width: 1719px) {
+  .bao-workspace {
+    margin-inline: 20px;
+  }
+}
+@media (max-width: 1000px) {
+  .workspace-layout {
+    grid-template-columns: 70px minmax(0, 1fr);
+  }
+  .workspace-content {
+    padding: 20px;
+  }
+  .workspace-rail {
+    padding-inline: 4px;
+  }
+  .workspace-rail a {
+    min-height: 66px;
+    font-size: 10px;
+  }
+}
+@media (max-width: 680px) {
+  .bao-workspace {
+    margin: 10px 10px 0;
+  }
+  .workspace-header {
+    padding: 0 12px;
+    min-height: 60px;
+    gap: 12px;
+  }
+  .workspace-brand {
+    font-size: 20px;
+    gap: 8px;
+  }
+  .workspace-brand svg {
+    width: 22px;
+    height: 22px;
+  }
+  .workspace-location {
+    display: none;
+  }
+  .workspace-header nav {
+    gap: 14px;
+    font-size: 12px;
+  }
+  .workspace-header nav a:last-child {
+    display: none;
+  }
+  .workspace-layout {
+    display: flex;
+    flex-direction: column;
+  }
+  .workspace-rail {
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 6px;
+    gap: 4px;
+    border-right: 0;
+    border-bottom: 2px solid var(--workspace-dark);
+  }
+  .workspace-rail a {
+    flex: 1 0 50px;
+    min-height: 58px;
+    font-size: 10px;
+  }
+  .workspace-rail svg {
+    width: 20px;
+    height: 20px;
+  }
+  .workspace-content {
+    padding: 18px 12px;
+  }
+  .workspace-status {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+  }
+  .bao-workspace ~ .site-footer {
+    padding: 18px 22px;
+  }
+}

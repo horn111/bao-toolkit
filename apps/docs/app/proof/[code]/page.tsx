@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SiteHeader } from "../../_components/site-header";
+import { Workspace } from "../../dashboard/workspace";
+import "../../dashboard/reference-workspace.css";
 import { CheckIcon } from "../../_components/site-icons";
 import { CopyCommand } from "../../_components/copy-command";
 import {
@@ -29,9 +30,7 @@ export default async function ProofPage({ params }: ProofPageProps) {
   const networks = proof?.summary.networks.map((entry) => entry.network).join(" · ");
 
   return (
-    <main id="main-content" tabIndex={-1} className="app-container">
-      <SiteHeader current="proof" />
-
+    <Workspace active="proofs" className="workspace-tool proof-workspace">
       <section className="hero proof-hero">
         <div className="hero-meta">
           <h1>{code}</h1>
@@ -41,7 +40,7 @@ export default async function ProofPage({ params }: ProofPageProps) {
           <p className="lede">
             {proof
               ? "This published snapshot contains replay reports backed by decoded ERC-8021 calldata and explorer-verifiable transactions. Download the inputs to reproduce its manifest."
-              : "No public Bao Toolkit proof set has been published for this Builder Code yet. Generate replay reports, then combine them into a static manifest."}
+              : "No public BAO Toolkit proof set has been published for this Builder Code yet. Generate replay reports, then combine them into a static manifest."}
           </p>
           <Link className="hero-command command-link" href="/observatory">
             View Observatory
@@ -50,7 +49,7 @@ export default async function ProofPage({ params }: ProofPageProps) {
       </section>
 
       {proof ? <VerifiedProof code={code} proof={proof} /> : <EmptyProof />}
-    </main>
+    </Workspace>
   );
 }
 
@@ -84,7 +83,7 @@ function VerifiedProof(props: {
             <h2>{props.proof.title}</h2>
           </div>
           {props.proof.title === "Base Attribution OS" ? (
-            <p className="scope-note">Historical manifest title. The product is now Bao Toolkit.</p>
+            <p className="scope-note">Historical manifest title. The product is now BAO Toolkit.</p>
           ) : null}
           <dl className="proof-manifest">
             <div>

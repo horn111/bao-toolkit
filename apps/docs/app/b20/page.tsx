@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SiteHeader } from "../_components/site-header";
+import { Workspace } from "../dashboard/workspace";
 import { CopyCommand } from "../_components/copy-command";
+import "./workspace.css";
 import {
   b20PublicationSummary,
   getB20Report,
@@ -10,15 +11,14 @@ import {
 } from "./registry";
 
 export const metadata: Metadata = {
-  title: "B20 Discovery & Attribution | Bao Toolkit",
+  title: "B20 Discovery & Attribution | BAO Toolkit",
   description:
     "Inspect a B20 transfer before and after a Builder Code fix, with reproducible synthetic evidence.",
 };
 
 export default function B20Page() {
   return (
-    <main id="main-content" tabIndex={-1} className="app-container b20-surface">
-      <SiteHeader current="b20" />
+    <Workspace active="b20" className="b20-surface workspace-tool">
       <header className="b20-intro">
         <h1>B20 Discovery &amp; Attribution</h1>
         <p>
@@ -33,7 +33,7 @@ export default function B20Page() {
         </div>
         <p>
           The token, recipient, raw amount, and modeled execution stay the same. The corrected
-          request uses <code>withAttributionSuffix</code> from Bao Toolkit’s viem adapter.
+          request uses <code>withAttributionSuffix</code> from BAO Toolkit’s viem adapter.
         </p>
         <div className="b20-mobile-outcomes" aria-label="Direct attribution before and after">
           {(["direct-broken", "direct-fixed"] as const).map((id, index) => {
@@ -153,9 +153,9 @@ export default function B20Page() {
         </p>
       </section>
       <footer className="b20-footer">
-        Bao Toolkit is an independent project. These reports describe discovery and attribution in a
+        BAO Toolkit is an independent project. These reports describe discovery and attribution in a
         supplied sample; application readiness remains not tested.
       </footer>
-    </main>
+    </Workspace>
   );
 }

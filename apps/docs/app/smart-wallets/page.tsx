@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { SiteHeader } from "../_components/site-header";
+import { Workspace } from "../dashboard/workspace";
+import "../dashboard/reference-workspace.css";
 import { CopyCommand } from "../_components/copy-command";
 import { ArrowIcon } from "../_components/site-icons";
 
@@ -36,9 +37,7 @@ const scenarios = [
 
 export default function SmartWalletsPage() {
   return (
-    <main id="main-content" tabIndex={-1} className="app-container">
-      <SiteHeader current="smart-wallets" />
-
+    <Workspace active="wallets" className="workspace-tool wallet-workspace">
       <section className="hero">
         <div className="hero-meta">
           <h1>Smart Wallet Attribution Kit</h1>
@@ -77,7 +76,7 @@ export default function SmartWalletsPage() {
 );`}
           />
           <p>
-            Bao Toolkit checks <code>wallet_getCapabilities</code> before the first send and
+            BAO Toolkit checks <code>wallet_getCapabilities</code> before the first send and
             preserves paymaster, atomic, and application-defined capabilities.
           </p>
         </article>
@@ -120,10 +119,14 @@ export default function SmartWalletsPage() {
         <div>
           <CopyCommand command="bao check-user-op --input user-op.json --expect bc_wallet,bc_app" />
         </div>
-        <a href="https://github.com/horn111/base-attribution-os/blob/main/docs/smart-wallet-attribution.md">
+        <a
+          href="https://github.com/horn111/base-attribution-os/blob/main/docs/smart-wallet-attribution.md"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Read the integration guide <ArrowIcon />
         </a>
       </section>
-    </main>
+    </Workspace>
   );
 }

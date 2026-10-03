@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SiteHeader } from "../../_components/site-header";
+import { Workspace } from "../workspace";
 import { dashboardProjects } from "../registry";
 import { Dashboard } from "../view";
 import "../dashboard.css";
+import "../evidence-workspace.css";
 
 export const metadata: Metadata = {
   title: "Attribution Evidence",
@@ -19,8 +20,7 @@ export default async function EvidencePage({
   const network = query.network === "8453" || query.network === "84532" ? query.network : "all";
   if (query.project && !project) {
     return (
-      <main id="main-content" tabIndex={-1} className="app-container dashboard-page">
-        <SiteHeader current="dashboard" />
+      <Workspace active="evidence" className="workspace-tool dashboard-page">
         <section className="dash-empty">
           <h1>No published evidence for this code</h1>
           <p>Publish a Proof Set to add attribution evidence for this application.</p>
@@ -31,7 +31,7 @@ export default async function EvidencePage({
             Read the proof guide
           </Link>
         </section>
-      </main>
+      </Workspace>
     );
   }
   const selected =
@@ -39,14 +39,13 @@ export default async function EvidencePage({
     dashboardProjects.find((item) => item.code === "bc_4pe6m33m") ??
     dashboardProjects[0];
   return (
-    <main id="main-content" tabIndex={-1} className="app-container dashboard-page">
-      <SiteHeader current="dashboard" />
+    <Workspace active="evidence" className="workspace-tool dashboard-page">
       <Dashboard
         key={selected.code + ":" + network}
         projects={dashboardProjects}
         initialProject={selected.code}
         initialNetwork={network}
       />
-    </main>
+    </Workspace>
   );
 }

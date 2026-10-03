@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SiteHeader } from "../_components/site-header";
+import { Workspace } from "./workspace";
 import { ActivityDashboard } from "./activity-view";
 import {
   ACTIVITY_DAYS,
@@ -36,7 +36,7 @@ export default async function DashboardPage({
   const configured = activitySourceConfigured();
   const examples = dashboardProjects.map((project) => ({
     code: project.code,
-    title: project.code === "bc_vwmzy653" ? "Bao Toolkit" : project.title,
+    title: project.code === "bc_vwmzy653" ? "BAO Toolkit" : project.title,
     network: project.transactions[0]?.chainId === 84532 ? (84532 as const) : (8453 as const),
     dataset: publishedActivity(project.code)!,
   }));
@@ -60,8 +60,7 @@ export default async function DashboardPage({
     message =
       "Indexed history is not connected yet. Import a Dune export or open a published example.";
   return (
-    <main id="main-content" tabIndex={-1} className="app-container">
-      <SiteHeader current="dashboard" />
+    <Workspace>
       <ActivityDashboard
         initialCode={code}
         initialDays={days}
@@ -71,6 +70,6 @@ export default async function DashboardPage({
         configured={configured}
         examples={examples}
       />
-    </main>
+    </Workspace>
   );
 }

@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type ChangeEvent } from "react";
-import { SiteHeader } from "./_components/site-header";
+import { Workspace } from "./dashboard/workspace";
+import "./dashboard/doctor-workspace.css";
 import {
   auditSource,
   profiles,
@@ -186,8 +187,7 @@ export default function DoctorPage() {
   }
 
   return (
-    <main id="main-content" tabIndex={-1} className="app-container">
-      <SiteHeader current="doctor" />
+    <Workspace active="doctor" className="workspace-tool doctor-workspace">
       <p className="copy-error" role="status">
         {copyError}
       </p>
@@ -349,7 +349,7 @@ export default function DoctorPage() {
           </pre>
         </div>
       </section>
-    </main>
+    </Workspace>
   );
 }
 

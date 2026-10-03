@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { B20_REPLAY_PROFILE } from "@base-attribution-os/b20";
-import { SiteHeader } from "../../../_components/site-header";
+import { Workspace } from "../../../dashboard/workspace";
 import { CopyCommand } from "../../../_components/copy-command";
+import "../../workspace.css";
 import {
   chainLabel,
   coverageLabel,
@@ -20,7 +21,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const entry = getB20Report((await params).reportId);
   return {
-    title: entry ? `${entry.title} | Bao Toolkit B20` : "B20 report not found",
+    title: entry ? `${entry.title} | BAO Toolkit B20` : "B20 report not found",
     description: entry?.description,
   };
 }
@@ -56,8 +57,7 @@ export default async function B20ReportPage({ params }: Props) {
     ),
   ];
   return (
-    <main id="main-content" tabIndex={-1} className="app-container b20-surface">
-      <SiteHeader current="b20" />
+    <Workspace active="b20" className="b20-surface workspace-tool">
       <Link className="b20-back" href="/b20">
         All B20 reports
       </Link>
@@ -362,9 +362,9 @@ export default async function B20ReportPage({ params }: Props) {
         </ul>
       </section>
       <footer className="b20-footer">
-        Independent Bao Toolkit report · discovery and attribution in the supplied scope ·
+        Independent BAO Toolkit report · discovery and attribution in the supplied scope ·
         application readiness not tested.
       </footer>
-    </main>
+    </Workspace>
   );
 }

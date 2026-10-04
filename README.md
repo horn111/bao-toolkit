@@ -181,7 +181,7 @@ jobs:
 ```
 
 The Action reports checked files, detected transaction paths, protected paths,
-coverage, and findings. Pin the immutable `v0.5.0` release in production
+coverage, and findings. Pin the immutable `v0.6.0` release in production
 workflows. Moving the floating `v0` ref is a separate release step.
 
 ## Attribution Doctor

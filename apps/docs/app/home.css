@@ -4,6 +4,34 @@
   overflow: clip;
 }
 
+.product-questions {
+  margin-block: 80px;
+  max-width: 920px;
+}
+
+.home-content .product-questions h2 {
+  font-size: clamp(26px, 4vw, 42px);
+  margin-bottom: 32px;
+}
+
+.product-question {
+  border-top: 1px solid var(--border);
+  padding-block: 24px;
+  scroll-margin-top: 32px;
+}
+
+.product-question h3 {
+  font-size: clamp(18px, 2.4vw, 24px);
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.product-question p {
+  max-width: 75ch;
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+
 .space-backdrop-hero {
   z-index: 0;
 }

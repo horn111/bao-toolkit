@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "../../seo";
 import Link from "next/link";
 import { Workspace } from "../workspace";
 import { dashboardProjects } from "../registry";
@@ -6,10 +6,11 @@ import { Dashboard } from "../view";
 import "../dashboard.css";
 import "../evidence-workspace.css";
 
-export const metadata: Metadata = {
-  title: "Attribution Evidence",
-  description: "Inspect published attribution samples and source audits for Base applications.",
-};
+export const metadata = pageMetadata(
+  "/dashboard/evidence",
+  "Base Attribution Evidence",
+  "Inspect published attribution samples and source audits for Base applications. Compare transaction coverage and review the evidence behind each snapshot.",
+);
 export default async function EvidencePage({
   searchParams,
 }: {

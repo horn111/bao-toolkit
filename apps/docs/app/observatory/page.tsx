@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "../seo";
 import Link from "next/link";
 import { Workspace } from "../dashboard/workspace";
 import "../dashboard/reference-workspace.css";
@@ -10,10 +10,11 @@ import {
   shortHash,
 } from "../proof-data";
 
-export const metadata: Metadata = {
-  title: "Attribution Observatory",
-  description: "Explore reproducible Base Builder Code proof sets and onchain evidence.",
-};
+export const metadata = pageMetadata(
+  "/observatory",
+  "Attribution Observatory: transaction Proof Sets",
+  "Explore published Base Builder Code Proof Sets. Inspect decoded ERC-8021 calldata, transaction evidence, and download inputs for reproducible checks.",
+);
 
 const loop = [
   { step: "01", title: "Audit", detail: "Find every transaction path with bao doctor." },

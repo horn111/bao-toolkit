@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "../seo";
 import Link from "next/link";
 import { SiteHeader } from "../_components/site-header";
 import { ArrowIcon } from "../_components/site-icons";
 import { guides } from "./guides";
-export const metadata: Metadata = {
-  title: "Documentation",
-  description:
-    "Install BAO Toolkit, add attribution, audit source code, enforce policy in CI, and reproduce transaction evidence.",
-};
+export const metadata = pageMetadata(
+  "/docs",
+  "Documentation: SDK, CLI & CI guides",
+  "Install BAO Toolkit, add attribution, audit source code, enforce policy in CI, and reproduce transaction evidence.",
+);
 export default function DocsPage() {
   return (
     <main id="main-content" tabIndex={-1} className="app-container documentation">

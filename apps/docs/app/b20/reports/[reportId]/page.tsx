@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "../../../seo";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { B20_REPLAY_PROFILE } from "@base-attribution-os/b20";
@@ -20,10 +21,8 @@ export function generateStaticParams() {
 }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const entry = getB20Report((await params).reportId);
-  return {
-    title: entry ? `${entry.title} | BAO Toolkit B20` : "B20 report not found",
-    description: entry?.description,
-  };
+  if (!entry) notFound();
+  return pageMetadata(`/b20/reports/${entry.id}`, `${entry.title} · B20`, entry.description);
 }
 
 const labels: Record<string, string> = {

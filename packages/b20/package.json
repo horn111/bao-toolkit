@@ -1,7 +1,7 @@
 {
   "name": "@base-attribution-os/b20",
-  "version": "0.1.0",
-  "description": "Source-pinned B20 token inspection and reproducible evidence for Base Attribution OS.",
+  "version": "0.2.0",
+  "description": "Source-pinned B20 token inspection and reproducible evidence for BAO Toolkit.",
   "type": "module",
   "license": "MIT",
   "engines": {
@@ -9,12 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/horn111/base-attribution-os.git",
+    "url": "https://github.com/horn111/bao-toolkit.git",
     "directory": "packages/b20"
   },
-  "homepage": "https://github.com/horn111/base-attribution-os#readme",
+  "homepage": "https://github.com/horn111/bao-toolkit#readme",
   "bugs": {
-    "url": "https://github.com/horn111/base-attribution-os/issues"
+    "url": "https://github.com/horn111/bao-toolkit/issues"
   },
   "publishConfig": {
     "access": "public"

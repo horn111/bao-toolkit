@@ -1,4 +1,4 @@
-name: "Base Attribution OS"
+name: "BAO Toolkit"
 description: "Fail pull requests when Base Builder Code attribution is missing from transaction code."
 author: "horn111"
 branding:

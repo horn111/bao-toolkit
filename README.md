@@ -1,7 +1,7 @@
 # BAO Toolkit
 
 [![npm](https://img.shields.io/npm/v/@base-attribution-os/core?label=npm&color=0052ff)](https://www.npmjs.com/package/@base-attribution-os/core)
-[![CI](https://github.com/horn111/base-attribution-os/actions/workflows/ci.yml/badge.svg)](https://github.com/horn111/base-attribution-os/actions/workflows/ci.yml)
+[![CI](https://github.com/horn111/bao-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/horn111/bao-toolkit/actions/workflows/ci.yml)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D20.11-3c873a.svg)](package.json)
 [![License: MIT](https://img.shields.io/badge/license-MIT-111111.svg)](LICENSE)
 
@@ -13,12 +13,12 @@ enforces coverage in CI.
 
 BAO Toolkit combines attribution adapters, source audits, reproducible Proof Sets, and
 unreleased B20 inspection and replay. Existing `@base-attribution-os/*` package
-names, `bao` commands, and the repository URL remain stable.
+names and `bao` commands remain unchanged.
 
-[Product site](https://base-attribution-os.vercel.app) ·
-[Attribution Observatory](https://base-attribution-os.vercel.app/observatory) ·
-[Published proof sets](https://base-attribution-os.vercel.app/observatory) ·
-[v0.5.0 release](https://github.com/horn111/base-attribution-os/releases/tag/v0.5.0) ·
+[Product site](https://www.baosys.xyz) ·
+[Attribution Observatory](https://www.baosys.xyz/observatory) ·
+[Published proof sets](https://www.baosys.xyz/observatory) ·
+[v0.5.0 release](https://github.com/horn111/bao-toolkit/releases/tag/v0.5.0) ·
 [npm packages](https://www.npmjs.com/org/base-attribution-os) ·
 [Documentation](docs/attribution-doctor.md)
 
@@ -166,7 +166,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: horn111/base-attribution-os/packages/github-action@v0.5.0
+      - uses: horn111/bao-toolkit/packages/github-action@v0.5.0
         with:
           builder-code: bc_abc123
           profile: strict
@@ -262,9 +262,9 @@ Use the included [Dune query templates](dune/) to find attributed Base
 transactions. The [Attribution Proof Loop guide](docs/attribution-proof-loop.md)
 documents JSON and CSV inputs, RPC replay, Proof Set manifests, report statuses,
 and publication safety. Explore BAO Toolkit and Stack the Bag evidence in the
-[Attribution Observatory](https://base-attribution-os.vercel.app/observatory)
+[Attribution Observatory](https://www.baosys.xyz/observatory)
 and inspect BAO Toolkit's
-[published Proof Sets](https://base-attribution-os.vercel.app/observatory).
+[published Proof Sets](https://www.baosys.xyz/observatory).
 
 ## Packages
 
@@ -335,11 +335,11 @@ Primary references:
 ## Contributing
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md), open an
-[issue](https://github.com/horn111/base-attribution-os/issues), or submit a
+[issue](https://github.com/horn111/bao-toolkit/issues), or submit a
 focused pull request with a fixture and test.
 
 ## License and independence
 
 MIT licensed. Built by [horn111](https://github.com/horn111) as an independent
-open-source project for the Base ecosystem. Base Attribution OS is not
+open-source project for the Base ecosystem. BAO Toolkit is not
 affiliated with Coinbase or Base.

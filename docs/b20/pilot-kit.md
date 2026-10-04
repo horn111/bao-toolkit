@@ -4,13 +4,26 @@ BAO finds a missing or wrong Builder Code in explicitly supplied B20 transaction
 evidence. Use a report to identify a supported direct-call path, reproduce its
 attribution result, and check a corrected payload with the existing BAO adapter.
 
-## Candidate installation
+## Install from npm
 
-The B20 package is unreleased. Use maintainer-provided tarballs for B20, core,
+BAO Toolkit v0.6.0 includes B20 0.2.0 and CLI 0.5.0. Install the CLI to reproduce
+reports, and the B20 package to use its TypeScript API:
+
+```sh
+pnpm add -D @base-attribution-os/cli@0.5.0
+pnpm add @base-attribution-os/b20@0.2.0
+```
+
+Run CLI examples with `pnpm exec bao` in your project. The source-pinned evidence
+checks do not certify native runtime support or application readiness.
+
+## Testing development candidates
+
+For unpublished development changes, use maintainer-provided tarballs for B20, core,
 the BAO viem adapter, CLI, scanner, and wallet, with dependency overrides pointing
 to the same tarballs. Scanner and wallet are existing CLI dependencies. The
 repository's `pnpm verify:release-candidate` tests this installation in a clean
-temporary consumer. Do not assume an npm release exists.
+temporary consumer. Use the npm versions above for the published release.
 
 For a pilot outside the monorepo, put those six tarballs in `packs/` and use
 the following `package.json`. The filenames below are local names for the
@@ -72,7 +85,7 @@ Separate [public network observations](live-observations.md) include a recorded
 direct approval and creation events. They do not turn this transfer comparison
 into a native integration test.
 
-The candidate site at `/b20` provides the same example. Each registered report
+The product site at `/b20` provides the same example. Each registered report
 at `/b20/reports/<reportId>` provides its full JSON and capture downloads.
 
 ## Collect and recheck a real sample

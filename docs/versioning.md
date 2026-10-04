@@ -1,6 +1,6 @@
 # Versioning and Release Trains
 
-Base Attribution OS uses project release trains and independently versioned npm
+BAO Toolkit uses project release trains and independently versioned npm
 packages.
 
 ## Project releases

@@ -83,7 +83,7 @@ export default function HomePage() {
           </Link>
           <Link href="/#b20">
             <ModuleIcon kind="b20" />
-            B20 evidence <span className="candidate-tag">Candidate</span>
+            B20 evidence
             <ArrowIcon />
           </Link>
           <Link href="/#transaction-proofs">

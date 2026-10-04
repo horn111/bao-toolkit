@@ -53,7 +53,7 @@ describe("Attribution Doctor browser preview", () => {
 
     expect(source).toContain("permissions:");
     expect(source).toContain("contents: read");
-    expect(source).toContain("github-action@v0.5.0");
+    expect(source).toContain("github-action@v0.6.0");
     expect(source).toContain("profile: strict");
     expect(source).toContain('changed-only: "false"');
     expect(source).not.toContain("github-action@main");

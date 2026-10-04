@@ -132,8 +132,8 @@ export default function B20Page() {
       <section className="b20-section b20-guide" aria-labelledby="reproduce-title">
         <h2 id="reproduce-title">Run the comparison locally</h2>
         <p>
-          Download a report’s capture, then run the candidate CLI. Offline validation checks
-          internal consistency; a network recheck requires an explicit RPC endpoint.
+          Download a report’s capture, then run the CLI. Offline validation checks internal
+          consistency; a network recheck requires an explicit RPC endpoint.
         </p>
         <CopyCommand
           command={`bao b20 replay --input b20-direct-broken.capture.json --chain-id 84532 --expect bc_example --offline\nbao b20 replay --input b20-direct-fixed.capture.json --chain-id 84532 --expect bc_example --offline`}
@@ -148,8 +148,8 @@ export default function B20Page() {
         </div>
         <p>
           Start with the <Link href="/b20/guide">CLI guide</Link> or{" "}
-          <Link href="/b20/guide#pilot">technical pilot kit</Link>. The B20 package is an unreleased
-          candidate.
+          <Link href="/b20/guide#pilot">technical pilot kit</Link>. Install B20 and the CLI from npm
+          using the commands in the guide.
         </p>
       </section>
       <footer className="b20-footer">

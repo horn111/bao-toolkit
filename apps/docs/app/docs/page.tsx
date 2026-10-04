@@ -34,9 +34,7 @@ export default function DocsPage() {
         ))}
         <Link href="/b20/guide">
           <div>
-            <h2>
-              B20 candidate guide <span className="candidate-tag">Unreleased</span>
-            </h2>
+            <h2>B20 inspection and replay guide</h2>
             <p>
               Inspect token evidence, reproduce synthetic examples, and recheck recorded
               observations.

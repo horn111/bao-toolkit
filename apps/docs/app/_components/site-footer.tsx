@@ -33,7 +33,7 @@ export function SiteFooter() {
         <Link href="/doctor">Doctor</Link>
         <Link href="/dashboard">Dashboard</Link>
         <Link href="/observatory">Observatory</Link>
-        <Link href="/b20">B20 candidate</Link>
+        <Link href="/b20">B20 evidence</Link>
         <Link href="/smart-wallets">Smart Wallet Kit</Link>
         <a href="https://x.com/BAO_toolkit" target="_blank" rel="noopener noreferrer">
           Updates on X

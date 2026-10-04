@@ -28,7 +28,7 @@ The Sepolia calls contain `bc_xw5u611f` at the top level. Their destination is a
 wrapper, so BAO retains `B20_NESTED_ATTRIBUTION_NOT_ESTABLISHED` and grants no
 direct-call coverage to those observations.
 
-The candidate site registers these snapshots as `/b20/reports/mainnet-2026-09-30`
+The product site registers these snapshots as `/b20/reports/mainnet-2026-09-30`
 and `/b20/reports/sepolia-2026-09-30`. It validates their contents offline and
 shows recorded provenance. Visiting the site does not perform a new RPC check.
 

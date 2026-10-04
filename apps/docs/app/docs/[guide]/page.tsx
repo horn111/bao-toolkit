@@ -111,7 +111,7 @@ export default async function GuidePage({ params }: Props) {
                 {g.title}
               </Link>
             ))}
-            <Link href="/b20/guide">B20 candidate guide</Link>
+            <Link href="/b20/guide">B20 inspection and replay guide</Link>
           </nav>
         </aside>
       </div>

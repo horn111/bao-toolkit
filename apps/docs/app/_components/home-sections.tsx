@@ -136,7 +136,7 @@ Coverage: 2/3 paths protected (67%)
             <br />
             Evidence attached.
           </h2>
-          <span className="candidate-tag">B20 · Unreleased candidate</span>
+          <span className="candidate-tag">B20 · Evidence tools</span>
         </div>
         <div className="b20-product-body">
           <div>
@@ -152,8 +152,8 @@ Coverage: 2/3 paths protected (67%)
               See the transfer before and after <ArrowIcon />
             </Link>
             <p className="scope-note">
-              Candidate tooling. The transfer example uses synthetic receipts. Native runtime
-              qualification and application readiness remain untested.
+              The transfer example uses synthetic receipts. Native runtime qualification and
+              application readiness remain untested.
             </p>
           </div>
           <div className="b20-outcomes">
@@ -308,8 +308,8 @@ Coverage: 2/3 paths protected (67%)
         </h2>
         <div>
           <p>
-            Start with the released attribution adapters and CLI. B20 uses the separate candidate
-            pilot workflow.
+            Install the attribution adapters and CLI from npm. Follow the B20 guide to inspect
+            tokens and reproduce transaction evidence.
           </p>
           <CopyCommand command="pnpm add @base-attribution-os/viem" />
           <CopyCommand command="pnpm add -D @base-attribution-os/cli" />

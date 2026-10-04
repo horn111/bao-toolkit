@@ -19,11 +19,18 @@ export default function B20GuidePage() {
       <header className="b20-intro">
         <h1>Reproduce a B20 finding</h1>
         <p>
-          Use the same CLI for an offline example and an explicitly supplied transaction sample. The
-          package is an unreleased candidate; install a maintainer-provided tarball or build the
-          checkout.
+          Use the same CLI for an offline example and an explicitly supplied transaction sample.
+          Install CLI 0.5.0 from npm, or add B20 0.2.0 to use the TypeScript API.
         </p>
       </header>
+      <section className="b20-section b20-guide">
+        <h2>Install from npm</h2>
+        <CopyCommand command="pnpm add -D @base-attribution-os/cli@0.5.0" />
+        <CopyCommand command="pnpm add @base-attribution-os/b20@0.2.0" />
+        <p>
+          In a local project, run the examples below with <code>pnpm exec bao</code>.
+        </p>
+      </section>
       <section className="b20-section b20-guide">
         <h2>Start with the offline example</h2>
         <p>

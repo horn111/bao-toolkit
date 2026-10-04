@@ -6,9 +6,9 @@ verification. See [transaction replay](replay.md) for receipt evidence and
 Builder Code coverage across an explicitly supplied transaction set.
 Existing attribution commands and Proof Set v1 are unchanged.
 
-The candidate site's `/b20` route shows the before/after transfer and five
+The product site's `/b20` route shows the before/after transfer and five
 validated synthetic reports. Report pages expose their full JSON and capture
-downloads. See the [technical pilot kit](pilot-kit.md) for candidate installation,
+downloads. See the [technical pilot kit](pilot-kit.md) for npm installation,
 sample selection, and collection/recheck instructions.
 The [public network observations](live-observations.md) record the first
 mainnet and Sepolia samples separately from the synthetic demonstration.

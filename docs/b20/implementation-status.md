@@ -2,6 +2,11 @@
 
 Updated: 2026-09-30.
 
+Historical implementation record. B20 0.2.0 and CLI 0.5.0 shipped on 2026-10-04
+as part of [BAO Toolkit v0.6.0](../releases/v0.6.0.md). The candidate and deployment
+statuses below describe the September checkout. Runtime qualification and external
+integrator validation remain incomplete.
+
 ## Checkout and scope
 
 Started on clean `main` at `af96772c3d38265f84686dacda2ca2827e7a9944`.

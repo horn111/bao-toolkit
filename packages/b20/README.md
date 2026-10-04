@@ -1,7 +1,7 @@
 # @base-attribution-os/b20
 
-Source-pinned B20 token inspection and receipt-aware attribution replay for Base
-Attribution OS. Inspect a token, analyze an explicitly supplied transaction set,
+Source-pinned B20 token inspection and receipt-aware attribution replay for BAO
+Toolkit. Inspect a token, analyze an explicitly supplied transaction set,
 and validate or recheck the resulting evidence. Application readiness remains
 untested.
 
@@ -78,5 +78,5 @@ Replay uses core's existing ERC-8021 decoder. Reports distinguish direct calls,
 factory creation and event-only observations, preserve unavailable rows, and
 keep amounts as decimal strings. Reverted calls with only end-of-block
 initialization remain unresolved at transaction time. See the repository's
-[replay guide](https://github.com/horn111/base-attribution-os/blob/main/docs/b20/replay.md)
+[replay guide](https://github.com/horn111/bao-toolkit/blob/main/docs/b20/replay.md)
 for scope, resource limits and the synthetic broken/fixed demo.

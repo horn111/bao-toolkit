@@ -1,9 +1,19 @@
 # Changelog
 
-All notable changes to Base Attribution OS will be documented here.
+All notable changes to BAO Toolkit will be documented here.
 
 This project uses Changesets. Each package release should include a short note
 that explains the attribution workflow it improves.
+
+## 0.6.0 - 2026-10-04
+
+- Add B20 token inspection, bounded transaction replay, offline validation, and historical RPC rechecking through a new package and the CLI.
+- Publish reproducible B20 reports with separate synthetic and recorded evidence, including eight recorded Base mainnet and Sepolia transactions.
+- Add app activity by Builder Code with indexed data and CSV/JSON imports alongside published attribution evidence.
+- Bring Activity, Evidence, Doctor, Proofs, B20, and Wallets into a shared workspace.
+- Adopt BAO Toolkit branding, baosys.xyz, updated documentation, search metadata, and Vercel Analytics on the product site.
+- Patch the GitHub Action HTTP dependency and retain existing attribution interfaces.
+- Keep B20 native transfer comparison and external integration qualification outside the verified scope of this release.
 
 ## 0.5.0 - 2026-09-02
 

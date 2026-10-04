@@ -14,7 +14,7 @@ pnpm exec bao proof-set --builder-code bc_example --title "Example project" --in
 `--format markdown` for a calldata-free public summary. Run `pnpm exec bao --help`
 for the full command list.
 
-## B20 inspection and replay (unreleased)
+## B20 inspection and replay
 
 ```bash
 bao b20 inspect --address "$TOKEN_ADDRESS" --chain-id 84532 --block finalized --rpc-url-env BASE_RPC_URL --format json --output inspection.json
@@ -30,6 +30,6 @@ must be new paths so historical artifacts cannot be overwritten. Replay accepts
 captured evidence with `--input ... --offline`; strict attribution requires a
 current RPC run. Application readiness remains untested.
 
-[B20 guide](https://github.com/horn111/base-attribution-os/blob/main/docs/b20/overview.md)
+[B20 guide](https://github.com/horn111/bao-toolkit/blob/main/docs/b20/overview.md)
 
-[CLI documentation](https://github.com/horn111/base-attribution-os#quickstart) · [Issues](https://github.com/horn111/base-attribution-os/issues)
+[CLI documentation](https://github.com/horn111/bao-toolkit#quickstart) · [Issues](https://github.com/horn111/bao-toolkit/issues)

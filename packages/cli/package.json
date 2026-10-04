@@ -1,6 +1,6 @@
 {
   "name": "@base-attribution-os/cli",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "CLI validator for Base Builder Code attribution.",
   "type": "module",
   "license": "MIT",
@@ -9,12 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/horn111/base-attribution-os.git",
+    "url": "https://github.com/horn111/bao-toolkit.git",
     "directory": "packages/cli"
   },
-  "homepage": "https://github.com/horn111/base-attribution-os#readme",
+  "homepage": "https://github.com/horn111/bao-toolkit#readme",
   "bugs": {
-    "url": "https://github.com/horn111/base-attribution-os/issues"
+    "url": "https://github.com/horn111/bao-toolkit/issues"
   },
   "publishConfig": {
     "access": "public"

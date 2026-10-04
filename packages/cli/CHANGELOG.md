@@ -1,5 +1,24 @@
 # @base-attribution-os/cli
 
+## 0.5.0
+
+### Minor Changes
+
+- cb7f00e: Add `bao b20 inspect` for source-pinned token initialization evidence and
+  `bao b20 verify` for offline artifact validation or explicit historical RPC
+  rechecking. Keep runtime qualification and application readiness separate from
+  classification. Existing attribution commands retain their behavior.
+- cb7f00e: Add bounded B20 transaction replay with receipt and block joins, direct operation
+  decoding, source-pinned factory events, and existing ERC-8021 attribution checks.
+  Expose separate coverage and execution counts, offline validation, historical RPC
+  rechecking, and an RPC-only strict attribution policy. Keep synthetic and imported
+  producer claims separate from current-run acquisition.
+
+### Patch Changes
+
+- Updated dependencies [cb7f00e]
+  - @base-attribution-os/b20@0.2.0
+
 ## 0.4.0
 
 ### Minor Changes

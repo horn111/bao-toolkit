@@ -1,5 +1,15 @@
 # @base-attribution-os/github-action
 
+## 0.2.2
+
+### Patch Changes
+
+- cb7f00e: Pin the Action HTTP client's undici dependency to 6.28.1 and rebuild the bundled
+  Action to address GHSA-3wwx-pv8p-q78v. Keep existing Action inputs and behavior.
+- Updated dependencies [cb7f00e]
+- Updated dependencies [cb7f00e]
+  - @base-attribution-os/cli@0.5.0
+
 ## 0.2.1
 
 ### Patch Changes

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "../seo";
 import Link from "next/link";
 import { Workspace } from "../dashboard/workspace";
 import { CopyCommand } from "../_components/copy-command";
@@ -10,11 +10,11 @@ import {
   coverageLabel,
 } from "./registry";
 
-export const metadata: Metadata = {
-  title: "B20 Discovery & Attribution | BAO Toolkit",
-  description:
-    "Inspect a B20 transfer before and after a Builder Code fix, with reproducible synthetic evidence.",
-};
+export const metadata = pageMetadata(
+  "/b20",
+  "B20 Token Evidence & Builder Code Attribution",
+  "Inspect B20 token evidence on Base, compare Builder Code attribution fixes, and reproduce synthetic reports alongside recorded transaction observations.",
+);
 
 export default function B20Page() {
   return (

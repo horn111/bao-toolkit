@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { breadcrumbData, pageMetadata, SITE_URL } from "../../seo";
+import { StructuredData } from "../../_components/structured-data";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "../../_components/site-header";
@@ -11,13 +13,32 @@ export function generateStaticParams() {
 }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const g = getGuide((await params).guide);
-  return { title: g?.title ?? "Guide not found", description: g?.description };
+  if (!g) notFound();
+  return pageMetadata(`/docs/${g.slug}`, g.title, g.description);
 }
 export default async function GuidePage({ params }: Props) {
   const guide = getGuide((await params).guide);
   if (!guide) notFound();
   return (
     <main id="main-content" tabIndex={-1} className="app-container documentation">
+      <StructuredData
+        data={breadcrumbData([
+          { name: "Documentation", path: "/docs" },
+          { name: guide.title, path: `/docs/${guide.slug}` },
+        ])}
+      />
+      <StructuredData
+        data={{
+          "@context": "https://schema.org",
+          "@type": "TechArticle",
+          headline: guide.title,
+          description: guide.description,
+          url: `${SITE_URL}/docs/${guide.slug}`,
+          mainEntityOfPage: `${SITE_URL}/docs/${guide.slug}`,
+          inLanguage: "en",
+          about: { "@id": `${SITE_URL}/#software` },
+        }}
+      />
       <SiteHeader current="docs" />
       <Link className="docs-back" href="/docs">
         All documentation <ArrowIcon />

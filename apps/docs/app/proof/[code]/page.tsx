@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "../../seo";
 import Link from "next/link";
 import { Workspace } from "../../dashboard/workspace";
 import "../../dashboard/reference-workspace.css";
@@ -17,10 +18,16 @@ export async function generateMetadata({ params }: ProofPageProps): Promise<Meta
   const { code } = await params;
   const proof = getPublishedProof(code);
   return {
-    title: proof ? `${proof.title} proof set · ${code}` : `Proof · ${code}`,
-    description: proof
-      ? `${proof.summary.verified} verified Base transactions carry ${code} across ${proof.summary.reports} replay reports.`
-      : `Publish an Attribution Proof Set for ${code}.`,
+    ...pageMetadata(
+      `/proof/${encodeURIComponent(code)}`,
+      proof ? `${code} · Attribution Proof Set` : "No published Proof Set",
+      proof
+        ? `${proof.summary.verified} verified Base transactions carry ${code} across ${proof.summary.reports} replay reports. Inspect and reproduce this published snapshot.`
+        : `No public Attribution Proof Set has been published for ${code}.`,
+      `/proof/${encodeURIComponent(code)}/opengraph-image`,
+    ),
+    // Keep the useful empty state without indexing arbitrary Builder Code URLs.
+    ...(!proof ? { robots: { index: false, follow: true } } : {}),
   };
 }
 

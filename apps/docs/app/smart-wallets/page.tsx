@@ -1,14 +1,14 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "../seo";
 import { Workspace } from "../dashboard/workspace";
 import "../dashboard/reference-workspace.css";
 import { CopyCommand } from "../_components/copy-command";
 import { ArrowIcon } from "../_components/site-icons";
 
-export const metadata: Metadata = {
-  title: "Smart Wallet Attribution Kit",
-  description:
-    "Capability-aware ERC-8021 attribution for EIP-5792 batches and ERC-4337 UserOperations.",
-};
+export const metadata = pageMetadata(
+  "/smart-wallets",
+  "Smart Wallet Attribution Kit",
+  "Add ERC-8021 Builder Code attribution to EIP-5792 wallet batches and ERC-4337 UserOperations with capability checks and BAO Toolkit adapters.",
+);
 
 const flow = [
   ["01", "Discover", "Check dataSuffix for this account and chain."],

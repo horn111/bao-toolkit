@@ -9,10 +9,19 @@ import { HomeSections } from "./_components/home-sections";
 import { MeteorScene } from "./_components/meteor-scene";
 import { SpaceBackdrop } from "./_components/space-backdrop";
 import "./home.css";
+import { StructuredData } from "./_components/structured-data";
+import { pageMetadata, projectData, SITE_DESCRIPTION } from "./seo";
+
+export const metadata = pageMetadata(
+  "/",
+  "ERC-8021 attribution, B20 evidence & source audits",
+  SITE_DESCRIPTION,
+);
 
 export default function HomePage() {
   return (
     <main id="main-content" tabIndex={-1} className="product-home">
+      <StructuredData data={projectData} />
       <SpaceBackdrop />
       <section className="landing-stage" aria-labelledby="home-title">
         <SpaceBackdrop hero />
@@ -35,7 +44,8 @@ export default function HomePage() {
             <span className="headline-shipped">SHIPPED.</span>
           </h1>
           <p className="hero-summary">
-            One toolkit for attribution, code audits, and native token evidence.
+            BAO Toolkit: open-source tools for ERC-8021 attribution, source audits, and B20
+            evidence.
           </p>
         </div>
         <div className="hero-caption">

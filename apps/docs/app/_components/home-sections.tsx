@@ -11,6 +11,9 @@ import { ArrowIcon } from "./site-icons";
 import { SourceExample } from "./source-example";
 import { CopyCommand } from "./copy-command";
 import { PixelConstruction } from "./pixel-construction";
+import { productQuestions } from "../product-questions";
+import { StructuredData } from "./structured-data";
+import { SITE_URL } from "../seo";
 
 export function HomeSections() {
   const example = getPublishedProofTransactions(featuredProof)[0];
@@ -27,8 +30,8 @@ export function HomeSections() {
         </div>
         <div>
           <p className="section-deck">
-            BAO Toolkit is the developer toolkit for building, auditing, and verifying transaction
-            paths on Base.
+            BAO Toolkit is an independent, open-source developer toolkit for ERC-8021 Builder Code
+            attribution, source audits, B20 token evidence, and transaction proofs on Base.
           </p>
           <p>
             Add Builder Code attribution to your client. Catch gaps in source code. Inspect native
@@ -270,6 +273,31 @@ Coverage: 2/3 paths protected (67%)
               </Link>
             ))}
         </div>
+      </section>
+
+      <section className="product-questions" aria-labelledby="questions-title">
+        <h2 id="questions-title">Questions about BAO Toolkit</h2>
+        <StructuredData
+          data={{
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": `${SITE_URL}/#questions`,
+            mainEntity: productQuestions.map(({ question, answer }) => ({
+              "@type": "Question",
+              name: question,
+              acceptedAnswer: { "@type": "Answer", text: answer },
+            })),
+          }}
+        />
+        {productQuestions.map(({ id, question, answer, href, linkLabel }) => (
+          <section key={id} id={id} className="product-question" aria-labelledby={`${id}-title`}>
+            <h3 id={`${id}-title`}>{question}</h3>
+            <p>{answer}</p>
+            <Link className="text-action" href={href}>
+              {linkLabel} <ArrowIcon />
+            </Link>
+          </section>
+        ))}
       </section>
 
       <section className="start-chapter">

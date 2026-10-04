@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "../seo";
 import { Workspace } from "./workspace";
 import { ActivityDashboard } from "./activity-view";
 import {
@@ -11,11 +11,11 @@ import { activitySourceConfigured, loadDuneActivity, publishedActivity } from ".
 import { dashboardProjects } from "./registry";
 import "./activity.css";
 
-export const metadata: Metadata = {
-  title: "App Activity Dashboard",
-  description:
-    "Explore Base app activity by Builder Code: operations, active wallets, execution results and transaction evidence.",
-};
+export const metadata = pageMetadata(
+  "/dashboard",
+  "Base App Activity Dashboard",
+  "Explore Base app activity by Builder Code: operations, active wallets, execution results and transaction evidence.",
+);
 export default async function DashboardPage({
   searchParams,
 }: {

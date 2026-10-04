@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import { SiteFooter } from "./_components/site-footer";
+import { SITE_DESCRIPTION, SITE_URL } from "./seo";
 
 const bodyFont = localFont({
   src: "../public/fonts/space-grotesk.ttf",
@@ -29,13 +30,12 @@ const blockFont = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://base-attribution-os.vercel.app"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "BAO Toolkit · Build, audit, and verify on Base",
     template: "%s · BAO Toolkit",
   },
-  description:
-    "A developer toolkit for Builder Code attribution, source audits, B20 evidence, and reproducible transaction proofs on Base.",
+  description: SITE_DESCRIPTION,
   other: {
     "talentapp:project_verification":
       "23654c79d1303187820e11b6203dcf6c7ae24e2490cfa7e3b0fd9121ba0997a8b3eab754dc3dd72b5c4db30a8efae2bf32fb46fda460ca17f05c6b6c5c9cb0b4",

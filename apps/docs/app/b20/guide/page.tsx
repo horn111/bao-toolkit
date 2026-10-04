@@ -1,14 +1,14 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "../../seo";
 import Link from "next/link";
 import { Workspace } from "../../dashboard/workspace";
 import { CopyCommand } from "../../_components/copy-command";
 import "../workspace.css";
 
-export const metadata: Metadata = {
-  title: "B20 replay guide | BAO Toolkit",
-  description:
-    "Reproduce synthetic reports, collect explicit transaction hashes, and recheck historical evidence.",
-};
+export const metadata = pageMetadata(
+  "/b20/guide",
+  "B20 Token Inspection & Replay Guide",
+  "Reproduce B20 synthetic reports, collect explicit transaction hashes, and recheck historical evidence using BAO Toolkit's inspect, replay, and verify workflow.",
+);
 
 export default function B20GuidePage() {
   return (

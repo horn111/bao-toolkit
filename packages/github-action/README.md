@@ -3,7 +3,7 @@
 Scan pull requests for Base transaction paths that are missing the expected Builder Code attribution.
 
 ```yaml
-- uses: horn111/bao-toolkit/packages/github-action@v0.6.0
+- uses: horn111/bao-toolkit/packages/github-action@v0.6.1
   with:
     builder-code: bc_example
     profile: strict

@@ -6,11 +6,11 @@ attribution result, and check a corrected payload with the existing BAO adapter.
 
 ## Install from npm
 
-BAO Toolkit v0.6.0 includes B20 0.2.0 and CLI 0.5.0. Install the CLI to reproduce
+BAO Toolkit v0.6.1 includes B20 0.2.0 and CLI 0.5.1. Install the CLI to reproduce
 reports, and the B20 package to use its TypeScript API:
 
 ```sh
-pnpm add -D @base-attribution-os/cli@0.5.0
+pnpm add -D @base-attribution-os/cli@0.5.1
 pnpm add @base-attribution-os/b20@0.2.0
 ```
 

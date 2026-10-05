@@ -40,7 +40,7 @@ export const guides: Guide[] = [
         id: "install",
         title: "Install the adapter and CLI",
         paragraphs: [
-          "Start in an existing TypeScript app with viem. Choose the wagmi or ethers adapter if that is your transaction client. Install B20 0.2.0 and CLI 0.5.0 from npm to inspect and replay token evidence.",
+          "Start in an existing TypeScript app with viem. Choose the wagmi or ethers adapter if that is your transaction client. Install B20 0.2.0 and CLI 0.5.1 from npm to inspect and replay token evidence.",
         ],
         code: "pnpm add @base-attribution-os/viem viem\npnpm add -D @base-attribution-os/cli",
         links: [
@@ -196,9 +196,9 @@ export const guides: Guide[] = [
         id: "workflow",
         title: "Add the released attribution Action",
         paragraphs: [
-          "Save this workflow as .github/workflows/validate-attribution.yml. It checks the full project rather than only changed files. v0.6.0 is the released Action reference. B20 inspection and replay run separately through the CLI.",
+          "Save this workflow as .github/workflows/validate-attribution.yml. It checks the full project rather than only changed files. v0.6.1 is the released Action reference. B20 inspection and replay run separately through the CLI.",
         ],
-        code: 'name: Validate Attribution\non:\n  pull_request:\npermissions:\n  contents: read\njobs:\n  attribution:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6\n        with:\n          fetch-depth: 0\n      - uses: horn111/bao-toolkit/packages/github-action@v0.6.0\n        with:\n          builder-code: bc_abc123\n          profile: strict\n          changed-only: "false"\n          fail-on-missing: "true"',
+        code: 'name: Validate Attribution\non:\n  pull_request:\npermissions:\n  contents: read\njobs:\n  attribution:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6\n        with:\n          fetch-depth: 0\n      - uses: horn111/bao-toolkit/packages/github-action@v0.6.1\n        with:\n          builder-code: bc_abc123\n          profile: strict\n          changed-only: "false"\n          fail-on-missing: "true"',
       },
       {
         id: "review",

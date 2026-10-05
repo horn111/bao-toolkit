@@ -1,6 +1,6 @@
 {
   "name": "@base-attribution-os/github-action",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "GitHub Action wrapper for BAO Toolkit repo scans.",
   "type": "module",
   "license": "MIT",

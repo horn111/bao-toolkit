@@ -5,6 +5,14 @@ All notable changes to BAO Toolkit will be documented here.
 This project uses Changesets. Each package release should include a short note
 that explains the attribution workflow it improves.
 
+## 0.6.1 - 2026-10-05
+
+- Reject local attribution helpers passed through suffix aliases or namespace objects instead of counting their calls as protected.
+- Keep evidence for separate exported clients from leaking between them.
+- Show empty Doctor scopes as unmeasured in CLI and GitHub Action summaries, with numeric output compatibility documented.
+- Refresh the package inventory and architecture for B20 and all nine packages.
+- Publish scanner 0.4.2, CLI 0.5.1, and GitHub Action 0.2.3.
+
 ## 0.6.0 - 2026-10-04
 
 - Add B20 token inspection, bounded transaction replay, offline validation, and historical RPC rechecking through a new package and the CLI.

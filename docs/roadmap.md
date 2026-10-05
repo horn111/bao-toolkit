@@ -92,9 +92,17 @@ verification results for all nine public packages.
 - A shared workspace for Activity, Evidence, Doctor, Proofs, B20, and Wallets.
 - BAO Toolkit branding, canonical URLs, and updated product documentation.
 
-## Future v0 releases
+## v0.6.1 (shipped)
 
-The next maintenance scope is recorded in the [v0.6.1 brief](releases/v0.6.1.md).
+The [v0.6.1 release brief](releases/v0.6.1.md) records the Doctor reliability
+fixes, package versions, and npm/tag verification.
+
+- Reject locally implemented helpers through suffix aliases and namespace objects.
+- Keep evidence for separate exported clients from leaking between them.
+- Show empty scopes as unmeasured in CLI and Action summaries, retaining numeric
+  output compatibility and existing exit semantics.
+
+## Future v0 releases
 
 - Additional public pilot integration reports.
 - Broader transaction evidence after sponsored and USDC paths ship.

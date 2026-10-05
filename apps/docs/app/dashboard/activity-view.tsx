@@ -14,7 +14,6 @@ import {
   ACTIVITY_DAYS,
   explorerLink,
   formatEth,
-  parseActivityImport,
   summarizeActivity,
   validBuilderCode,
   type ActivityDataset,
@@ -22,6 +21,8 @@ import {
   type ActivityNetwork,
 } from "./activity";
 import type { ActivityResult } from "./activity-source";
+import type { ActivitySummary } from "./activity-processing";
+import { runActivityWork } from "./activity-worker-client";
 
 const number = new Intl.NumberFormat("en-US");
 const date = new Intl.DateTimeFormat("en-GB", {
@@ -60,9 +61,21 @@ export function ActivityDashboard(props: Props) {
   const [dataset, setDataset] = useState(props.initialDataset);
   const [message, setMessage] = useState(props.initialMessage);
   const [error, setError] = useState("");
+  const [summaryError, setSummaryError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const [summarizing, setSummarizing] = useState(false);
+  const [importStatus, setImportStatus] = useState("");
+  const [summaryCache, setSummaryCache] = useState<{
+    dataset: ActivityDataset;
+    days: ActivityDays;
+    network: ActivityNetwork;
+    summary: ActivitySummary;
+  } | null>(null);
   const [shareStatus, setShareStatus] = useState("");
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [resultsStatus, setResultsStatus] = useState("");
   const [outcome, setOutcome] = useState("all");
   const [page, setPage] = useState(0);
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
@@ -78,26 +91,99 @@ export function ActivityDashboard(props: Props) {
     },
     [],
   );
+  useEffect(() => {
+    const timeout = setTimeout(() => setDebouncedSearch(search), 300);
+    return () => clearTimeout(timeout);
+  }, [search]);
+  const cachedSummary =
+    summaryCache?.dataset === dataset &&
+    summaryCache.days === days &&
+    summaryCache.network === network
+      ? summaryCache.summary
+      : null;
   const summary = useMemo(
-    () => (dataset ? summarizeActivity(dataset, days, network) : null),
-    [dataset, days, network],
+    () =>
+      dataset?.source === "import"
+        ? cachedSummary
+        : dataset
+          ? summarizeActivity(dataset, days, network)
+          : null,
+    [dataset, days, network, cachedSummary],
   );
-  const filtered =
-    summary?.rows.filter((row) => {
-      const term = search.trim().toLowerCase();
-      return (
-        (!selectedDay || row.timestamp?.slice(0, 10) === selectedDay) &&
-        (outcome === "all" ||
-          (outcome === "success" && row.success === true) ||
-          (outcome === "reverted" && row.success === false) ||
-          (outcome === "unknown" && row.success === null)) &&
-        (!term ||
-          [row.hash, row.userOperationHash, row.wallet, row.recipient].some((value) =>
-            value?.includes(term),
-          ))
-      );
-    }) ?? [];
+  useEffect(() => {
+    setSummaryError("");
+    if (!dataset || dataset.source !== "import" || cachedSummary) {
+      setSummarizing(false);
+      return;
+    }
+    const controller = new AbortController();
+    setSummarizing(true);
+    void runActivityWork({ kind: "summary", dataset, days, network }, controller.signal)
+      .then(({ summary }) => {
+        if (!controller.signal.aborted) {
+          setSummaryError("");
+          setSummaryCache({ dataset, days, network, summary });
+        }
+      })
+      .catch((problem: unknown) => {
+        if (!controller.signal.aborted)
+          setSummaryError(
+            problem instanceof Error
+              ? problem.message
+              : "Activity could not be calculated. Retry the import.",
+          );
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setSummarizing(false);
+      });
+    return () => controller.abort();
+  }, [dataset, days, network, cachedSummary]);
+  const filtered = useMemo(
+    () =>
+      summary?.rows.filter((row) => {
+        const term = debouncedSearch.trim().toLowerCase();
+        return (
+          (!selectedDay || row.timestamp?.slice(0, 10) === selectedDay) &&
+          (outcome === "all" ||
+            (outcome === "success" && row.success === true) ||
+            (outcome === "reverted" && row.success === false) ||
+            (outcome === "unknown" && row.success === null)) &&
+          (!term ||
+            [row.hash, row.userOperationHash, row.wallet, row.recipient].some((value) =>
+              value?.includes(term),
+            ))
+        );
+      }) ?? [],
+    [summary, debouncedSearch, selectedDay, outcome],
+  );
   const visible = filtered.slice(page * 10, page * 10 + 10);
+  const attributionCounts = useMemo(
+    () => ({
+      decoded: summary?.rows.filter((row) => row.attribution === "decoded").length,
+      reported: summary?.rows.filter((row) => row.attribution === "reported").length,
+    }),
+    [summary],
+  );
+  useEffect(() => {
+    if (search !== debouncedSearch) return;
+    setResultsStatus(
+      loading || importing || summarizing
+        ? "Processing activity."
+        : `${number.format(filtered.length)} operations match. ${filtered.length ? `Showing ${number.format(page * 10 + 1)} to ${number.format(Math.min((page + 1) * 10, filtered.length))}.` : "No operations to show."} ${days} day period, ${network === 8453 ? "Base mainnet" : "Base Sepolia"}. ${selectedDay ? `Selected day ${selectedDay}.` : "All days."} ${outcome === "all" ? "All results." : `Result filter: ${outcome}.`} ${debouncedSearch ? `Search: ${debouncedSearch}.` : ""}`,
+    );
+  }, [
+    filtered.length,
+    page,
+    loading,
+    importing,
+    summarizing,
+    search,
+    debouncedSearch,
+    days,
+    network,
+    selectedDay,
+    outcome,
+  ]);
   const chosen = summary?.daily.find((day) => day.date === selectedDay);
   const peak = Math.max(1, ...(summary?.daily.map((day) => day[plotMetric]) ?? []));
   const sample = dataset?.source === "published";
@@ -130,6 +216,7 @@ export function ActivityDashboard(props: Props) {
   }
   function resetFilters() {
     setSearch("");
+    setDebouncedSearch("");
     setOutcome("all");
     setPage(0);
     setSelectedDay(null);
@@ -141,6 +228,8 @@ export function ActivityDashboard(props: Props) {
       timer.current = null;
     }
     setLoading(false);
+    setImporting(false);
+    setImportStatus("");
   }
   async function loadHistory(nextCode: string, nextNetwork: ActivityNetwork) {
     if (!validBuilderCode(nextCode)) {
@@ -217,36 +306,54 @@ export function ActivityDashboard(props: Props) {
   }
   async function importFile(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
+    event.target.value = "";
     if (!file) return;
+    stopLookup();
     const nextCode = codeInput.trim();
     if (!validBuilderCode(nextCode)) {
       setError("Enter the Builder Code for this export before importing.");
       event.target.value = "";
       return;
     }
-    stopLookup();
     setError("");
     const controller = new AbortController();
     request.current = controller;
     const importNetwork = network;
+    setImporting(true);
+    setImportStatus("Processing import in this browser. Your file is not uploaded.");
     try {
       if (file.size > 10_000_000) throw new Error("Choose a CSV or JSON file smaller than 10 MB.");
-      const text = await file.text();
+      const { dataset: imported, summary: importedSummary } = await runActivityWork(
+        { kind: "import", file, builderCode: nextCode, network: importNetwork, days },
+        controller.signal,
+      );
       if (controller.signal.aborted) return;
-      const imported = parseActivityImport(text, nextCode, importNetwork);
       setCode(nextCode);
       setDataset(imported);
+      setSummaryCache({
+        dataset: imported,
+        days,
+        network: importNetwork,
+        summary: importedSummary,
+      });
+      setImportStatus("Import complete. Your file stays in this browser session.");
       setMessage("");
       resetFilters();
       syncUrl(nextCode, days, importNetwork, "import");
     } catch (problem) {
-      if (!controller.signal.aborted)
+      if (!controller.signal.aborted) {
         setError(problem instanceof Error ? problem.message : "This export could not be read.");
+        setImportStatus("Import could not finish. Your previous data is unchanged.");
+      }
     } finally {
-      event.target.value = "";
+      if (!controller.signal.aborted) setImporting(false);
     }
   }
   function changeDays(value: ActivityDays) {
+    if (importing) {
+      stopLookup();
+      setImportStatus("Import cancelled. Import the file again for the selected period.");
+    }
     setDays(value);
     setSelectedDay(null);
     setPage(0);
@@ -351,6 +458,7 @@ export function ActivityDashboard(props: Props) {
               <input
                 value={codeInput}
                 onChange={(event) => {
+                  if (importing) stopLookup();
                   setCodeInput(event.target.value);
                   setError("");
                 }}
@@ -407,12 +515,37 @@ export function ActivityDashboard(props: Props) {
           />
         </div>
       </section>
+      <div className="activity-share-status" role="status" aria-live="polite" aria-atomic="true">
+        {importStatus}
+        {importing ? (
+          <button
+            className="activity-button"
+            onClick={() => {
+              stopLookup();
+              setImportStatus("Import cancelled. Your previous data is unchanged.");
+            }}
+          >
+            Cancel import
+          </button>
+        ) : null}
+        {summarizing ? " Updating activity totals in this browser." : null}
+      </div>
       {error ? (
         <p className="activity-error" role="alert" id="activity-error">
           {error}
         </p>
       ) : null}
-      <section className="activity-results" aria-label="App activity results" aria-busy={loading}>
+      {summaryError ? (
+        <p className="activity-error" role="alert" id="activity-summary-error">
+          {summaryError}
+        </p>
+      ) : null}
+      <section
+        className="activity-results"
+        aria-label="App activity results"
+        aria-describedby={summaryError ? "activity-summary-error" : undefined}
+        aria-busy={loading || importing || summarizing}
+      >
         <div className="activity-context">
           <div className="activity-project">
             <span className="activity-project-mark" aria-hidden="true">
@@ -793,19 +926,11 @@ export function ActivityDashboard(props: Props) {
             <dl>
               <div>
                 <dt>Code decoded from calldata</dt>
-                <dd>
-                  {summary
-                    ? summary.rows.filter((row) => row.attribution === "decoded").length
-                    : "—"}
-                </dd>
+                <dd>{attributionCounts.decoded ?? "—"}</dd>
               </div>
               <div>
                 <dt>Code reported by the source</dt>
-                <dd>
-                  {summary
-                    ? summary.rows.filter((row) => row.attribution === "reported").length
-                    : "—"}
-                </dd>
+                <dd>{attributionCounts.reported ?? "—"}</dd>
               </div>
             </dl>
             <Link
@@ -881,6 +1006,9 @@ export function ActivityDashboard(props: Props) {
               {selectedDay ? " · " + shortDate.format(new Date(selectedDay)) : ""}
             </span>
           </div>
+          <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+            {resultsStatus}
+          </p>
           <div
             className="activity-table-scroll"
             role="region"
@@ -995,14 +1123,14 @@ export function ActivityDashboard(props: Props) {
             <div>
               <button
                 className="activity-button"
-                disabled={page === 0}
+                disabled={page === 0 || search !== debouncedSearch}
                 onClick={() => setPage(page - 1)}
               >
                 Previous
               </button>
               <button
                 className="activity-button"
-                disabled={(page + 1) * 10 >= filtered.length}
+                disabled={(page + 1) * 10 >= filtered.length || search !== debouncedSearch}
                 onClick={() => setPage(page + 1)}
               >
                 Next

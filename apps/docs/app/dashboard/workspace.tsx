@@ -87,7 +87,7 @@ export function Workspace({
         <span>
           <PixelIcon name="blocks" /> Built for builders on Base
         </span>
-        <Link href="/docs/attribution-proof-loop">
+        <Link href="/docs/transaction-proofs">
           Data &amp; methodology <PixelIcon name="external" />
         </Link>
       </footer>

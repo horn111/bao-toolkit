@@ -28,7 +28,7 @@ export default async function EvidencePage({
           <Link className="dash-button" href="/dashboard">
             Return to app activity
           </Link>
-          <Link className="dash-button" href="/docs/attribution-proof-loop">
+          <Link className="dash-button" href="/docs/transaction-proofs">
             Read the proof guide
           </Link>
         </section>

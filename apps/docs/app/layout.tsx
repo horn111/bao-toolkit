@@ -7,25 +7,20 @@ import { SiteFooter } from "./_components/site-footer";
 import { SITE_DESCRIPTION, SITE_URL } from "./seo";
 
 const bodyFont = localFont({
-  src: "../public/fonts/space-grotesk.ttf",
+  src: "../public/fonts/space-grotesk.woff2",
   variable: "--font-body",
   display: "swap",
 });
 const codeFont = localFont({
-  src: "../public/fonts/jetbrains-mono.ttf",
+  src: "../public/fonts/jetbrains-mono.woff2",
   variable: "--font-code",
   display: "swap",
+  preload: false,
 });
 const pixelFont = localFont({
-  src: "../public/fonts/pixelify-sans.ttf",
+  src: "../public/fonts/pixelify-sans.woff2",
   weight: "400 700",
   variable: "--font-pixel",
-  display: "swap",
-});
-const blockFont = localFont({
-  src: "../public/fonts/bao-block-bold.ttf",
-  weight: "700",
-  variable: "--font-block",
   display: "swap",
 });
 
@@ -44,10 +39,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`${bodyFont.variable} ${codeFont.variable} ${pixelFont.variable} ${blockFont.variable}`}
-    >
+    <html lang="en" className={`${bodyFont.variable} ${codeFont.variable} ${pixelFont.variable}`}>
       <body>
         <a className="skip-link" href="#main-content">
           Skip to content

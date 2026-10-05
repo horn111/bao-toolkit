@@ -1,6 +1,6 @@
 /* B20 evidence windows inside the shared ash-and-graphite workspace. */
 .bao-workspace .b20-surface {
-  --b20-muted: #415255;
+  --b20-muted: var(--text-muted);
   --b20-link: #29483d;
   font-size: 14px;
   overflow-wrap: anywhere;

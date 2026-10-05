@@ -1475,6 +1475,14 @@
   }
 }
 @media (max-width: 680px) {
+  .activity-dashboard :is(input, select) {
+    font-size: 16px;
+    min-height: 44px;
+  }
+  .activity-dashboard button:not(.activity-bar) {
+    min-width: 44px;
+    min-height: 44px;
+  }
   .activity-heading {
     align-items: flex-start;
     flex-direction: column;

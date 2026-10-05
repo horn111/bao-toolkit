@@ -1,4 +1,5 @@
 import Image from "next/image";
+import localFont from "next/font/local";
 import heroArt from "../assets/plates/hero-planet.png";
 import Link from "next/link";
 import { SiteHeader } from "./_components/site-header";
@@ -12,6 +13,14 @@ import "./home.css";
 import { StructuredData } from "./_components/structured-data";
 import { pageMetadata, projectData, SITE_DESCRIPTION } from "./seo";
 
+const blockFont = localFont({
+  src: "../public/fonts/bao-block-bold.woff2",
+  weight: "700",
+  variable: "--font-block",
+  display: "swap",
+  preload: false,
+});
+
 export const metadata = pageMetadata(
   "/",
   "ERC-8021 attribution, B20 evidence & source audits",
@@ -20,7 +29,7 @@ export const metadata = pageMetadata(
 
 export default function HomePage() {
   return (
-    <main id="main-content" tabIndex={-1} className="product-home">
+    <main id="main-content" tabIndex={-1} className={`product-home ${blockFont.variable}`}>
       <StructuredData data={projectData} />
       <SpaceBackdrop />
       <section className="landing-stage" aria-labelledby="home-title">

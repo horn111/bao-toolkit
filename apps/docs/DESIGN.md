@@ -25,12 +25,14 @@ colors:
   workspace-accent: "#f0d77c"
   workspace-accent-hover: "#ffe89d"
   workspace-rail: "#9aa9a8"
+  workspace-muted: "#34464a"
+  workspace-footer-ink: "#1c2b30"
   activity-panel: "#c6ceca"
   activity-panel-deep: "#29363b"
   activity-paper: "#e0e7dc"
   activity-ink: "#253237"
   activity-rule: "#748582"
-  activity-muted: "#415255"
+  activity-muted: "#34464a"
   activity-link: "#29483d"
   activity-wallet: "#dde3d7"
   activity-success: "#bccabd"
@@ -245,6 +247,12 @@ The petrol and teal palette connects the homepage and documentation guides. The 
 - Direct aiming, building, beacon, and excavation controls in the homepage scenes and footer workshop.
 - Text labels and provenance beside status colors, examples, and evidence.
 
+Browser fonts use full-glyph WOFF2 files derived from the retained TTF sources.
+Space Grotesk and Pixelify Sans preload globally; JetBrains Mono loads when code
+needs it. BAO Block loads when the homepage uses it, without a preload. Font families,
+glyphs, metrics, variation axes, and licenses remain unchanged; Open Graph keeps
+its compatible static TTF face.
+
 Extracted from [global tokens](app/globals.css), [homepage styles](app/home.css), [shared site styles](app/_components/site.css), [guide styles](app/docs/docs.css), [font declarations](app/layout.tsx), [meteor behavior](app/_components/meteor-scene.tsx), [carved rock geometry](app/_components/meteor-rock.ts), [chapter constructions](app/_components/pixel-construction.tsx), and [footer workshop](app/_components/footer-builder.tsx). The [shared tool workspace](app/dashboard/workspace.css) and [app activity dashboard](app/dashboard/activity.css) supply the workspace- and activity-prefixed local tokens. The [Doctor](app/dashboard/doctor-workspace.css), [Evidence](app/dashboard/evidence-workspace.css), [Proofs and Wallets](app/dashboard/reference-workspace.css), and [B20](app/b20/workspace.css) adapters apply the same palette to each tool's controls and evidence.
 
 ## Colors
@@ -282,6 +290,7 @@ Cyan rock crust, dark cavities, amber windows, and yellow excavator details are 
 - **Workspace ash** (workspace-ground / workspace-canvas / workspace-rail): outer tool-workspace ground, framed workspace, and labelled tool rail. Workspace-border defines field strokes.
 - **Activity grey and graphite** (activity-panel / activity-panel-deep): pale window interiors with dark title strips, operation total, and daily chart. Activity-rule separates rows.
 - **Activity paper and ink** (activity-paper / activity-ink / activity-muted): light fields, dark copy, and secondary explanations. Activity-link supplies readable links on pale panels.
+- **Workspace secondary copy** (workspace-muted): shared explanations and B20 copy use the same dark grey, with at least 5:1 contrast on the workspace canvas and pale panels. Workspace-footer-ink keeps legal text and links readable on the darker outer ground. Graphite title strips and charts retain their local light text.
 - **Metric fills** (activity-wallet / activity-success / activity-fee): quiet pale variations behind wallet, execution-ratio, and gas measurements. These roles stay within the dashboard workspace.
 
 **The Status With Words Rule.** Color accompanies a specific status, finding, or scope label. It does not replace the explanation.
@@ -293,7 +302,7 @@ Cyan rock crust, dark cavities, amber windows, and yellow excavator details are 
 **Body Font:** Space Grotesk, with sans-serif fallback.
 **Code Font:** JetBrains Mono, with monospace fallback.
 
-All four families load from local font files through the root layout. The authored BAO Block Bold face is reserved for the live hero headline; its [bitmap source](assets/fonts/build_bao_block.py) carries the repository's MIT license. Pixelify is declared with a 400–700 weight range and uses 700 for chapter headings, short outcomes, and footer display. The large pixel type and smooth reading type serve different jobs.
+All four families load from local font files. The root layout declares Space Grotesk, JetBrains Mono, and Pixelify Sans; the homepage declares BAO Block. The authored BAO Block Bold face is reserved for the live hero headline; its [bitmap source](assets/fonts/build_bao_block.py) carries the repository's MIT license. Pixelify is declared with a 400–700 weight range and uses 700 for chapter headings, short outcomes, and footer display. The large pixel type and smooth reading type serve different jobs.
 
 ### Hierarchy
 
@@ -327,7 +336,7 @@ The shared tool workspace has a 1680px maximum, a graphite header, an 86px label
 - **900px and below:** guides become one column. The desktop contents navigation gives way to an in-guide disclosure; the related-guide area becomes static. Proof layouts also collapse at this breakpoint.
 - **600px and below:** homepage and footer side gutters become 20px, the hero caption stacks, the module rail becomes one column, major chapter padding becomes 48px, and the footer links use two columns. The introduction keeps 64px padding. Secondary tool links become a compact native chooser. Guide copy, code, and section spacing tighten without changing the font roles.
 - **360px and below:** the brand name uses 16px type, 10px gap, and 12px side padding to fit on one line.
-- **Activity dashboard:** at 1150px metric values tighten. At 1000px the rail becomes 70px and content padding becomes 20px. At 900px the four metrics become two columns, chart and outcomes span the width, source controls wrap, and secondary panels stack. At 680px the rail becomes a horizontal scrollable row, workspace margins become 10px, content padding becomes 18px 12px, and gaps become 10px. The two-column metric layout remains; source controls and ledger actions wrap within the viewport.
+- **Activity dashboard:** at 1150px metric values tighten. At 1000px the rail becomes 70px and content padding becomes 20px. At 900px the four metrics become two columns, chart and outcomes span the width, source controls wrap, and secondary panels stack. At 680px the rail becomes a horizontal scrollable row, workspace margins become 10px, content padding becomes 18px 12px, and gaps become 10px. The two-column metric layout remains; source controls and ledger actions wrap within the viewport. Editable fields and selects use 16px type; standalone buttons, including examples, periods, chart metrics, and pagination, have at least 44×44px targets. Daily chart bars retain their compact geometry alongside the full-width day selector.
 - **Other workspace tools:** Doctor changes from three columns to two at 1200px, then one at 800px; the fixture select replaces its list and findings precede the editor on narrow screens. Proofs and Wallets stack their main columns at 1050px; wallet steps and proof transaction fields become one column at 680px. Evidence wraps its toolbar and stacks the overview at 1000px. B20 comparisons stack at 900px. Shared tool controls stack at 900px, and inputs use 16px on small screens.
 
 Keep code and evidence overflow within their own scrollable regions. The activity ledger has a 730px minimum table width inside a labeled, keyboard-focusable horizontal scroll region. The retained attribution evidence ledger uses its existing 820px minimum.
@@ -382,7 +391,7 @@ The shared tool workspace has its own compact graphite brand bar and labelled to
 
 ### Command copying
 
-Command strips keep selectable mono code beside a copy button. Compact single-line commands scroll inside the code area. Multiline examples and long proof commands wrap inside their own area while copying the exact original string. Shared copy buttons have 44×44px minimum targets; the final homepage start strips use 52px height.
+Command strips keep selectable mono code beside a copy button. Compact single-line commands scroll inside the code area. Multiline examples and long proof commands wrap inside their own area while copying the exact original string. Shared copy buttons have 44×44px minimum targets; the final homepage start strips use 52px height. Doctor's dense desktop Copy button is 36px tall and becomes at least 44×44px at 680px and below.
 
 Successful copying switches the icon to a check and announces "Copied" in a status region. Clipboard failure gives a manual-copy instruction. Feedback clears after 3000ms; neither outcome changes the command.
 
@@ -427,6 +436,12 @@ B20 reports start with section links and a transaction index. Native transaction
 The four metric windows show operations, active wallets, successful operations, and recorded gas costs. Each value retains its label and data scope. The success meter has twenty segments; the filled count rounds the clamped recorded ratio to five-percentage-point steps. Unavailable ratios leave all segments unfilled and show an unavailable value.
 
 Period and chart-metric controls expose aria-pressed and use yellow with dark ink when selected. The wide graphite chart uses square grey bars, with yellow for the last, hovered, or selected day. Daily bars filter the operations ledger, with arrow-key inspection and a native UTC day selector (36px desktop, 44px mobile). The ledger keeps search, result filtering, transaction links, share, export, pagination, and source details beside the data. Empty states explain missing measurements without invented activity.
+
+Imported Activity files are parsed and summarized in a cancellable browser worker.
+Period and network changes also recalculate imported data there. Processing and
+failure messages preserve the previous dataset; cancelling or changing sources
+prevents late results from replacing it. A persistent polite status announces the
+ledger's result count, visible range, and filters; search waits 300ms after typing.
 
 ## Do's and Don'ts
 

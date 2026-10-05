@@ -33,5 +33,33 @@
     "license": "MIT (repository LICENSE)",
     "sha256": "0750f3618944769258780cf7d262f2f126ed5ed511d54d3283eead8bc2c82049",
     "purpose": "Original dense bitmap outlines for the approved hero lettering, with live selectable HTML text."
+  },
+  {
+    "family": "Space Grotesk",
+    "path": "space-grotesk.woff2",
+    "source": "space-grotesk.ttf",
+    "sha256": "8e085aa438094f11487a836652edd5c054fa6a96f63fc7c282105ee3a4b08c07",
+    "purpose": "Full-glyph WOFF2 compressed with FontTools 4.60.1 by assets/fonts/compress_fonts.py; same family, metrics and license as the TTF source."
+  },
+  {
+    "family": "JetBrains Mono",
+    "path": "jetbrains-mono.woff2",
+    "source": "jetbrains-mono.ttf",
+    "sha256": "7b7f3419196f675a973d30cb70078749120caddea86c8547ebf54a8db2ca13af",
+    "purpose": "Full-glyph WOFF2 compressed with FontTools 4.60.1 by assets/fonts/compress_fonts.py; same family, metrics and license as the TTF source."
+  },
+  {
+    "family": "Pixelify Sans",
+    "path": "pixelify-sans.woff2",
+    "source": "pixelify-sans.ttf",
+    "sha256": "807d95f498d0ccc257522b02d34ed48efe4e01496ffa345dab3779dd84ad08f5",
+    "purpose": "Full-glyph WOFF2 compressed with FontTools 4.60.1 by assets/fonts/compress_fonts.py; same family, metrics and license as the TTF source."
+  },
+  {
+    "family": "BAO Block",
+    "path": "bao-block-bold.woff2",
+    "source": "bao-block-bold.ttf",
+    "sha256": "198a5c021b4fe9a6757d0cd430138014967b3a0715282d893fcf6ffaca69bc78",
+    "purpose": "Full-glyph WOFF2 compressed with FontTools 4.60.1 by assets/fonts/compress_fonts.py; same family, metrics and license as the TTF source."
   }
 ]

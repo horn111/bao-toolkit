@@ -7,7 +7,7 @@ body:has(.bao-workspace) {
   --surface: #c6ceca;
   --border: #516163;
   --text-main: #253237;
-  --text-muted: #415255;
+  --text-muted: #34464a;
   --text-accent: #253237;
   --accent: #f0d77c;
   --accent-ink: #253237;
@@ -151,7 +151,7 @@ body:has(.bao-workspace) {
 .bao-workspace ~ .site-footer {
   max-width: 1680px;
   padding: 22px 24px;
-  color: #253237;
+  color: #1c2b30;
   background: transparent;
   border: 0;
 }
@@ -164,12 +164,12 @@ body:has(.bao-workspace) {
   gap: 20px;
 }
 .bao-workspace ~ .site-footer .footer-links a {
-  color: #253237;
+  color: #1c2b30;
   font-size: 12px;
 }
 .bao-workspace ~ .site-footer .footer-fineprint {
   padding-top: 14px;
-  color: #33474b;
+  color: #1c2b30;
   border-color: #647575;
 }
 .bao-workspace ~ .site-footer a:hover {

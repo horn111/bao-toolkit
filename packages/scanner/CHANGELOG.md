@@ -4,6 +4,8 @@
 
 ### Patch Changes
 
+- Align repository, homepage, and issue URLs with `horn111/bao-toolkit` for npm provenance.
+
 - bb7385a: Reject locally implemented attribution helpers passed through suffix aliases or
   namespace objects instead of reporting their calls as protected. Apply the same
   check to project configuration evidence and preserve trusted imported helpers.

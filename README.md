@@ -18,7 +18,7 @@ names and `bao` commands remain unchanged.
 [Product site](https://www.baosys.xyz) ·
 [Attribution Observatory](https://www.baosys.xyz/observatory) ·
 [Published proof sets](https://www.baosys.xyz/observatory) ·
-[v0.6.0 release](https://github.com/horn111/bao-toolkit/releases/tag/v0.6.0) ·
+[v0.6.1 release](https://github.com/horn111/bao-toolkit/releases/tag/v0.6.1) ·
 [npm packages](https://www.npmjs.com/org/base-attribution-os) ·
 [Documentation](docs/attribution-doctor.md)
 
@@ -166,7 +166,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: horn111/bao-toolkit/packages/github-action@v0.6.0
+      - uses: horn111/bao-toolkit/packages/github-action@v0.6.1
         with:
           builder-code: bc_abc123
           profile: strict
@@ -181,7 +181,7 @@ jobs:
 ```
 
 The Action reports checked files, detected transaction paths, protected paths,
-coverage, and findings. Pin the immutable `v0.6.0` release in production
+coverage, and findings. Pin the immutable `v0.6.1` release in production
 workflows. Moving the floating `v0` ref is a separate release step.
 
 ## Attribution Doctor

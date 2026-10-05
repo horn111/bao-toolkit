@@ -44,7 +44,7 @@ The site uses Next.js and the existing public proof-set and B20 registries.
 Published proofs are snapshots, not a complete or continuously indexed history.
 Released attribution packages retain their @base-attribution-os names; the brand
 change does not rename public package imports. B20 inspect/replay/verify are
-available in B20 0.2.0 and CLI 0.5.0. Two recorded B20 reports cover eight public
+available in B20 0.2.0 and CLI 0.5.1. Two recorded B20 reports cover eight public
 transactions; their application readiness remains not tested. The B20
 before/after transfer comparison uses synthetic receipts.
 Stack the Bag uses Builder Code bc_4pe6m33m and will run in seasons. Its currently

@@ -74,6 +74,7 @@ interface Candidate {
 }
 
 interface LinkedSyntax {
+  untrustedHelper?: boolean;
   identifiers: Set<string>;
   literals: Set<string>;
   memberAccesses: Set<string>;
@@ -337,7 +338,7 @@ function evaluateCandidate(
   );
   const wrongDirectCode = directCodes.find((code) => !options.builderCodes.includes(code));
   const wrongLinkedCode = linkedCodes.find((code) => !options.builderCodes.includes(code));
-  const untrustedLocalHelper = hasLocallyDeclaredAttributionHelper(directSource, source);
+  const untrustedLocalHelper = linkedSyntax.untrustedHelper;
   const localAttribution = findLocalAttribution(
     candidate,
     directSource,
@@ -391,14 +392,19 @@ function evaluateCandidate(
     wrongDirectCode ??
     (localAttribution ? wrongLinkedCode : undefined) ??
     linkedEvidence?.wrongCode;
-  if (wrongCode && !hasExpectedDirectCode && !hasExpectedSuffix) {
+  if (untrustedLocalHelper) {
+    status = "unresolved";
+    ruleId = "BAO003";
+    message = `${candidate.marker} uses a locally implemented attribution helper whose output cannot be verified statically.`;
+    suggestion = "Use an imported attribution helper or supply a verifiable encoded suffix.";
+    confidence = "medium";
+  } else if (wrongCode && !hasExpectedDirectCode && !hasExpectedSuffix) {
     status = "wrong-code";
     ruleId = "BAO002";
     message = `${candidate.marker} uses ${wrongCode}, which is not configured for this project.`;
     suggestion = "Replace it with a Builder Code from bao.config.json.";
   } else if (
     localAttribution &&
-    !untrustedLocalHelper &&
     (hasExpectedDirectCode || hasExpectedLinkedCode || hasExpectedSuffix)
   ) {
     status = "protected";
@@ -502,10 +508,7 @@ function findLocalAttribution(
   if (/\bdataSuffix\b/.test(directSource)) {
     return { kind: "config", detail: "transaction dataSuffix" };
   }
-  if (
-    ATTRIBUTION_HELPER_REGEX.test(directSource) &&
-    !hasLocallyDeclaredAttributionHelper(directSource, source)
-  ) {
+  if (ATTRIBUTION_HELPER_REGEX.test(directSource)) {
     return { kind: "helper", detail: "Builder Code attribution helper" };
   }
   if (/\bdata\b\s*:\s*[^,}\n]+(?:suffix|Suffix|DATA_SUFFIX)/.test(directSource)) {
@@ -565,7 +568,7 @@ function collectAttributionSyntax(
     literals: new Set(),
     memberAccesses: new Set(),
   };
-  const declarations = followDeclarations ? collectValueDeclarations(sourceFile) : [];
+  const declarations = collectValueDeclarations(sourceFile);
   const visitedValues = new Set<ts.Node>();
   const evidenceProperties = new Set([
     "appDataSuffix",
@@ -612,6 +615,14 @@ function collectAttributionSyntax(
 
     if (ts.isCallExpression(node) || ts.isNewExpression(node)) {
       const marker = expressionName(node.expression);
+      if (
+        marker &&
+        (ATTRIBUTION_HELPER_REGEX.test(marker) || marker === "toDataSuffix") &&
+        hasLocalImplementation(node.expression, declarations)
+      ) {
+        syntax.untrustedHelper = true;
+        return;
+      }
       for (const argument of attributionArguments(marker, node.arguments ?? [])) visit(argument);
       return;
     }
@@ -804,7 +815,7 @@ function collectValueDeclarations(sourceFile: ts.SourceFile): ValueDeclaration[]
   function visit(node: ts.Node): void {
     if (ts.isVariableDeclaration(node) || ts.isParameter(node)) {
       addBindingNames(node.name, node);
-    } else if (ts.isFunctionDeclaration(node) && node.name) {
+    } else if ((ts.isFunctionDeclaration(node) || ts.isClassDeclaration(node)) && node.name) {
       declarations.push({
         name: node.name.text,
         node,
@@ -1325,23 +1336,32 @@ function collectProjectEvidence(
       continue;
     }
 
-    const expectedNodes = configNodes.filter((node) => {
-      const literals = collectAttributionSyntax(sourceFile, [node], true).literals;
-      return builderCodes.some((code) => literals.has(code));
-    });
+    const analyses = configNodes.map((node) => ({
+      node,
+      syntax: collectAttributionSyntax(sourceFile, [node], true),
+    }));
+    const untrustedBindings = new Set(
+      analyses.flatMap(({ node, syntax }) =>
+        syntax.untrustedHelper ? exportedBindingsForNode(node) : [],
+      ),
+    );
+    const expectedNodes = analyses
+      .filter(
+        ({ node, syntax }) =>
+          !syntax.untrustedHelper &&
+          !exportedBindingsForNode(node).some((binding) => untrustedBindings.has(binding)) &&
+          builderCodes.some((code) => syntax.literals.has(code)),
+      )
+      .map(({ node }) => node);
     const expected = expectedNodes.length > 0;
     const discoveredCodes = Array.from(
-      new Set(
-        configNodes.flatMap((node) =>
-          discoverBuilderCodesInLiterals(
-            collectAttributionSyntax(sourceFile, [node], true).literals,
-          ),
-        ),
-      ),
+      new Set(analyses.flatMap(({ syntax }) => discoverBuilderCodesInLiterals(syntax.literals))),
     );
     const wrongCode = discoveredCodes.find((code) => !builderCodes.includes(code));
     const exportedBindings = Array.from(
-      new Set(configNodes.flatMap((node) => exportedBindingsForNode(node))),
+      new Set(
+        (expected ? expectedNodes : configNodes).flatMap((node) => exportedBindingsForNode(node)),
+      ),
     );
     const location =
       sourceFile.getLineAndCharacterOfPosition(configNodes[0].getStart(sourceFile)).line + 1;
@@ -1741,17 +1761,38 @@ function hasRequiredDataSuffixCapability(root: ts.Node): boolean {
   return required;
 }
 
-function hasLocallyDeclaredAttributionHelper(directSource: string, source: string): boolean {
-  const helpers = Array.from(
-    directSource.matchAll(
-      /\b(appendDataSuffix|attributeSendCalls|attributeUserOperation|builderCodeDataSuffix|createAttributionProvider|createAttributionSigner|createDataSuffix|dataSuffix|declareBuilderCodeExtension|ethersBuilderCodeDataSuffix|sendAttributedCalls|useAttributionSuffix|withAttributionSuffix|withDataSuffixCapability|withEthersAttribution|withUserOperationAttribution|withViemDataSuffix)\s*\(/g,
-    ),
-    (match) => match[1],
-  );
-  return helpers.some((helper) => {
-    const escaped = helper.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    return new RegExp(`\\b(?:function|class|const|let|var)\\s+${escaped}\\b`).test(source);
-  });
+function hasLocalImplementation(
+  expression: ts.Expression,
+  declarations: ValueDeclaration[],
+  visited = new Set<ts.Node>(),
+): boolean {
+  if (ts.isPropertyAccessExpression(expression) || ts.isElementAccessExpression(expression)) {
+    return hasLocalImplementation(expression.expression, declarations, visited);
+  }
+  if (
+    ts.isParenthesizedExpression(expression) ||
+    ts.isAsExpression(expression) ||
+    ts.isSatisfiesExpression(expression) ||
+    ts.isNonNullExpression(expression) ||
+    ts.isTypeAssertionExpression(expression)
+  ) {
+    return hasLocalImplementation(expression.expression, declarations, visited);
+  }
+  if (!ts.isIdentifier(expression)) return true;
+
+  const declaration = findVisibleDeclaration(declarations, expression.text, expression.getStart());
+  // Keep support for known helper names in standalone snippets without imports.
+  if (!declaration) return false;
+  const node = declaration.node;
+  if (ts.isImportSpecifier(node) || ts.isImportClause(node) || ts.isNamespaceImport(node)) {
+    return false;
+  }
+  if (visited.has(node)) return true;
+  visited.add(node);
+  if (ts.isVariableDeclaration(node) && node.initializer) {
+    return hasLocalImplementation(node.initializer, declarations, visited);
+  }
+  return true;
 }
 
 function assertBuilderCodes(codes: string[]): void {

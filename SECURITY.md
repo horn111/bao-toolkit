@@ -1,6 +1,6 @@
 # Security
 
-Base Attribution OS handles transaction calldata and Builder Code metadata. It
+BAO Toolkit handles transaction calldata and Builder Code metadata. It
 does not ask for private keys, seed phrases, or signing permissions.
 
 ## Reporting

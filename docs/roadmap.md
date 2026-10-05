@@ -81,7 +81,20 @@ Proof Sets and local Observatory analytics without a hosted ingestion service.
 - Add shareable proof cards and per-report progress without telemetry or runtime RPC calls.
 - Verify the public Proof Set API and CLI from all eight packed packages.
 
+## v0.6 (shipped)
+
+The [v0.6.0 release brief](releases/v0.6.0.md) records the shipped versions and
+verification results for all nine public packages.
+
+- B20 source-pinned inspection, receipt-aware replay, and offline or RPC verification.
+- Explicit sample reports with evidence limits and unresolved observations.
+- App Activity with CSV/JSON imports and an optional server-side Dune data source.
+- A shared workspace for Activity, Evidence, Doctor, Proofs, B20, and Wallets.
+- BAO Toolkit branding, canonical URLs, and updated product documentation.
+
 ## Future v0 releases
+
+The next maintenance scope is recorded in the [v0.6.1 brief](releases/v0.6.1.md).
 
 - Additional public pilot integration reports.
 - Broader transaction evidence after sponsored and USDC paths ship.

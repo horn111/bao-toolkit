@@ -89,9 +89,11 @@ async function writeSummary(report: AttributionReport, changedSince?: string): P
     });
 
   core.summary
-    .addHeading("Base Attribution Doctor", 2)
+    .addHeading("BAO Attribution Doctor", 2)
     .addRaw(
-      `${report.summary.protected}/${report.summary.total} transaction paths protected (${report.summary.coverage}%).`,
+      report.summary.total === 0
+        ? "Coverage not measured: no supported transaction paths in the configured scope. Check the scope and supported patterns."
+        : `${report.summary.protected}/${report.summary.total} transaction paths protected (${report.summary.coverage}%).`,
     )
     .addEOL()
     .addRaw(

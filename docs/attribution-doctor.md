@@ -17,7 +17,7 @@ rewrite application code.
 `doctor` reports every supported path:
 
 ```text
-Base Attribution Doctor
+BAO Attribution Doctor
 
 Frameworks: smart-wallet, wagmi, x402
 Coverage: 3/4 paths protected (75%)
@@ -50,6 +50,17 @@ bao doctor --format sarif --output bao.sarif
 Human output is optimized for local work. JSON is the stable automation surface.
 SARIF can be uploaded to GitHub Code Scanning.
 
+An empty scope is **not measured**, not evidence of complete protection. Check
+include/exclude patterns, supported syntax, and any changed-only filter. CLI
+summaries and Action summaries omit the percentage when no paths are found.
+For compatibility, JSON `summary.coverage` and the Action `coverage` output retain
+the numeric value `100` for an empty scope. Always check `summary.total` or the
+Action `transaction-paths` output before interpreting coverage.
+
+The CLI retains its no-findings success exit code. The Action retains its stricter
+policy: with `fail-on-missing: true`, an empty scope fails, including an empty
+changed-only scan. `fail-on-missing: false` permits reporting without enforcement.
+
 ## Compatibility
 
 `bao scan-repo` remains available for existing workflows. It now delegates to
@@ -61,3 +72,10 @@ Doctor does not execute application code. Environment-driven attribution is
 reported as `unresolved`: a warning in `ci`, and an error in `strict`. This is
 deliberate; the scanner reports what it can prove instead of treating any helper
 name in the same file as complete coverage.
+
+Locally implemented helpers, including suffix aliases and local
+`Attribution.toDataSuffix` objects, produce `BAO003` rather than `protected`.
+The scanner follows supported local declarations and lexical scopes; it does not
+evaluate helper bodies. Known helper names in standalone snippets remain supported
+without imports for compatibility. A protected result is a static pattern match,
+not proof of a helper's runtime behavior or a substitute for transaction replay.

@@ -1,6 +1,6 @@
 # Pilot Integration Guide
 
-Base Attribution OS pilots are small attribution-readiness checks for Base
+BAO Toolkit pilots are small attribution-readiness checks for Base
 builders. The goal is to prove that Builder Code attribution survives real
 transaction paths before deploy.
 

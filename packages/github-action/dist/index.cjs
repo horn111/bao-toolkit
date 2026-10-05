@@ -230,10 +230,10 @@ var require_tunnel = __commonJS({
         var overrides = arguments[i];
         if (typeof overrides === "object") {
           var keys = Object.keys(overrides);
-          for (var j2 = 0, keyLen = keys.length; j2 < keyLen; ++j2) {
-            var k2 = keys[j2];
-            if (overrides[k2] !== void 0) {
-              target[k2] = overrides[k2];
+          for (var j = 0, keyLen = keys.length; j < keyLen; ++j) {
+            var k = keys[j];
+            if (overrides[k] !== void 0) {
+              target[k] = overrides[k];
             }
           }
         }
@@ -1157,8 +1157,8 @@ var require_util = __commonJS({
     }
     var KEEPALIVE_TIMEOUT_EXPR = /timeout=(\d+)/;
     function parseKeepAliveTimeout(val) {
-      const m2 = val.toString().match(KEEPALIVE_TIMEOUT_EXPR);
-      return m2 ? parseInt(m2[1], 10) * 1e3 : null;
+      const m = val.toString().match(KEEPALIVE_TIMEOUT_EXPR);
+      return m ? parseInt(m[1], 10) * 1e3 : null;
     }
     function headerNameToString(value) {
       return typeof value === "string" ? headerNameLowerCasedRecord[value] ?? value.toLowerCase() : tree.lookup(value) ?? value.toString("latin1").toLowerCase();
@@ -1360,11 +1360,11 @@ var require_util = __commonJS({
     }
     function parseRangeHeader(range) {
       if (range == null || range === "") return { start: 0, end: null, size: null };
-      const m2 = range ? range.match(/^bytes (\d+)-(\d+)\/(\d+)?$/) : null;
-      return m2 ? {
-        start: parseInt(m2[1]),
-        end: m2[2] ? parseInt(m2[2]) : null,
-        size: m2[3] ? parseInt(m2[3]) : null
+      const m = range ? range.match(/^bytes (\d+)-(\d+)\/(\d+)?$/) : null;
+      return m ? {
+        start: parseInt(m[1]),
+        end: m[2] ? parseInt(m[2]) : null,
+        size: m[3] ? parseInt(m[3]) : null
       } : null;
     }
     function addListener(obj, name, listener) {
@@ -3326,19 +3326,19 @@ var require_data_url = __commonJS({
     function percentDecode(input) {
       const length = input.length;
       const output = new Uint8Array(length);
-      let j2 = 0;
+      let j = 0;
       for (let i = 0; i < length; ++i) {
         const byte = input[i];
         if (byte !== 37) {
-          output[j2++] = byte;
+          output[j++] = byte;
         } else if (byte === 37 && !(isHexCharByte(input[i + 1]) && isHexCharByte(input[i + 2]))) {
-          output[j2++] = 37;
+          output[j++] = 37;
         } else {
-          output[j2++] = hexByteToNumber(input[i + 1]) << 4 | hexByteToNumber(input[i + 2]);
+          output[j++] = hexByteToNumber(input[i + 1]) << 4 | hexByteToNumber(input[i + 2]);
           i += 2;
         }
       }
-      return length === j2 ? output : output.subarray(0, j2);
+      return length === j ? output : output.subarray(0, j);
     }
     function parseMIMEType(input) {
       input = removeHTTPWhitespace(input, true, true);
@@ -3929,12 +3929,12 @@ var require_webidl = __commonJS({
       }
       return V2;
     };
-    webidl.converters.TypedArray = function(V2, T, prefix, name, opts) {
-      if (webidl.util.Type(V2) !== "Object" || !types.isTypedArray(V2) || V2.constructor.name !== T.name) {
+    webidl.converters.TypedArray = function(V2, T2, prefix, name, opts) {
+      if (webidl.util.Type(V2) !== "Object" || !types.isTypedArray(V2) || V2.constructor.name !== T2.name) {
         throw webidl.errors.conversionFailed({
           prefix,
           argument: `${name} ("${webidl.util.Stringify(V2)}")`,
-          types: [T.name]
+          types: [T2.name]
         });
       }
       if (opts?.allowShared === false && types.isSharedArrayBuffer(V2.buffer)) {
@@ -5047,15 +5047,15 @@ var require_formdata = __commonJS({
         }
       }
       [nodeUtil.inspect.custom](depth, options) {
-        const state = this[kState].reduce((a2, b) => {
-          if (a2[b.name]) {
-            if (Array.isArray(a2[b.name])) {
-              a2[b.name].push(b.value);
+        const state = this[kState].reduce((a2, b2) => {
+          if (a2[b2.name]) {
+            if (Array.isArray(a2[b2.name])) {
+              a2[b2.name].push(b2.value);
             } else {
-              a2[b.name] = [a2[b.name], b.value];
+              a2[b2.name] = [a2[b2.name], b2.value];
             }
           } else {
-            a2[b.name] = b.value;
+            a2[b2.name] = b2.value;
           }
           return a2;
         }, { __proto__: null });
@@ -8373,11 +8373,11 @@ var require_balanced_pool = __commonJS({
     var kWeight = /* @__PURE__ */ Symbol("kWeight");
     var kMaxWeightPerServer = /* @__PURE__ */ Symbol("kMaxWeightPerServer");
     var kErrorPenalty = /* @__PURE__ */ Symbol("kErrorPenalty");
-    function getGreatestCommonDivisor(a2, b) {
-      if (a2 === 0) return b;
-      while (b !== 0) {
-        const t = b;
-        b = a2 % b;
+    function getGreatestCommonDivisor(a2, b2) {
+      if (a2 === 0) return b2;
+      while (b2 !== 0) {
+        const t = b2;
+        b2 = a2 % b2;
         a2 = t;
       }
       return a2;
@@ -8459,7 +8459,7 @@ var require_balanced_pool = __commonJS({
         if (!dispatcher) {
           return;
         }
-        const allClientsBusy = this[kClients].map((pool) => pool[kNeedDrain]).reduce((a2, b) => a2 && b, true);
+        const allClientsBusy = this[kClients].map((pool) => pool[kNeedDrain]).reduce((a2, b2) => a2 && b2, true);
         if (allClientsBusy) {
           return;
         }
@@ -10714,8 +10714,8 @@ var require_mock_utils = __commonJS({
         const value = data[key];
         const name = Buffer.from(`${key}`);
         if (Array.isArray(value)) {
-          for (let j2 = 0; j2 < value.length; ++j2) {
-            result.push(name, Buffer.from(`${value[j2]}`));
+          for (let j = 0; j < value.length; ++j) {
+            result.push(name, Buffer.from(`${value[j]}`));
           }
         } else {
           result.push(name, Buffer.from(`${value}`));
@@ -11838,10 +11838,10 @@ var require_headers = __commonJS({
     }
     function headerValueNormalize(potentialValue) {
       let i = 0;
-      let j2 = potentialValue.length;
-      while (j2 > i && isHTTPWhiteSpaceCharCode(potentialValue.charCodeAt(j2 - 1))) --j2;
-      while (j2 > i && isHTTPWhiteSpaceCharCode(potentialValue.charCodeAt(i))) ++i;
-      return i === 0 && j2 === potentialValue.length ? potentialValue : potentialValue.substring(i, j2);
+      let j = potentialValue.length;
+      while (j > i && isHTTPWhiteSpaceCharCode(potentialValue.charCodeAt(j - 1))) --j;
+      while (j > i && isHTTPWhiteSpaceCharCode(potentialValue.charCodeAt(i))) ++i;
+      return i === 0 && j === potentialValue.length ? potentialValue : potentialValue.substring(i, j);
     }
     function fill(headers, object) {
       if (Array.isArray(object)) {
@@ -11888,8 +11888,8 @@ var require_headers = __commonJS({
       }
       return getHeadersList(headers).append(name, value, false);
     }
-    function compareHeaderName(a2, b) {
-      return a2[0] < b[0] ? -1 : 1;
+    function compareHeaderName(a2, b2) {
+      return a2[0] < b2[0] ? -1 : 1;
     }
     var HeadersList = class _HeadersList {
       /** @type {[string, string][]|null} */
@@ -12020,7 +12020,7 @@ var require_headers = __commonJS({
           const firstValue = iterator.next().value;
           array[0] = [firstValue[0], firstValue[1].value];
           assert(firstValue[1].value !== null);
-          for (let i = 1, j2 = 0, right = 0, left = 0, pivot = 0, x, value; i < size; ++i) {
+          for (let i = 1, j = 0, right = 0, left = 0, pivot = 0, x, value; i < size; ++i) {
             value = iterator.next().value;
             x = array[i] = [value[0], value[1].value];
             assert(x[1] !== null);
@@ -12035,9 +12035,9 @@ var require_headers = __commonJS({
               }
             }
             if (i !== pivot) {
-              j2 = i;
-              while (j2 > left) {
-                array[j2] = array[--j2];
+              j = i;
+              while (j > left) {
+                array[j] = array[--j];
               }
               array[left] = x;
             }
@@ -12180,8 +12180,8 @@ var require_headers = __commonJS({
         for (let i = 0; i < names.length; ++i) {
           const { 0: name, 1: value } = names[i];
           if (name === "set-cookie") {
-            for (let j2 = 0; j2 < cookies.length; ++j2) {
-              headers.push([name, cookies[j2]]);
+            for (let j = 0; j < cookies.length; ++j) {
+              headers.push([name, cookies[j]]);
             }
           } else {
             headers.push([name, value]);
@@ -14989,24 +14989,24 @@ var require_util4 = __commonJS({
       return new TextDecoder(encoding).decode(sliced);
     }
     function BOMSniffing(ioQueue) {
-      const [a2, b, c] = ioQueue;
-      if (a2 === 239 && b === 187 && c === 191) {
+      const [a2, b2, c] = ioQueue;
+      if (a2 === 239 && b2 === 187 && c === 191) {
         return "UTF-8";
-      } else if (a2 === 254 && b === 255) {
+      } else if (a2 === 254 && b2 === 255) {
         return "UTF-16BE";
-      } else if (a2 === 255 && b === 254) {
+      } else if (a2 === 255 && b2 === 254) {
         return "UTF-16LE";
       }
       return null;
     }
     function combineByteSequences(sequences) {
-      const size = sequences.reduce((a2, b) => {
-        return a2 + b.byteLength;
+      const size = sequences.reduce((a2, b2) => {
+        return a2 + b2.byteLength;
       }, 0);
       let offset = 0;
-      return sequences.reduce((a2, b) => {
-        a2.set(b, offset);
-        offset += b.byteLength;
+      return sequences.reduce((a2, b2) => {
+        a2.set(b2, offset);
+        offset += b2.byteLength;
         return a2;
       }, new Uint8Array(size));
     }
@@ -21857,7 +21857,7 @@ var require_typescript = __commonJS({
         }
       }
       function stableSortIndices(array, indices, comparer) {
-        indices.sort((x, y) => comparer(array[x], array[y]) || compareValues(x, y));
+        indices.sort((x, y2) => comparer(array[x], array[y2]) || compareValues(x, y2));
       }
       function toSorted(array, comparer) {
         return array.length === 0 ? emptyArray : array.slice().sort(comparer);
@@ -22361,23 +22361,23 @@ var require_typescript = __commonJS({
         AssertionLevel2[AssertionLevel2["VeryAggressive"] = 3] = "VeryAggressive";
         return AssertionLevel2;
       })(AssertionLevel || {});
-      function equateValues(a2, b) {
-        return a2 === b;
+      function equateValues(a2, b2) {
+        return a2 === b2;
       }
-      function equateStringsCaseInsensitive(a2, b) {
-        return a2 === b || a2 !== void 0 && b !== void 0 && a2.toUpperCase() === b.toUpperCase();
+      function equateStringsCaseInsensitive(a2, b2) {
+        return a2 === b2 || a2 !== void 0 && b2 !== void 0 && a2.toUpperCase() === b2.toUpperCase();
       }
-      function equateStringsCaseSensitive(a2, b) {
-        return equateValues(a2, b);
+      function equateStringsCaseSensitive(a2, b2) {
+        return equateValues(a2, b2);
       }
-      function compareComparableValues(a2, b) {
-        return a2 === b ? 0 : a2 === void 0 ? -1 : b === void 0 ? 1 : a2 < b ? -1 : 1;
+      function compareComparableValues(a2, b2) {
+        return a2 === b2 ? 0 : a2 === void 0 ? -1 : b2 === void 0 ? 1 : a2 < b2 ? -1 : 1;
       }
-      function compareValues(a2, b) {
-        return compareComparableValues(a2, b);
+      function compareValues(a2, b2) {
+        return compareComparableValues(a2, b2);
       }
-      function compareTextSpans(a2, b) {
-        return compareValues(a2 == null ? void 0 : a2.start, b == null ? void 0 : b.start) || compareValues(a2 == null ? void 0 : a2.length, b == null ? void 0 : b.length);
+      function compareTextSpans(a2, b2) {
+        return compareValues(a2 == null ? void 0 : a2.start, b2 == null ? void 0 : b2.start) || compareValues(a2 == null ? void 0 : a2.length, b2 == null ? void 0 : b2.length);
       }
       function maxBy(arr, init, mapper) {
         for (let i = 0; i < arr.length; i++) {
@@ -22386,42 +22386,42 @@ var require_typescript = __commonJS({
         return init;
       }
       function min(items, compare) {
-        return reduceLeft(items, (x, y) => compare(x, y) === -1 ? x : y);
+        return reduceLeft(items, (x, y2) => compare(x, y2) === -1 ? x : y2);
       }
-      function compareStringsCaseInsensitive(a2, b) {
-        if (a2 === b) return 0;
+      function compareStringsCaseInsensitive(a2, b2) {
+        if (a2 === b2) return 0;
         if (a2 === void 0) return -1;
-        if (b === void 0) return 1;
+        if (b2 === void 0) return 1;
         a2 = a2.toUpperCase();
-        b = b.toUpperCase();
-        return a2 < b ? -1 : a2 > b ? 1 : 0;
+        b2 = b2.toUpperCase();
+        return a2 < b2 ? -1 : a2 > b2 ? 1 : 0;
       }
-      function compareStringsCaseInsensitiveEslintCompatible(a2, b) {
-        if (a2 === b) return 0;
+      function compareStringsCaseInsensitiveEslintCompatible(a2, b2) {
+        if (a2 === b2) return 0;
         if (a2 === void 0) return -1;
-        if (b === void 0) return 1;
+        if (b2 === void 0) return 1;
         a2 = a2.toLowerCase();
-        b = b.toLowerCase();
-        return a2 < b ? -1 : a2 > b ? 1 : 0;
+        b2 = b2.toLowerCase();
+        return a2 < b2 ? -1 : a2 > b2 ? 1 : 0;
       }
-      function compareStringsCaseSensitive(a2, b) {
-        return compareComparableValues(a2, b);
+      function compareStringsCaseSensitive(a2, b2) {
+        return compareComparableValues(a2, b2);
       }
       function getStringComparer(ignoreCase) {
         return ignoreCase ? compareStringsCaseInsensitive : compareStringsCaseSensitive;
       }
       var createUIStringComparer = /* @__PURE__ */ (() => {
         return createIntlCollatorStringComparer;
-        function compareWithCallback(a2, b, comparer) {
-          if (a2 === b) return 0;
+        function compareWithCallback(a2, b2, comparer) {
+          if (a2 === b2) return 0;
           if (a2 === void 0) return -1;
-          if (b === void 0) return 1;
-          const value = comparer(a2, b);
+          if (b2 === void 0) return 1;
+          const value = comparer(a2, b2);
           return value < 0 ? -1 : value > 0 ? 1 : 0;
         }
         function createIntlCollatorStringComparer(locale) {
           const comparer = new Intl.Collator(locale, { usage: "sort", sensitivity: "variant", numeric: true }).compare;
-          return (a2, b) => compareWithCallback(a2, b, comparer);
+          return (a2, b2) => compareWithCallback(a2, b2, comparer);
         }
       })();
       var uiComparerCaseSensitive;
@@ -22435,15 +22435,15 @@ var require_typescript = __commonJS({
           uiComparerCaseSensitive = void 0;
         }
       }
-      function compareStringsCaseSensitiveUI(a2, b) {
+      function compareStringsCaseSensitiveUI(a2, b2) {
         uiComparerCaseSensitive ?? (uiComparerCaseSensitive = createUIStringComparer(uiLocale));
-        return uiComparerCaseSensitive(a2, b);
+        return uiComparerCaseSensitive(a2, b2);
       }
-      function compareProperties(a2, b, key, comparer) {
-        return a2 === b ? 0 : a2 === void 0 ? -1 : b === void 0 ? 1 : comparer(a2[key], b[key]);
+      function compareProperties(a2, b2, key, comparer) {
+        return a2 === b2 ? 0 : a2 === void 0 ? -1 : b2 === void 0 ? 1 : comparer(a2[key], b2[key]);
       }
-      function compareBooleans(a2, b) {
-        return compareValues(a2 ? 1 : 0, b ? 1 : 0);
+      function compareBooleans(a2, b2) {
+        return compareValues(a2 ? 1 : 0, b2 ? 1 : 0);
       }
       function getSpellingSuggestion(name, candidates, getName) {
         const maximumLengthDifference = Math.max(2, Math.floor(name.length * 0.34));
@@ -22482,24 +22482,24 @@ var require_typescript = __commonJS({
           const maxJ = Math.floor(s2.length > max + i ? max + i : s2.length);
           current[0] = i;
           let colMin = i;
-          for (let j2 = 1; j2 < minJ; j2++) {
-            current[j2] = big;
+          for (let j = 1; j < minJ; j++) {
+            current[j] = big;
           }
-          for (let j2 = minJ; j2 <= maxJ; j2++) {
-            const substitutionDistance = s1[i - 1].toLowerCase() === s2[j2 - 1].toLowerCase() ? previous[j2 - 1] + 0.1 : previous[j2 - 1] + 2;
-            const dist = c1 === s2.charCodeAt(j2 - 1) ? previous[j2 - 1] : Math.min(
+          for (let j = minJ; j <= maxJ; j++) {
+            const substitutionDistance = s1[i - 1].toLowerCase() === s2[j - 1].toLowerCase() ? previous[j - 1] + 0.1 : previous[j - 1] + 2;
+            const dist = c1 === s2.charCodeAt(j - 1) ? previous[j - 1] : Math.min(
               /*delete*/
-              previous[j2] + 1,
+              previous[j] + 1,
               /*insert*/
-              current[j2 - 1] + 1,
+              current[j - 1] + 1,
               /*substitute*/
               substitutionDistance
             );
-            current[j2] = dist;
+            current[j] = dist;
             colMin = Math.min(colMin, dist);
           }
-          for (let j2 = maxJ + 1; j2 <= s2.length; j2++) {
-            current[j2] = big;
+          for (let j = maxJ + 1; j <= s2.length; j++) {
+            current[j] = big;
           }
           if (colMin > max) {
             return void 0;
@@ -22619,8 +22619,8 @@ var require_typescript = __commonJS({
       function isPatternMatch({ prefix, suffix }, candidate) {
         return candidate.length >= prefix.length + suffix.length && startsWith(candidate, prefix) && endsWith(candidate, suffix);
       }
-      function and(f, g) {
-        return (arg) => f(arg) && g(arg);
+      function and(f, g2) {
+        return (arg) => f(arg) && g2(arg);
       }
       function or(...fs4) {
         return (...args) => {
@@ -22829,28 +22829,28 @@ Node ${formatSyntaxKind(node.kind)} was unexpected.`,
           }
         }
         Debug2.assert = assert;
-        function assertEqual(a2, b, msg, msg2, stackCrawlMark) {
-          if (a2 !== b) {
+        function assertEqual(a2, b2, msg, msg2, stackCrawlMark) {
+          if (a2 !== b2) {
             const message = msg ? msg2 ? `${msg} ${msg2}` : msg : "";
-            fail(`Expected ${a2} === ${b}. ${message}`, stackCrawlMark || assertEqual);
+            fail(`Expected ${a2} === ${b2}. ${message}`, stackCrawlMark || assertEqual);
           }
         }
         Debug2.assertEqual = assertEqual;
-        function assertLessThan(a2, b, msg, stackCrawlMark) {
-          if (a2 >= b) {
-            fail(`Expected ${a2} < ${b}. ${msg || ""}`, stackCrawlMark || assertLessThan);
+        function assertLessThan(a2, b2, msg, stackCrawlMark) {
+          if (a2 >= b2) {
+            fail(`Expected ${a2} < ${b2}. ${msg || ""}`, stackCrawlMark || assertLessThan);
           }
         }
         Debug2.assertLessThan = assertLessThan;
-        function assertLessThanOrEqual(a2, b, stackCrawlMark) {
-          if (a2 > b) {
-            fail(`Expected ${a2} <= ${b}`, stackCrawlMark || assertLessThanOrEqual);
+        function assertLessThanOrEqual(a2, b2, stackCrawlMark) {
+          if (a2 > b2) {
+            fail(`Expected ${a2} <= ${b2}`, stackCrawlMark || assertLessThanOrEqual);
           }
         }
         Debug2.assertLessThanOrEqual = assertLessThanOrEqual;
-        function assertGreaterThanOrEqual(a2, b, stackCrawlMark) {
-          if (a2 < b) {
-            fail(`Expected ${a2} >= ${b}`, stackCrawlMark || assertGreaterThanOrEqual);
+        function assertGreaterThanOrEqual(a2, b2, stackCrawlMark) {
+          if (a2 < b2) {
+            fail(`Expected ${a2} >= ${b2}`, stackCrawlMark || assertGreaterThanOrEqual);
           }
         }
         Debug2.assertGreaterThanOrEqual = assertGreaterThanOrEqual;
@@ -23009,7 +23009,7 @@ Node ${formatSyntaxKind(node.kind)} was unexpected.`,
               result.push([value, name]);
             }
           }
-          const sorted = toSorted(result, (x, y) => compareValues(x[0], y[0]));
+          const sorted = toSorted(result, (x, y2) => compareValues(x[0], y2[0]));
           enumMemberCache.set(enumObject, sorted);
           return sorted;
         }
@@ -28275,23 +28275,23 @@ ${lanes.join("\n")}
         return changeAnyExtension(path3, newExtension);
       }
       var relativePathSegmentRegExp = /\/\/|(?:^|\/)\.\.?(?:$|\/)/;
-      function comparePathsWorker(a2, b, componentComparer) {
-        if (a2 === b) return 0;
+      function comparePathsWorker(a2, b2, componentComparer) {
+        if (a2 === b2) return 0;
         if (a2 === void 0) return -1;
-        if (b === void 0) return 1;
+        if (b2 === void 0) return 1;
         const aRoot = a2.substring(0, getRootLength(a2));
-        const bRoot = b.substring(0, getRootLength(b));
+        const bRoot = b2.substring(0, getRootLength(b2));
         const result = compareStringsCaseInsensitive(aRoot, bRoot);
         if (result !== 0) {
           return result;
         }
         const aRest = a2.substring(aRoot.length);
-        const bRest = b.substring(bRoot.length);
+        const bRest = b2.substring(bRoot.length);
         if (!relativePathSegmentRegExp.test(aRest) && !relativePathSegmentRegExp.test(bRest)) {
           return componentComparer(aRest, bRest);
         }
         const aComponents = reducePathComponents(getPathComponents(a2));
-        const bComponents = reducePathComponents(getPathComponents(b));
+        const bComponents = reducePathComponents(getPathComponents(b2));
         const sharedLength = Math.min(aComponents.length, bComponents.length);
         for (let i = 1; i < sharedLength; i++) {
           const result2 = componentComparer(aComponents[i], bComponents[i]);
@@ -28301,20 +28301,20 @@ ${lanes.join("\n")}
         }
         return compareValues(aComponents.length, bComponents.length);
       }
-      function comparePathsCaseSensitive(a2, b) {
-        return comparePathsWorker(a2, b, compareStringsCaseSensitive);
+      function comparePathsCaseSensitive(a2, b2) {
+        return comparePathsWorker(a2, b2, compareStringsCaseSensitive);
       }
-      function comparePathsCaseInsensitive(a2, b) {
-        return comparePathsWorker(a2, b, compareStringsCaseInsensitive);
+      function comparePathsCaseInsensitive(a2, b2) {
+        return comparePathsWorker(a2, b2, compareStringsCaseInsensitive);
       }
-      function comparePaths(a2, b, currentDirectory, ignoreCase) {
+      function comparePaths(a2, b2, currentDirectory, ignoreCase) {
         if (typeof currentDirectory === "string") {
           a2 = combinePaths(currentDirectory, a2);
-          b = combinePaths(currentDirectory, b);
+          b2 = combinePaths(currentDirectory, b2);
         } else if (typeof currentDirectory === "boolean") {
           ignoreCase = currentDirectory;
         }
-        return comparePathsWorker(a2, b, getStringComparer(ignoreCase));
+        return comparePathsWorker(a2, b2, getStringComparer(ignoreCase));
       }
       function containsPath(parent2, child, currentDirectory, ignoreCase) {
         if (typeof currentDirectory === "string") {
@@ -34108,21 +34108,21 @@ ${lanes.join("\n")}
         return start <= end ? createTextSpanFromBounds(start, end) : void 0;
       }
       function normalizeSpans(spans) {
-        spans = spans.filter((span) => span.length > 0).sort((a2, b) => {
-          return a2.start !== b.start ? a2.start - b.start : a2.length - b.length;
+        spans = spans.filter((span) => span.length > 0).sort((a2, b2) => {
+          return a2.start !== b2.start ? a2.start - b2.start : a2.length - b2.length;
         });
         const result = [];
         let i = 0;
         while (i < spans.length) {
           let span = spans[i];
-          let j2 = i + 1;
-          while (j2 < spans.length && textSpanIntersectsWithTextSpan(span, spans[j2])) {
-            const start = Math.min(span.start, spans[j2].start);
-            const end = Math.max(textSpanEnd(span), textSpanEnd(spans[j2]));
+          let j = i + 1;
+          while (j < spans.length && textSpanIntersectsWithTextSpan(span, spans[j])) {
+            const start = Math.min(span.start, spans[j].start);
+            const end = Math.max(textSpanEnd(span), textSpanEnd(spans[j]));
             span = createTextSpanFromBounds(start, end);
-            j2++;
+            j++;
           }
-          i = j2;
+          i = j;
           result.push(span);
         }
         return result;
@@ -34668,7 +34668,7 @@ ${lanes.join("\n")}
         if (tags === void 0 || noCache) {
           const comments = getJSDocCommentsAndTags(node, noCache);
           Debug.assert(comments.length < 2 || comments[0] !== comments[1]);
-          tags = flatMap(comments, (j2) => isJSDoc(j2) ? j2.tags : j2);
+          tags = flatMap(comments, (j) => isJSDoc(j) ? j.tags : j);
           if (!noCache) {
             node.jsDoc ?? (node.jsDoc = []);
             node.jsDoc.jsDocCache = tags;
@@ -35816,8 +35816,8 @@ ${lanes.join("\n")}
         result.repopulateInfo = () => true;
         return result;
       }
-      function packageIdIsEqual(a2, b) {
-        return a2 === b || !!a2 && !!b && a2.name === b.name && a2.subModuleName === b.subModuleName && a2.version === b.version && a2.peerDependencies === b.peerDependencies;
+      function packageIdIsEqual(a2, b2) {
+        return a2 === b2 || !!a2 && !!b2 && a2.name === b2.name && a2.subModuleName === b2.subModuleName && a2.version === b2.version && a2.peerDependencies === b2.peerDependencies;
       }
       function packageIdToPackageName({ name, subModuleName }) {
         return subModuleName ? `${name}/${subModuleName}` : name;
@@ -37734,9 +37734,9 @@ ${lanes.join("\n")}
       function childIsDecorated(useLegacyDecorators, node, parent2) {
         switch (node.kind) {
           case 264:
-            return some(node.members, (m2) => nodeOrChildIsDecorated(useLegacyDecorators, m2, node, parent2));
+            return some(node.members, (m) => nodeOrChildIsDecorated(useLegacyDecorators, m, node, parent2));
           case 232:
-            return !useLegacyDecorators && some(node.members, (m2) => nodeOrChildIsDecorated(useLegacyDecorators, m2, node, parent2));
+            return !useLegacyDecorators && some(node.members, (m) => nodeOrChildIsDecorated(useLegacyDecorators, m, node, parent2));
           case 175:
           case 179:
           case 177:
@@ -41805,9 +41805,9 @@ ${lanes.join("\n")}
           }
         }
       }
-      function guessDirectorySymlink(a2, b, cwd, getCanonicalFileName) {
+      function guessDirectorySymlink(a2, b2, cwd, getCanonicalFileName) {
         const aParts = getPathComponents(getNormalizedAbsolutePath(a2, cwd));
-        const bParts = getPathComponents(getNormalizedAbsolutePath(b, cwd));
+        const bParts = getPathComponents(getNormalizedAbsolutePath(b2, cwd));
         let isDirectory2 = false;
         while (aParts.length >= 2 && bParts.length >= 2 && !isNodeModulesOrScopedPackageDirectory(aParts[aParts.length - 2], getCanonicalFileName) && !isNodeModulesOrScopedPackageDirectory(bParts[bParts.length - 2], getCanonicalFileName) && getCanonicalFileName(aParts[aParts.length - 1]) === getCanonicalFileName(bParts[bParts.length - 1])) {
           aParts.pop();
@@ -42451,8 +42451,8 @@ ${lanes.join("\n")}
         const isPlainJs = isPlainJsFile(sourceFile, options.checkJs);
         return isPlainJs || isCheckJs || sourceFile.scriptKind === 7;
       }
-      function isJsonEqual(a2, b) {
-        return a2 === b || typeof a2 === "object" && a2 !== null && typeof b === "object" && b !== null && equalOwnProperties(a2, b, isJsonEqual);
+      function isJsonEqual(a2, b2) {
+        return a2 === b2 || typeof a2 === "object" && a2 !== null && typeof b2 === "object" && b2 !== null && equalOwnProperties(a2, b2, isJsonEqual);
       }
       function parsePseudoBigInt(stringValue) {
         let log2Base;
@@ -44020,11 +44020,11 @@ ${lanes.join("\n")}
           }
           return parenthesizerRule;
         }
-        function mixingBinaryOperatorsRequiresParentheses(a2, b) {
+        function mixingBinaryOperatorsRequiresParentheses(a2, b2) {
           if (a2 === 61) {
-            return b === 56 || b === 57;
+            return b2 === 56 || b2 === 57;
           }
-          if (b === 61) {
+          if (b2 === 61) {
             return a2 === 56 || a2 === 57;
           }
           return false;
@@ -50594,12 +50594,12 @@ ${lanes.join("\n")}
           );
         }
       }
-      function compareEmitHelpers(x, y) {
-        if (x === y) return 0;
-        if (x.priority === y.priority) return 0;
+      function compareEmitHelpers(x, y2) {
+        if (x === y2) return 0;
+        if (x.priority === y2.priority) return 0;
         if (x.priority === void 0) return 1;
-        if (y.priority === void 0) return -1;
-        return compareValues(x.priority, y.priority);
+        if (y2.priority === void 0) return -1;
+        return compareValues(x.priority, y2.priority);
       }
       function helperString(input, ...args) {
         return (uniqueName) => {
@@ -52997,7 +52997,7 @@ ${lanes.join("\n")}
         return isImportMeta2(node) ? node : forEachChild(node, walkTreeForImportMeta);
       }
       function hasModifierOfKind(node, kind) {
-        return some(node.modifiers, (m2) => m2.kind === kind);
+        return some(node.modifiers, (m) => m.kind === kind);
       }
       function isImportMeta2(node) {
         return isMetaProperty(node) && node.keywordToken === 102 && node.name.escapedText === "meta";
@@ -59551,8 +59551,8 @@ ${lanes.join("\n")}
             if (node) {
               return node;
             }
-            for (const m2 of modifiers) {
-              m2.flags |= 33554432;
+            for (const m of modifiers) {
+              m.flags |= 33554432;
             }
             return doInsideOfContext(33554432, () => parseDeclarationWorker(pos, hasJSDoc, modifiers));
           } else {
@@ -60147,8 +60147,8 @@ ${lanes.join("\n")}
           if (tokenIsIdentifierOrKeyword(token()) || token() === 11 || token() === 9 || token() === 10 || token() === 42 || token() === 23) {
             const isAmbient = some(modifiers, isDeclareModifier);
             if (isAmbient) {
-              for (const m2 of modifiers) {
-                m2.flags |= 33554432;
+              for (const m of modifiers) {
+                m.flags |= 33554432;
               }
               return doInsideOfContext(33554432, () => parsePropertyOrMethodDeclaration(pos, hasJSDoc, modifiers));
             } else {
@@ -61828,16 +61828,16 @@ ${lanes.join("\n")}
               const end2 = comment !== void 0 ? getNodePos() : typeExpression.end;
               return finishNode(factory2.createJSDocOverloadTag(tagName, typeExpression, comment), start2, end2);
             }
-            function escapedTextsEqual(a2, b) {
-              while (!isIdentifier(a2) || !isIdentifier(b)) {
-                if (!isIdentifier(a2) && !isIdentifier(b) && a2.right.escapedText === b.right.escapedText) {
+            function escapedTextsEqual(a2, b2) {
+              while (!isIdentifier(a2) || !isIdentifier(b2)) {
+                if (!isIdentifier(a2) && !isIdentifier(b2) && a2.right.escapedText === b2.right.escapedText) {
                   a2 = a2.left;
-                  b = b.left;
+                  b2 = b2.left;
                 } else {
                   return false;
                 }
               }
-              return a2.escapedText === b.escapedText;
+              return a2.escapedText === b2.escapedText;
             }
             function parseChildPropertyTag(indent3) {
               return parseChildParameterOrPropertyTag(1, indent3);
@@ -64279,7 +64279,7 @@ ${lanes.join("\n")}
       }
       function createDiagnosticForInvalidCustomType(opt, createDiagnostic) {
         const namesOfType = arrayFrom(opt.type.keys());
-        const stringNames = (opt.deprecatedKeys ? namesOfType.filter((k2) => !opt.deprecatedKeys.has(k2)) : namesOfType).map((key) => `'${key}'`).join(", ");
+        const stringNames = (opt.deprecatedKeys ? namesOfType.filter((k) => !opt.deprecatedKeys.has(k)) : namesOfType).map((key) => `'${key}'`).join(", ");
         return createDiagnostic(Diagnostics.Argument_for_0_option_must_be_Colon_1, `--${opt.name}`, stringNames);
       }
       function parseCustomTypeOption(opt, value, errors) {
@@ -65001,7 +65001,7 @@ ${lanes.join("\n")}
       function generateTSConfig(options, newLine) {
         const tab = "  ";
         const result = [];
-        const allSetOptions = Object.keys(options).filter((k2) => k2 !== "init" && k2 !== "help" && k2 !== "watch");
+        const allSetOptions = Object.keys(options).filter((k) => k !== "init" && k !== "help" && k !== "watch");
         result.push(`{`);
         result.push(`${tab}// ${getLocaleSpecificMessage(Diagnostics.Visit_https_Colon_Slash_Slashaka_ms_Slashtsconfig_to_read_more_about_this_file)}`);
         result.push(`${tab}"compilerOptions": {`);
@@ -67820,7 +67820,7 @@ ${lanes.join("\n")}
                 state
               );
               if (result) {
-                entrypoints = appendIfUnique(entrypoints, result, (a2, b) => a2.path === b.path);
+                entrypoints = appendIfUnique(entrypoints, result, (a2, b2) => a2.path === b2.path);
                 return true;
               }
             }
@@ -68023,10 +68023,10 @@ ${lanes.join("\n")}
         return idx === -1 ? { packageName: moduleName, rest: "" } : { packageName: moduleName.slice(0, idx), rest: moduleName.slice(idx + 1) };
       }
       function allKeysStartWithDot(obj) {
-        return every(getOwnKeys(obj), (k2) => startsWith(k2, "."));
+        return every(getOwnKeys(obj), (k) => startsWith(k, "."));
       }
       function noKeyStartsWithDot(obj) {
-        return !some(getOwnKeys(obj), (k2) => startsWith(k2, "."));
+        return !some(getOwnKeys(obj), (k) => startsWith(k, "."));
       }
       function loadModuleFromSelfNameReference(extensions, moduleName, directory, state, cache, redirectedReference) {
         var _a, _b;
@@ -68168,17 +68168,17 @@ ${lanes.join("\n")}
           void 0
         );
       }
-      function comparePatternKeys(a2, b) {
+      function comparePatternKeys(a2, b2) {
         const aPatternIndex = a2.indexOf("*");
-        const bPatternIndex = b.indexOf("*");
+        const bPatternIndex = b2.indexOf("*");
         const baseLenA = aPatternIndex === -1 ? a2.length : aPatternIndex + 1;
-        const baseLenB = bPatternIndex === -1 ? b.length : bPatternIndex + 1;
+        const baseLenB = bPatternIndex === -1 ? b2.length : bPatternIndex + 1;
         if (baseLenA > baseLenB) return -1;
         if (baseLenB > baseLenA) return 1;
         if (aPatternIndex === -1) return 1;
         if (bPatternIndex === -1) return -1;
-        if (a2.length > b.length) return -1;
-        if (b.length > a2.length) return 1;
+        if (a2.length > b2.length) return -1;
+        if (b2.length > a2.length) return 1;
         return 0;
       }
       function loadModuleFromExportsOrImports(extensions, state, cache, redirectedReference, moduleName, lookupTable, scope, isImports) {
@@ -68194,7 +68194,7 @@ ${lanes.join("\n")}
             moduleName
           );
         }
-        const expandingKeys = toSorted(filter(getOwnKeys(lookupTable), (k2) => hasOneAsterisk(k2) || endsWith(k2, "/")), comparePatternKeys);
+        const expandingKeys = toSorted(filter(getOwnKeys(lookupTable), (k) => hasOneAsterisk(k) || endsWith(k, "/")), comparePatternKeys);
         for (const potentialTarget of expandingKeys) {
           if (state.features & 16 && matchesPatternWithTrailer(potentialTarget, moduleName)) {
             const target = lookupTable[potentialTarget];
@@ -70954,14 +70954,14 @@ ${lanes.join("\n")}
         function bindJSDoc(node) {
           if (hasJSDocNodes(node)) {
             if (isInJSFile(node)) {
-              for (const j2 of node.jsDoc) {
-                bind(j2);
+              for (const j of node.jsDoc) {
+                bind(j);
               }
             } else {
-              for (const j2 of node.jsDoc) {
-                setParent(j2, node);
+              for (const j of node.jsDoc) {
+                setParent(j, node);
                 setParentRecursive(
-                  j2,
+                  j,
                   /*incremental*/
                   false
                 );
@@ -72134,25 +72134,25 @@ ${lanes.join("\n")}
       }
       function isExportsOrModuleExportsOrAlias(sourceFile, node) {
         let i = 0;
-        const q = createQueue();
-        q.enqueue(node);
-        while (!q.isEmpty() && i < 100) {
+        const q2 = createQueue();
+        q2.enqueue(node);
+        while (!q2.isEmpty() && i < 100) {
           i++;
-          node = q.dequeue();
+          node = q2.dequeue();
           if (isExportsIdentifier(node) || isModuleExportsAccessExpression(node)) {
             return true;
           } else if (isIdentifier(node)) {
             const symbol = lookupSymbolForName(sourceFile, node.escapedText);
             if (!!symbol && !!symbol.valueDeclaration && isVariableDeclaration(symbol.valueDeclaration) && !!symbol.valueDeclaration.initializer) {
               const init = symbol.valueDeclaration.initializer;
-              q.enqueue(init);
+              q2.enqueue(init);
               if (isAssignmentExpression(
                 init,
                 /*excludeCompoundAssignment*/
                 true
               )) {
-                q.enqueue(init.left);
-                q.enqueue(init.right);
+                q2.enqueue(init.left);
+                q2.enqueue(init.right);
               }
             }
           }
@@ -72787,10 +72787,10 @@ ${lanes.join("\n")}
         }
         return isPathRelativeToParent(maybeNonRelative) || countPathComponents(relativePath) < countPathComponents(maybeNonRelative) ? relativePath : maybeNonRelative;
       }
-      function packageJsonPathsAreEqual(a2, b, ignoreCase) {
-        if (a2 === b) return true;
-        if (a2 === void 0 || b === void 0) return false;
-        return comparePaths(a2, b, ignoreCase) === 0;
+      function packageJsonPathsAreEqual(a2, b2, ignoreCase) {
+        if (a2 === b2) return true;
+        if (a2 === void 0 || b2 === void 0) return false;
+        return comparePaths(a2, b2, ignoreCase) === 0;
       }
       function countPathComponents(path3) {
         let count = 0;
@@ -72799,8 +72799,8 @@ ${lanes.join("\n")}
         }
         return count;
       }
-      function comparePathsByRedirectAndNumberOfDirectorySeparators(a2, b) {
-        return compareBooleans(b.isRedirect, a2.isRedirect) || compareNumberOfDirectorySeparators(a2.path, b.path);
+      function comparePathsByRedirectAndNumberOfDirectorySeparators(a2, b2) {
+        return compareBooleans(b2.isRedirect, a2.isRedirect) || compareNumberOfDirectorySeparators(a2.path, b2.path);
       }
       function getNearestAncestorDirectoryWithPackageJson(host, fileName) {
         if (host.getNearestAncestorDirectoryWithPackageJson) {
@@ -73135,20 +73135,20 @@ ${lanes.join("\n")}
       }
       function tryGetModuleNameFromExports(options, host, targetFilePath, packageDirectory, packageName, exports22, conditions) {
         if (typeof exports22 === "object" && exports22 !== null && !Array.isArray(exports22) && allKeysStartWithDot(exports22)) {
-          return forEach(getOwnKeys(exports22), (k2) => {
+          return forEach(getOwnKeys(exports22), (k) => {
             const subPackageName = getNormalizedAbsolutePath(
-              combinePaths(packageName, k2),
+              combinePaths(packageName, k),
               /*currentDirectory*/
               void 0
             );
-            const mode = endsWith(k2, "/") ? 1 : k2.includes("*") ? 2 : 0;
+            const mode = endsWith(k, "/") ? 1 : k.includes("*") ? 2 : 0;
             return tryGetModuleNameFromExportsOrImports(
               options,
               host,
               targetFilePath,
               packageDirectory,
               subPackageName,
-              exports22[k2],
+              exports22[k],
               conditions,
               mode,
               /*isImports*/
@@ -73193,16 +73193,16 @@ ${lanes.join("\n")}
           return void 0;
         }
         const conditions = getConditions(options, importMode);
-        return (_c = forEach(getOwnKeys(imports), (k2) => {
-          if (!startsWith(k2, "#") || k2 === "#" || startsWith(k2, "#/")) return void 0;
-          const mode = endsWith(k2, "/") ? 1 : k2.includes("*") ? 2 : 0;
+        return (_c = forEach(getOwnKeys(imports), (k) => {
+          if (!startsWith(k, "#") || k === "#" || startsWith(k, "#/")) return void 0;
+          const mode = endsWith(k, "/") ? 1 : k.includes("*") ? 2 : 0;
           return tryGetModuleNameFromExportsOrImports(
             options,
             host,
             moduleFileName,
             ancestorDirectoryWithPackageJson,
-            k2,
-            imports[k2],
+            k,
+            imports[k],
             conditions,
             mode,
             /*isImports*/
@@ -80018,7 +80018,7 @@ ${lanes.join("\n")}
                 const restoreFlags = saveRestoreFlags(context);
                 context.flags |= 64;
                 seenNames.forEach((types2) => {
-                  if (!arrayIsHomogeneous(types2, ([a2], [b]) => typesAreSameReference(a2, b))) {
+                  if (!arrayIsHomogeneous(types2, ([a2], [b2]) => typesAreSameReference(a2, b2))) {
                     for (const [type, resultIndex] of types2) {
                       result[resultIndex] = typeToTypeNodeHelper(type, context);
                     }
@@ -80029,8 +80029,8 @@ ${lanes.join("\n")}
               return result;
             }
           }
-          function typesAreSameReference(a2, b) {
-            return a2 === b || !!a2.symbol && a2.symbol === b.symbol || !!a2.aliasSymbol && a2.aliasSymbol === b.aliasSymbol;
+          function typesAreSameReference(a2, b2) {
+            return a2 === b2 || !!a2.symbol && a2.symbol === b2.symbol || !!a2.aliasSymbol && a2.aliasSymbol === b2.aliasSymbol;
           }
           function indexInfoToIndexSignatureDeclarationHelper(indexInfo, context, typeNode) {
             const name = getNameFromIndexInfo(indexInfo) || "x";
@@ -80617,9 +80617,9 @@ ${lanes.join("\n")}
                 }
                 return [symbol2];
               }
-              function sortByBestName(a2, b) {
+              function sortByBestName(a2, b2) {
                 const specifierA = parentSpecifiers[a2];
-                const specifierB = parentSpecifiers[b];
+                const specifierB = parentSpecifiers[b2];
                 if (specifierA && specifierB) {
                   const isBRelative = pathIsRelative(specifierB);
                   if (pathIsRelative(specifierA) === isBRelative) {
@@ -81987,8 +81987,8 @@ ${lanes.join("\n")}
                 /* ConstructSignature */
               );
               const indexSignatures = serializeIndexSignatures(interfaceType, baseType);
-              const heritageClauses = !length(baseTypes) ? void 0 : [factory.createHeritageClause(96, mapDefined(baseTypes, (b) => trySerializeAsTypeReference(
-                b,
+              const heritageClauses = !length(baseTypes) ? void 0 : [factory.createHeritageClause(96, mapDefined(baseTypes, (b2) => trySerializeAsTypeReference(
+                b2,
                 111551
                 /* Value */
               )))];
@@ -82067,19 +82067,19 @@ ${lanes.join("\n")}
                 }
                 exports22 = arrayFrom(membersSet);
               }
-              return filter(exports22, (m2) => isNamespaceMember(m2) && isIdentifierText(
-                m2.escapedName,
+              return filter(exports22, (m) => isNamespaceMember(m) && isIdentifierText(
+                m.escapedName,
                 99
                 /* ESNext */
               ));
             }
             function isTypeOnlyNamespace(symbol) {
-              return every(getNamespaceMembersForSerialization(symbol), (m2) => !(getSymbolFlags(resolveSymbol(m2)) & 111551));
+              return every(getNamespaceMembersForSerialization(symbol), (m) => !(getSymbolFlags(resolveSymbol(m)) & 111551));
             }
             function serializeModule(symbol, symbolName2, modifierFlags) {
               const members = getNamespaceMembersForSerialization(symbol);
               const expanding = isExpanding(context);
-              const locationMap = arrayToMultiMap(members, (m2) => m2.parent && m2.parent === symbol || expanding ? "real" : "merged");
+              const locationMap = arrayToMultiMap(members, (m) => m.parent && m.parent === symbol || expanding ? "real" : "merged");
               const realMembers = locationMap.get("real") || emptyArray;
               const mergedMembers = locationMap.get("merged") || emptyArray;
               if (length(realMembers) || expanding) {
@@ -82373,7 +82373,7 @@ ${lanes.join("\n")}
               const staticBaseType = isClass ? getBaseConstructorTypeOfClass(staticType) : anyType;
               context.approximateLength += (length(baseTypes) ? 8 : 0) + (length(implementsExpressions) ? 11 : 0);
               const heritageClauses = [
-                ...!length(baseTypes) ? [] : [factory.createHeritageClause(96, map(baseTypes, (b) => serializeBaseType(b, staticBaseType, localName)))],
+                ...!length(baseTypes) ? [] : [factory.createHeritageClause(96, map(baseTypes, (b2) => serializeBaseType(b2, staticBaseType, localName)))],
                 ...!length(implementsExpressions) ? [] : [factory.createHeritageClause(119, implementsExpressions)]
               ];
               const symbolProps = getNonInheritedProperties(classType, baseTypes, getPropertiesOfType(classType));
@@ -86298,7 +86298,7 @@ ${lanes.join("\n")}
             /* Construct */
           ).length > 0);
           const mixinFlags = map(types, isMixinConstructorType);
-          if (constructorTypeCount > 0 && constructorTypeCount === countWhere(mixinFlags, (b) => b)) {
+          if (constructorTypeCount > 0 && constructorTypeCount === countWhere(mixinFlags, (b2) => b2)) {
             const firstMixinIndex = mixinFlags.indexOf(
               /*searchElement*/
               true
@@ -86328,7 +86328,7 @@ ${lanes.join("\n")}
           let indexInfos;
           const types = type.types;
           const mixinFlags = findMixins(types);
-          const mixinCount = countWhere(mixinFlags, (b) => b);
+          const mixinCount = countWhere(mixinFlags, (b2) => b2);
           for (let i = 0; i < types.length; i++) {
             const t = type.types[i];
             if (!mixinFlags[i]) {
@@ -87244,7 +87244,7 @@ ${lanes.join("\n")}
                   if (isInstantiation && compareProperties2(
                     singleProp,
                     prop,
-                    (a2, b) => a2 === b ? -1 : 0
+                    (a2, b2) => a2 === b2 ? -1 : 0
                     /* False */
                   ) === -1) {
                     mergedInstantiations = !!singleProp.parent && !!length(getLocalTypeParametersOfClassOrInterfaceOrTypeAlias(singleProp.parent));
@@ -89826,8 +89826,8 @@ ${lanes.join("\n")}
           const compositeType = getUnionOrIntersectionType(types, kind);
           return createTypePredicate(last2.kind, last2.parameterName, last2.parameterIndex, compositeType);
         }
-        function typePredicateKindsMatch(a2, b) {
-          return a2.kind === b.kind && a2.parameterIndex === b.parameterIndex;
+        function typePredicateKindsMatch(a2, b2) {
+          return a2.kind === b2.kind && a2.parameterIndex === b2.parameterIndex;
         }
         function getUnionTypeFromSortedList(types, precomputedObjectFlags, aliasSymbol, aliasTypeArguments, origin) {
           if (types.length === 0) {
@@ -90126,11 +90126,11 @@ ${lanes.join("\n")}
           for (let i = 0; i < count; i++) {
             const constituents = types.slice();
             let n = i;
-            for (let j2 = types.length - 1; j2 >= 0; j2--) {
-              if (types[j2].flags & 1048576) {
-                const sourceTypes = types[j2].types;
+            for (let j = types.length - 1; j >= 0; j--) {
+              if (types[j].flags & 1048576) {
+                const sourceTypes = types[j].types;
                 const length2 = sourceTypes.length;
-                constituents[j2] = sourceTypes[n % length2];
+                constituents[j] = sourceTypes[n % length2];
                 n = Math.floor(n / length2);
               }
             }
@@ -110477,9 +110477,9 @@ ${lanes.join("\n")}
         function hasInferenceCandidatesOrDefault(info2) {
           return !!(info2.candidates || info2.contraCandidates || hasTypeParameterDefault(info2.typeParameter));
         }
-        function hasOverlappingInferences(a2, b) {
+        function hasOverlappingInferences(a2, b2) {
           for (let i = 0; i < a2.length; i++) {
-            if (hasInferenceCandidates(a2[i]) && hasInferenceCandidates(b[i])) {
+            if (hasInferenceCandidates(a2[i]) && hasInferenceCandidates(b2[i])) {
               return true;
             }
           }
@@ -114666,8 +114666,8 @@ ${lanes.join("\n")}
               } else if (seenDefault) {
                 error22(node, Diagnostics.Required_type_parameters_may_not_follow_optional_type_parameters);
               }
-              for (let j2 = 0; j2 < i; j2++) {
-                if (typeParameterDeclarations[j2].symbol === node.symbol) {
+              for (let j = 0; j < i; j++) {
+                if (typeParameterDeclarations[j].symbol === node.symbol) {
                   error22(node.name, Diagnostics.Duplicate_identifier_0, declarationNameToString(node.name));
                 }
               }
@@ -115775,7 +115775,7 @@ ${lanes.join("\n")}
               }
               if (compilerOptions.verbatimModuleSyntax && node.parent.kind === 308 && host.getEmitModuleFormatOfFile(node.parent) === 1) {
                 const exportModifier = (_b = node.modifiers) == null ? void 0 : _b.find(
-                  (m2) => m2.kind === 95
+                  (m) => m.kind === 95
                   /* ExportKeyword */
                 );
                 if (exportModifier) {
@@ -123459,7 +123459,7 @@ ${lanes.join("\n")}
         return indices;
       }
       function getProperties(node, requireInitializer, isStatic2) {
-        return filter(node.members, (m2) => isInitializedOrStaticProperty(m2, requireInitializer, isStatic2));
+        return filter(node.members, (m) => isInitializedOrStaticProperty(m, requireInitializer, isStatic2));
       }
       function isStaticPropertyDeclarationOrClassStaticBlockDeclaration(element) {
         return isStaticPropertyDeclaration(element) || isClassStaticBlockDeclaration(element);
@@ -126690,7 +126690,7 @@ ${lanes.join("\n")}
               factory2.createAssignment(
                 functionName,
                 factory2.createFunctionExpression(
-                  filter(node.modifiers, (m2) => isModifier(m2) && !isStaticModifier(m2) && !isAccessorModifier(m2)),
+                  filter(node.modifiers, (m) => isModifier(m) && !isStaticModifier(m) && !isAccessorModifier(m)),
                   node.asteriskToken,
                   functionName,
                   /*typeParameters*/
@@ -129422,7 +129422,7 @@ ${lanes.join("\n")}
           ) && isStaticElement === isStatic(member);
         }
         function getDecoratedClassElements(node, isStatic2) {
-          return filter(node.members, (m2) => isDecoratedClassElement(m2, isStatic2, node));
+          return filter(node.members, (m) => isDecoratedClassElement(m, isStatic2, node));
         }
         function generateClassElementDecorationExpressions(node, isStatic2) {
           const members = getDecoratedClassElements(node, isStatic2);
@@ -141113,8 +141113,8 @@ ${lanes.join("\n")}
           return block.kind === 3;
         }
         function hasImmediateContainingLabeledBlock(labelText, start) {
-          for (let j2 = start; j2 >= 0; j2--) {
-            const containingBlock = blockStack[j2];
+          for (let j = start; j >= 0; j--) {
+            const containingBlock = blockStack[j];
             if (supportsLabeledBreakOrContinue(containingBlock)) {
               if (containingBlock.labelText === labelText) {
                 return true;
@@ -144059,7 +144059,7 @@ ${lanes.join("\n")}
         }
         function createExportStarFunction(localNames) {
           const exportStarFunction = factory2.createUniqueName("exportStar");
-          const m2 = factory2.createIdentifier("m");
+          const m = factory2.createIdentifier("m");
           const n = factory2.createIdentifier("n");
           const exports22 = factory2.createIdentifier("exports");
           let condition = factory2.createStrictInequality(n, factory2.createStringLiteral("default"));
@@ -144089,7 +144089,7 @@ ${lanes.join("\n")}
               void 0,
               /*dotDotDotToken*/
               void 0,
-              m2
+              m
             )],
             /*type*/
             void 0,
@@ -144113,7 +144113,7 @@ ${lanes.join("\n")}
                   factory2.createVariableDeclarationList([
                     factory2.createVariableDeclaration(n)
                   ]),
-                  m2,
+                  m,
                   factory2.createBlock([
                     setEmitFlags(
                       factory2.createIfStatement(
@@ -144121,7 +144121,7 @@ ${lanes.join("\n")}
                         factory2.createExpressionStatement(
                           factory2.createAssignment(
                             factory2.createElementAccessExpression(exports22, n),
-                            factory2.createElementAccessExpression(m2, n)
+                            factory2.createElementAccessExpression(m, n)
                           )
                         )
                       ),
@@ -146791,7 +146791,7 @@ ${lanes.join("\n")}
               tryGetResolutionModeOverride(decl.attributes)
             ) : void 0;
           }
-          const bindingList = mapDefined(decl.importClause.namedBindings.elements, (b) => resolver.isDeclarationVisible(b) ? b : void 0);
+          const bindingList = mapDefined(decl.importClause.namedBindings.elements, (b2) => resolver.isDeclarationVisible(b2) ? b2 : void 0);
           if (bindingList && bindingList.length || visibleDefaultBinding) {
             return factory2.updateImportDeclaration(
               decl,
@@ -147664,16 +147664,16 @@ ${lanes.join("\n")}
                 input,
                 factory2.createNodeArray(ensureModifiers(input)),
                 input.name,
-                factory2.createNodeArray(mapDefined(input.members, (m2) => {
-                  if (shouldStripInternal(m2)) return;
-                  const enumValue = resolver.getEnumMemberValue(m2);
+                factory2.createNodeArray(mapDefined(input.members, (m) => {
+                  if (shouldStripInternal(m)) return;
+                  const enumValue = resolver.getEnumMemberValue(m);
                   const constValue = enumValue == null ? void 0 : enumValue.value;
-                  if (isolatedDeclarations && m2.initializer && (enumValue == null ? void 0 : enumValue.hasExternalReferences) && // This will be its own compiler error instead, so don't report.
-                  !isComputedPropertyName(m2.name)) {
-                    context.addDiagnostic(createDiagnosticForNode(m2, Diagnostics.Enum_member_initializers_must_be_computable_without_references_to_external_symbols_with_isolatedDeclarations));
+                  if (isolatedDeclarations && m.initializer && (enumValue == null ? void 0 : enumValue.hasExternalReferences) && // This will be its own compiler error instead, so don't report.
+                  !isComputedPropertyName(m.name)) {
+                    context.addDiagnostic(createDiagnosticForNode(m, Diagnostics.Enum_member_initializers_must_be_computable_without_references_to_external_symbols_with_isolatedDeclarations));
                   }
                   const newInitializer = constValue === void 0 ? void 0 : typeof constValue === "string" ? factory2.createStringLiteral(constValue) : constValue < 0 ? factory2.createPrefixUnaryExpression(41, factory2.createNumericLiteral(-constValue)) : factory2.createNumericLiteral(constValue);
-                  return preserveJsDoc(factory2.updateEnumMember(m2, m2.name, newInitializer), m2);
+                  return preserveJsDoc(factory2.updateEnumMember(m, m.name, newInitializer), m);
                 }))
               ));
             }
@@ -155506,8 +155506,8 @@ ${lanes.join("\n")}
           const realDeclarationPath = toPath3(host.realpath(file.originalFileName));
           return realDeclarationPath === file.path ? void 0 : (_b2 = getRedirectFromOutput(realDeclarationPath)) == null ? void 0 : _b2.resolvedRef;
         }
-        function compareDefaultLibFiles(a2, b) {
-          return compareValues(getDefaultLibFilePriority(a2), getDefaultLibFilePriority(b));
+        function compareDefaultLibFiles(a2, b2) {
+          return compareValues(getDefaultLibFilePriority(a2), getDefaultLibFilePriority(b2));
         }
         function getDefaultLibFilePriority(a2) {
           if (containsPath(
@@ -156471,11 +156471,11 @@ ${lanes.join("\n")}
             reason
           );
         }
-        function fileReferenceIsEqualTo(a2, b) {
-          return a2.fileName === b.fileName;
+        function fileReferenceIsEqualTo(a2, b2) {
+          return a2.fileName === b2.fileName;
         }
-        function moduleNameIsEqualTo(a2, b) {
-          return a2.kind === 80 ? b.kind === 80 && a2.escapedText === b.escapedText : b.kind === 11 && a2.text === b.text;
+        function moduleNameIsEqualTo(a2, b2) {
+          return a2.kind === 80 ? b2.kind === 80 && a2.escapedText === b2.escapedText : b2.kind === 11 && a2.text === b2.text;
         }
         function createSyntheticImport(text, file) {
           const externalHelpersModuleReference = factory.createStringLiteral(text);
@@ -158402,31 +158402,31 @@ ${lanes.join("\n")}
           function create2(forward, reverse, deleted) {
             const map2 = {
               getKeys: (v2) => reverse.get(v2),
-              getValues: (k2) => forward.get(k2),
+              getValues: (k) => forward.get(k),
               keys: () => forward.keys(),
               size: () => forward.size,
-              deleteKey: (k2) => {
-                (deleted || (deleted = /* @__PURE__ */ new Set())).add(k2);
-                const set = forward.get(k2);
+              deleteKey: (k) => {
+                (deleted || (deleted = /* @__PURE__ */ new Set())).add(k);
+                const set = forward.get(k);
                 if (!set) {
                   return false;
                 }
-                set.forEach((v2) => deleteFromMultimap(reverse, v2, k2));
-                forward.delete(k2);
+                set.forEach((v2) => deleteFromMultimap(reverse, v2, k));
+                forward.delete(k);
                 return true;
               },
-              set: (k2, vSet) => {
-                deleted == null ? void 0 : deleted.delete(k2);
-                const existingVSet = forward.get(k2);
-                forward.set(k2, vSet);
+              set: (k, vSet) => {
+                deleted == null ? void 0 : deleted.delete(k);
+                const existingVSet = forward.get(k);
+                forward.set(k, vSet);
                 existingVSet == null ? void 0 : existingVSet.forEach((v2) => {
                   if (!vSet.has(v2)) {
-                    deleteFromMultimap(reverse, v2, k2);
+                    deleteFromMultimap(reverse, v2, k);
                   }
                 });
                 vSet.forEach((v2) => {
                   if (!(existingVSet == null ? void 0 : existingVSet.has(v2))) {
-                    addToMultimap(reverse, v2, k2);
+                    addToMultimap(reverse, v2, k);
                   }
                 });
                 return map2;
@@ -158442,19 +158442,19 @@ ${lanes.join("\n")}
           );
         }
         BuilderState2.createManyToManyPathMap = createManyToManyPathMap;
-        function addToMultimap(map2, k2, v2) {
-          let set = map2.get(k2);
+        function addToMultimap(map2, k, v2) {
+          let set = map2.get(k);
           if (!set) {
             set = /* @__PURE__ */ new Set();
-            map2.set(k2, set);
+            map2.set(k, set);
           }
           set.add(v2);
         }
-        function deleteFromMultimap(map2, k2, v2) {
-          const set = map2.get(k2);
+        function deleteFromMultimap(map2, k, v2) {
+          const set = map2.get(k);
           if (set == null ? void 0 : set.delete(v2)) {
             if (!set.size) {
-              map2.delete(k2);
+              map2.delete(k);
             }
             return true;
           }
@@ -164772,7 +164772,7 @@ ${lanes.join("\n")}
         return options.pretty;
       }
       function getOptionsForHelp(commandLine) {
-        return !!commandLine.options.all ? toSorted(optionDeclarations.concat(tscBuildOption), (a2, b) => compareStringsCaseInsensitive(a2.name, b.name)) : filter(optionDeclarations.concat(tscBuildOption), (v2) => !!v2.showInSimplifiedHelpView);
+        return !!commandLine.options.all ? toSorted(optionDeclarations.concat(tscBuildOption), (a2, b2) => compareStringsCaseInsensitive(a2.name, b2.name)) : filter(optionDeclarations.concat(tscBuildOption), (v2) => !!v2.showInSimplifiedHelpView);
       }
       function printVersion(sys2) {
         sys2.write(getDiagnosticText(Diagnostics.Version_0, version) + sys2.newLine);
@@ -166978,7 +166978,7 @@ ${lanes.join("\n")}
             const { node: tpName } = resolver.trackExistingEntityName(context, tp.name);
             return factory.updateTypeParameterDeclaration(
               tp,
-              (_a = tp.modifiers) == null ? void 0 : _a.map((m2) => reuseNode(context, m2)),
+              (_a = tp.modifiers) == null ? void 0 : _a.map((m) => reuseNode(context, m)),
               tpName,
               serializeExistingTypeNodeWithFallback(tp.constraint, context),
               serializeExistingTypeNodeWithFallback(tp.default, context)
@@ -167370,9 +167370,9 @@ ${lanes.join("\n")}
           addInferredTypings(packageNames, "    Found package names");
         }
         function getTypingNamesFromSourceFileNames(fileNames2) {
-          const fromFileNames = mapDefined(fileNames2, (j2) => {
-            if (!hasJSFileExtension(j2)) return void 0;
-            const inferredTypingName = removeFileExtension(toFileNameLowerCase(getBaseFileName(j2)));
+          const fromFileNames = mapDefined(fileNames2, (j) => {
+            if (!hasJSFileExtension(j)) return void 0;
+            const inferredTypingName = removeFileExtension(toFileNameLowerCase(getBaseFileName(j)));
             const cleanedTypingName = removeMinAndVersionNumbers(inferredTypingName);
             return safeList.get(cleanedTypingName);
           });
@@ -169364,7 +169364,7 @@ ${lanes.join("\n")}
         return textSpanContainsPosition(span, node.getStart(file)) && node.getEnd() <= textSpanEnd(span);
       }
       function findModifier(node, kind) {
-        return canHaveModifiers(node) ? find(node.modifiers, (m2) => m2.kind === kind) : void 0;
+        return canHaveModifiers(node) ? find(node.modifiers, (m) => m.kind === kind) : void 0;
       }
       function insertImports(changes, sourceFile, imports, blankLineBetween, preferences) {
         var _a;
@@ -169372,7 +169372,7 @@ ${lanes.join("\n")}
         const importKindPredicate = decl.kind === 244 ? isRequireVariableStatement : isAnyImportSyntax;
         const existingImportStatements = filter(sourceFile.statements, importKindPredicate);
         const { comparer, isSorted } = ts_OrganizeImports_exports.getOrganizeImportsStringComparerWithDetection(existingImportStatements, preferences);
-        const sortedNewImports = isArray(imports) ? toSorted(imports, (a2, b) => ts_OrganizeImports_exports.compareImportsOrRequireStatements(a2, b, comparer)) : [imports];
+        const sortedNewImports = isArray(imports) ? toSorted(imports, (a2, b2) => ts_OrganizeImports_exports.compareImportsOrRequireStatements(a2, b2, comparer)) : [imports];
         if (!(existingImportStatements == null ? void 0 : existingImportStatements.length)) {
           if (isFullSourceFile(sourceFile)) {
             changes.insertNodesAtTopOfFile(sourceFile, sortedNewImports, blankLineBetween);
@@ -169415,14 +169415,14 @@ ${lanes.join("\n")}
         Debug.assert(importClause.isTypeOnly);
         return cast(importClause.getChildAt(0, sourceFile), isTypeKeywordToken);
       }
-      function textSpansEqual(a2, b) {
-        return !!a2 && !!b && a2.start === b.start && a2.length === b.length;
+      function textSpansEqual(a2, b2) {
+        return !!a2 && !!b2 && a2.start === b2.start && a2.length === b2.length;
       }
-      function documentSpansEqual(a2, b, useCaseSensitiveFileNames2) {
-        return (useCaseSensitiveFileNames2 ? equateStringsCaseSensitive : equateStringsCaseInsensitive)(a2.fileName, b.fileName) && textSpansEqual(a2.textSpan, b.textSpan);
+      function documentSpansEqual(a2, b2, useCaseSensitiveFileNames2) {
+        return (useCaseSensitiveFileNames2 ? equateStringsCaseSensitive : equateStringsCaseInsensitive)(a2.fileName, b2.fileName) && textSpansEqual(a2.textSpan, b2.textSpan);
       }
       function getDocumentSpansEqualityComparer(useCaseSensitiveFileNames2) {
-        return (a2, b) => documentSpansEqual(a2, b, useCaseSensitiveFileNames2);
+        return (a2, b2) => documentSpansEqual(a2, b2, useCaseSensitiveFileNames2);
       }
       function forEachUnique(array, callback) {
         if (array) {
@@ -172546,8 +172546,8 @@ ${lanes.join("\n")}
               const elseKeyword = keywords[i];
               const ifKeyword = keywords[i + 1];
               let shouldCombineElseAndIf = true;
-              for (let j2 = ifKeyword.getStart(sourceFile) - 1; j2 >= elseKeyword.end; j2--) {
-                if (!isWhiteSpaceSingleLine(sourceFile.text.charCodeAt(j2))) {
+              for (let j = ifKeyword.getStart(sourceFile) - 1; j >= elseKeyword.end; j--) {
+                if (!isWhiteSpaceSingleLine(sourceFile.text.charCodeAt(j))) {
                   shouldCombineElseAndIf = false;
                   break;
                 }
@@ -172625,7 +172625,7 @@ ${lanes.join("\n")}
                 entry.forEach((value, scriptKind) => sourceFiles.push({ name: name2, scriptKind, refCount: value.languageServiceRefCount }));
               }
             });
-            sourceFiles.sort((x, y) => y.refCount - x.refCount);
+            sourceFiles.sort((x, y2) => y2.refCount - x.refCount);
             return {
               bucket: name,
               sourceFiles
@@ -173035,8 +173035,8 @@ ${lanes.join("\n")}
           return void 0;
         }
         let bestMatch;
-        for (let i = dotSeparatedSegments.length - 2, j2 = candidateContainers.length - 1; i >= 0; i -= 1, j2 -= 1) {
-          bestMatch = betterMatch(bestMatch, matchSegment(candidateContainers[j2], dotSeparatedSegments[i], stringToWordSpans));
+        for (let i = dotSeparatedSegments.length - 2, j = candidateContainers.length - 1; i >= 0; i -= 1, j -= 1) {
+          bestMatch = betterMatch(bestMatch, matchSegment(candidateContainers[j], dotSeparatedSegments[i], stringToWordSpans));
         }
         return bestMatch;
       }
@@ -173132,11 +173132,11 @@ ${lanes.join("\n")}
         }
         return bestMatch;
       }
-      function betterMatch(a2, b) {
-        return min([a2, b], compareMatches);
+      function betterMatch(a2, b2) {
+        return min([a2, b2], compareMatches);
       }
-      function compareMatches(a2, b) {
-        return a2 === void 0 ? 1 : b === void 0 ? -1 : compareValues(a2.kind, b.kind) || compareBooleans(!a2.isCaseSensitive, !b.isCaseSensitive);
+      function compareMatches(a2, b2) {
+        return a2 === void 0 ? 1 : b2 === void 0 ? -1 : compareValues(a2.kind, b2.kind) || compareBooleans(!a2.isCaseSensitive, !b2.isCaseSensitive);
       }
       function partStartsWith(candidate, candidateSpan, pattern, ignoreCase, patternSpan = { start: 0, length: pattern.length }) {
         return patternSpan.length <= candidateSpan.length && everyInRange(0, patternSpan.length, (i) => equalChars(pattern.charCodeAt(patternSpan.start + i), candidate.charCodeAt(candidateSpan.start + i), ignoreCase));
@@ -174753,16 +174753,16 @@ interface Symbol {
           /* ThisProperty */
         ]: false
       };
-      function tryMergeEs5Class(a2, b, bIndex, parent2) {
+      function tryMergeEs5Class(a2, b2, bIndex, parent2) {
         function isPossibleConstructor(node) {
           return isFunctionExpression(node) || isFunctionDeclaration(node) || isVariableDeclaration(node);
         }
-        const bAssignmentDeclarationKind = isBinaryExpression(b.node) || isCallExpression(b.node) ? getAssignmentDeclarationKind(b.node) : 0;
+        const bAssignmentDeclarationKind = isBinaryExpression(b2.node) || isCallExpression(b2.node) ? getAssignmentDeclarationKind(b2.node) : 0;
         const aAssignmentDeclarationKind = isBinaryExpression(a2.node) || isCallExpression(a2.node) ? getAssignmentDeclarationKind(a2.node) : 0;
-        if (isEs5ClassMember[bAssignmentDeclarationKind] && isEs5ClassMember[aAssignmentDeclarationKind] || isPossibleConstructor(a2.node) && isEs5ClassMember[bAssignmentDeclarationKind] || isPossibleConstructor(b.node) && isEs5ClassMember[aAssignmentDeclarationKind] || isClassDeclaration(a2.node) && isSynthesized(a2.node) && isEs5ClassMember[bAssignmentDeclarationKind] || isClassDeclaration(b.node) && isEs5ClassMember[aAssignmentDeclarationKind] || isClassDeclaration(a2.node) && isSynthesized(a2.node) && isPossibleConstructor(b.node) || isClassDeclaration(b.node) && isPossibleConstructor(a2.node) && isSynthesized(a2.node)) {
+        if (isEs5ClassMember[bAssignmentDeclarationKind] && isEs5ClassMember[aAssignmentDeclarationKind] || isPossibleConstructor(a2.node) && isEs5ClassMember[bAssignmentDeclarationKind] || isPossibleConstructor(b2.node) && isEs5ClassMember[aAssignmentDeclarationKind] || isClassDeclaration(a2.node) && isSynthesized(a2.node) && isEs5ClassMember[bAssignmentDeclarationKind] || isClassDeclaration(b2.node) && isEs5ClassMember[aAssignmentDeclarationKind] || isClassDeclaration(a2.node) && isSynthesized(a2.node) && isPossibleConstructor(b2.node) || isClassDeclaration(b2.node) && isPossibleConstructor(a2.node) && isSynthesized(a2.node)) {
           let lastANode = a2.additionalNodes && lastOrUndefined(a2.additionalNodes) || a2.node;
-          if (!isClassDeclaration(a2.node) && !isClassDeclaration(b.node) || isPossibleConstructor(a2.node) || isPossibleConstructor(b.node)) {
-            const ctorFunction = isPossibleConstructor(a2.node) ? a2.node : isPossibleConstructor(b.node) ? b.node : void 0;
+          if (!isClassDeclaration(a2.node) && !isClassDeclaration(b2.node) || isPossibleConstructor(a2.node) || isPossibleConstructor(b2.node)) {
+            const ctorFunction = isPossibleConstructor(a2.node) ? a2.node : isPossibleConstructor(b2.node) ? b2.node : void 0;
             if (ctorFunction !== void 0) {
               const ctorNode = setTextRange(
                 factory.createConstructorDeclaration(
@@ -174776,11 +174776,11 @@ interface Symbol {
               );
               const ctor = emptyNavigationBarNode(ctorNode);
               ctor.indent = a2.indent + 1;
-              ctor.children = a2.node === ctorFunction ? a2.children : b.children;
-              a2.children = a2.node === ctorFunction ? concatenate([ctor], b.children || [b]) : concatenate(a2.children || [{ ...a2 }], [ctor]);
+              ctor.children = a2.node === ctorFunction ? a2.children : b2.children;
+              a2.children = a2.node === ctorFunction ? concatenate([ctor], b2.children || [b2]) : concatenate(a2.children || [{ ...a2 }], [ctor]);
             } else {
-              if (a2.children || b.children) {
-                a2.children = concatenate(a2.children || [{ ...a2 }], b.children || [b]);
+              if (a2.children || b2.children) {
+                a2.children = concatenate(a2.children || [{ ...a2 }], b2.children || [b2]);
                 if (a2.children) {
                   mergeChildren(a2.children, a2);
                   sortChildren(a2.children);
@@ -174801,12 +174801,12 @@ interface Symbol {
               a2.node
             );
           } else {
-            a2.children = concatenate(a2.children, b.children);
+            a2.children = concatenate(a2.children, b2.children);
             if (a2.children) {
               mergeChildren(a2.children, a2);
             }
           }
-          const bNode = b.node;
+          const bNode = b2.node;
           if (parent2.children[bIndex - 1].node.end === lastANode.end) {
             setTextRange(lastANode, { pos: lastANode.pos, end: bNode.end });
           } else {
@@ -174822,25 +174822,25 @@ interface Symbol {
                 void 0,
                 []
               ),
-              b.node
+              b2.node
             ));
           }
           return true;
         }
         return bAssignmentDeclarationKind === 0 ? false : true;
       }
-      function tryMerge(a2, b, bIndex, parent2) {
-        if (tryMergeEs5Class(a2, b, bIndex, parent2)) {
+      function tryMerge(a2, b2, bIndex, parent2) {
+        if (tryMergeEs5Class(a2, b2, bIndex, parent2)) {
           return true;
         }
-        if (shouldReallyMerge(a2.node, b.node, parent2)) {
-          merge(a2, b);
+        if (shouldReallyMerge(a2.node, b2.node, parent2)) {
+          merge(a2, b2);
           return true;
         }
         return false;
       }
-      function shouldReallyMerge(a2, b, parent2) {
-        if (a2.kind !== b.kind || a2.parent !== b.parent && !(isOwnChild(a2, parent2) && isOwnChild(b, parent2))) {
+      function shouldReallyMerge(a2, b2, parent2) {
+        if (a2.kind !== b2.kind || a2.parent !== b2.parent && !(isOwnChild(a2, parent2) && isOwnChild(b2, parent2))) {
           return false;
         }
         switch (a2.kind) {
@@ -174848,9 +174848,9 @@ interface Symbol {
           case 175:
           case 178:
           case 179:
-            return isStatic(a2) === isStatic(b);
+            return isStatic(a2) === isStatic(b2);
           case 268:
-            return areSameModule(a2, b) && getFullyQualifiedModuleName(a2) === getFullyQualifiedModuleName(b);
+            return areSameModule(a2, b2) && getFullyQualifiedModuleName(a2) === getFullyQualifiedModuleName(b2);
           default:
             return true;
         }
@@ -174863,11 +174863,11 @@ interface Symbol {
         const par = isModuleBlock(n.parent) ? n.parent.parent : n.parent;
         return par === parent2.node || contains(parent2.additionalNodes, par);
       }
-      function areSameModule(a2, b) {
-        if (!a2.body || !b.body) {
-          return a2.body === b.body;
+      function areSameModule(a2, b2) {
+        if (!a2.body || !b2.body) {
+          return a2.body === b2.body;
         }
-        return a2.body.kind === b.body.kind && (a2.body.kind !== 268 || areSameModule(a2.body, b.body));
+        return a2.body.kind === b2.body.kind && (a2.body.kind !== 268 || areSameModule(a2.body, b2.body));
       }
       function merge(target, source) {
         target.additionalNodes = target.additionalNodes || [];
@@ -177246,7 +177246,7 @@ interface Symbol {
           const members = map(decl.parameters, convertParameterToNamedTupleMember);
           return setEmitFlags(
             factory.createTupleTypeNode(members),
-            some(members, (m2) => !!length(getSyntheticLeadingComments(m2))) ? 0 : 1
+            some(members, (m) => !!length(getSyntheticLeadingComments(m))) ? 0 : 1
             /* SingleLine */
           );
         }
@@ -177732,7 +177732,7 @@ ${newComment.split("\n").map((c) => ` * ${c}`).join("\n")}
         const functionCalls = sortAndDeduplicate(
           groupedReferences.functionCalls,
           /*comparer*/
-          (a2, b) => compareValues(a2.pos, b.pos)
+          (a2, b2) => compareValues(a2.pos, b2.pos)
         );
         for (const call of functionCalls) {
           if (call.arguments && call.arguments.length) {
@@ -178363,7 +178363,7 @@ ${newComment.split("\n").map((c) => ` * ${c}`).join("\n")}
         }
       };
       function escapeRawStringForTemplate(s) {
-        return s.replace(/\\.|[$`]/g, (m2) => m2[0] === "\\" ? m2 : "\\" + m2);
+        return s.replace(/\\.|[$`]/g, (m) => m[0] === "\\" ? m : "\\" + m);
       }
       function getRawTextOfTemplate(node) {
         const rightShaving = isTemplateHead(node) || isTemplateMiddle(node) ? -2 : -1;
@@ -180036,7 +180036,7 @@ ${newComment.split("\n").map((c) => ` * ${c}`).join("\n")}
       }
       function getPropertyAssignmentsForWritesAndVariableDeclarations(exposedVariableDeclarations, writes) {
         const variableAssignments = map(exposedVariableDeclarations, (v2) => factory.createShorthandPropertyAssignment(v2.symbol.name));
-        const writeAssignments = map(writes, (w2) => factory.createShorthandPropertyAssignment(w2.symbol.name));
+        const writeAssignments = map(writes, (w) => factory.createShorthandPropertyAssignment(w.symbol.name));
         return variableAssignments === void 0 ? writeAssignments : writeAssignments === void 0 ? variableAssignments : variableAssignments.concat(writeAssignments);
       }
       function isReadonlyArray(v2) {
@@ -182520,7 +182520,7 @@ ${newComment.split("\n").map((c) => ` * ${c}`).join("\n")}
           const token = getTouchingToken(sourceFile, position);
           const matchKind = token.getStart(sourceFile) === position ? braceMatching.get(token.kind.toString()) : void 0;
           const match = matchKind && findChildOfKind(token.parent, matchKind, sourceFile);
-          return match ? [createTextSpanFromNode(token, sourceFile), createTextSpanFromNode(match, sourceFile)].sort((a2, b) => a2.start - b.start) : emptyArray;
+          return match ? [createTextSpanFromNode(token, sourceFile), createTextSpanFromNode(match, sourceFile)].sort((a2, b2) => a2.start - b2.start) : emptyArray;
         }
         function getIndentationAtPosition(fileName, position, editorOptions) {
           let start = timestamp();
@@ -183864,7 +183864,7 @@ ${newComment.split("\n").map((c) => ` * ${c}`).join("\n")}
         if (symbol && symbol.declarations) {
           const indices = indicesOf(symbol.declarations);
           const keys = map(symbol.declarations, (decl) => ({ file: decl.getSourceFile().fileName, pos: decl.pos }));
-          indices.sort((a2, b) => compareStringsCaseSensitive(keys[a2].file, keys[b].file) || keys[a2].pos - keys[b].pos);
+          indices.sort((a2, b2) => compareStringsCaseSensitive(keys[a2].file, keys[b2].file) || keys[a2].pos - keys[b2].pos);
           const sortedDeclarations = map(indices, (i) => symbol.declarations[i]);
           let lastDecl;
           for (const decl of sortedDeclarations) {
@@ -185335,8 +185335,8 @@ ${newComment.split("\n").map((c) => ` * ${c}`).join("\n")}
             if (!shouldConvertDeclaration(memberDeclaration, assignmentExpr)) {
               return;
             }
-            if (some(members, (m2) => {
-              const name = getNameOfDeclaration(m2);
+            if (some(members, (m) => {
+              const name = getNameOfDeclaration(m);
               if (name && isIdentifier(name) && idText(name) === symbolName(symbol2)) {
                 return true;
               }
@@ -186838,9 +186838,9 @@ ${newComment.split("\n").map((c) => ` * ${c}`).join("\n")}
         },
         fixIds: [fixId12],
         getAllCodeActions: (context) => codeFixAll(context, errorCodes13, (changes, diag2) => {
-          const q = getQualifiedName(diag2.file, diag2.start);
-          if (q) {
-            doChange10(changes, diag2.file, q);
+          const q2 = getQualifiedName(diag2.file, diag2.start);
+          if (q2) {
+            doChange10(changes, diag2.file, q2);
           }
         })
       });
@@ -187363,7 +187363,7 @@ ${newComment.split("\n").map((c) => ` * ${c}`).join("\n")}
         const implementedTypeSymbols = checker.getPropertiesOfType(implementedType);
         const nonPrivateAndNotExistedInHeritageClauseMembers = implementedTypeSymbols.filter(and(symbolPointsToNonPrivateMember, (symbol) => !maybeHeritageClauseSymbol.has(symbol.escapedName)));
         const classType = checker.getTypeAtLocation(classDeclaration);
-        const constructor = find(classDeclaration.members, (m2) => isConstructorDeclaration(m2));
+        const constructor = find(classDeclaration.members, (m) => isConstructorDeclaration(m));
         if (!classType.getNumberIndexType()) {
           createMissingIndexSignatureDeclaration(
             implementedType,
@@ -188398,7 +188398,7 @@ ${newComment.split("\n").map((c) => ` * ${c}`).join("\n")}
       }
       function sortFixInfo(fixes, sourceFile, program, packageJsonImportFilter, host, preferences) {
         const _toPath = (fileName) => toPath(fileName, host.getCurrentDirectory(), hostGetCanonicalFileName(host));
-        return toSorted(fixes, (a2, b) => compareBooleans(!!a2.isJsxNamespaceFix, !!b.isJsxNamespaceFix) || compareValues(a2.fix.kind, b.fix.kind) || compareModuleSpecifiers(a2.fix, b.fix, sourceFile, program, preferences, packageJsonImportFilter.allowsImportingSpecifier, _toPath));
+        return toSorted(fixes, (a2, b2) => compareBooleans(!!a2.isJsxNamespaceFix, !!b2.isJsxNamespaceFix) || compareValues(a2.fix.kind, b2.fix.kind) || compareModuleSpecifiers(a2.fix, b2.fix, sourceFile, program, preferences, packageJsonImportFilter.allowsImportingSpecifier, _toPath));
       }
       function getFixInfosWithoutDiagnostic(context, symbolToken, useAutoImportProvider) {
         const info2 = getFixesInfoForNonUMDImport(context, symbolToken, useAutoImportProvider);
@@ -188425,21 +188425,21 @@ ${newComment.split("\n").map((c) => ` * ${c}`).join("\n")}
           )
         );
       }
-      function compareModuleSpecifiers(a2, b, importingFile, program, preferences, allowsImportingSpecifier, toPath3) {
-        if (a2.kind !== 0 && b.kind !== 0) {
+      function compareModuleSpecifiers(a2, b2, importingFile, program, preferences, allowsImportingSpecifier, toPath3) {
+        if (a2.kind !== 0 && b2.kind !== 0) {
           return compareBooleans(
-            b.moduleSpecifierKind !== "node_modules" || allowsImportingSpecifier(b.moduleSpecifier),
+            b2.moduleSpecifierKind !== "node_modules" || allowsImportingSpecifier(b2.moduleSpecifier),
             a2.moduleSpecifierKind !== "node_modules" || allowsImportingSpecifier(a2.moduleSpecifier)
-          ) || compareModuleSpecifierRelativity(a2, b, preferences) || compareNodeCoreModuleSpecifiers(a2.moduleSpecifier, b.moduleSpecifier, importingFile, program) || compareBooleans(
+          ) || compareModuleSpecifierRelativity(a2, b2, preferences) || compareNodeCoreModuleSpecifiers(a2.moduleSpecifier, b2.moduleSpecifier, importingFile, program) || compareBooleans(
             isFixPossiblyReExportingImportingFile(a2, importingFile.path, toPath3),
-            isFixPossiblyReExportingImportingFile(b, importingFile.path, toPath3)
-          ) || compareNumberOfDirectorySeparators(a2.moduleSpecifier, b.moduleSpecifier);
+            isFixPossiblyReExportingImportingFile(b2, importingFile.path, toPath3)
+          ) || compareNumberOfDirectorySeparators(a2.moduleSpecifier, b2.moduleSpecifier);
         }
         return 0;
       }
-      function compareModuleSpecifierRelativity(a2, b, preferences) {
+      function compareModuleSpecifierRelativity(a2, b2, preferences) {
         if (preferences.importModuleSpecifierPreference === "non-relative" || preferences.importModuleSpecifierPreference === "project-relative") {
-          return compareBooleans(a2.moduleSpecifierKind === "relative", b.moduleSpecifierKind === "relative");
+          return compareBooleans(a2.moduleSpecifierKind === "relative", b2.moduleSpecifierKind === "relative");
         }
         return 0;
       }
@@ -188459,9 +188459,9 @@ ${newComment.split("\n").map((c) => ` * ${c}`).join("\n")}
           true
         ) === "index";
       }
-      function compareNodeCoreModuleSpecifiers(a2, b, importingFile, program) {
-        if (startsWith(a2, "node:") && !startsWith(b, "node:")) return shouldUseUriStyleNodeCoreModules(importingFile, program) ? -1 : 1;
-        if (startsWith(b, "node:") && !startsWith(a2, "node:")) return shouldUseUriStyleNodeCoreModules(importingFile, program) ? 1 : -1;
+      function compareNodeCoreModuleSpecifiers(a2, b2, importingFile, program) {
+        if (startsWith(a2, "node:") && !startsWith(b2, "node:")) return shouldUseUriStyleNodeCoreModules(importingFile, program) ? -1 : 1;
+        if (startsWith(b2, "node:") && !startsWith(a2, "node:")) return shouldUseUriStyleNodeCoreModules(importingFile, program) ? 1 : -1;
         return 0;
       }
       function getFixesInfoForUMDImport({ sourceFile, program, host, preferences }, token) {
@@ -189262,7 +189262,7 @@ ${newComment.split("\n").map((c) => ` * ${c}`).join("\n")}
         const modifiers = classElement.modifiers || emptyArray;
         const staticModifier = find(modifiers, isStaticModifier);
         const abstractModifier = find(modifiers, isAbstractModifier);
-        const accessibilityModifier = find(modifiers, (m2) => isAccessibilityModifier(m2.kind));
+        const accessibilityModifier = find(modifiers, (m) => isAccessibilityModifier(m.kind));
         const lastDecorator = findLast(modifiers, isDecorator);
         const modifierPos = abstractModifier ? abstractModifier.end : staticModifier ? staticModifier.end : accessibilityModifier ? accessibilityModifier.end : lastDecorator ? skipTrivia(sourceFile.text, lastDecorator.end) : classElement.getStart(sourceFile);
         const options = accessibilityModifier || staticModifier || abstractModifier ? { prefix: " " } : { suffix: " " };
@@ -197691,7 +197691,7 @@ ${newComment.split("\n").map((c) => ` * ${c}`).join("\n")}
               { ...formatContext, options: formatOptions }
             );
           });
-          const allChanges = escapes ? toSorted(concatenate(changes, escapes), (a2, b) => compareTextSpans(a2.span, b.span)) : changes;
+          const allChanges = escapes ? toSorted(concatenate(changes, escapes), (a2, b2) => compareTextSpans(a2.span, b2.span)) : changes;
           return ts_textChanges_exports.applyChanges(syntheticFile.text, allChanges);
         }
         function printNode(hint, node, sourceFile) {
@@ -197727,7 +197727,7 @@ ${newComment.split("\n").map((c) => ` * ${c}`).join("\n")}
             0,
             { ...formatContext, options: formatOptions }
           );
-          const allChanges = escapes ? toSorted(concatenate(changes, escapes), (a2, b) => compareTextSpans(a2.span, b.span)) : changes;
+          const allChanges = escapes ? toSorted(concatenate(changes, escapes), (a2, b2) => compareTextSpans(a2.span, b2.span)) : changes;
           return ts_textChanges_exports.applyChanges(syntheticFile.text, allChanges);
         }
       }
@@ -199651,29 +199651,29 @@ ${newComment.split("\n").map((c) => ` * ${c}`).join("\n")}
           }
           const membersDeclaredBySpreadAssignment = /* @__PURE__ */ new Set();
           const existingMemberNames = /* @__PURE__ */ new Set();
-          for (const m2 of existingMembers) {
-            if (m2.kind !== 304 && m2.kind !== 305 && m2.kind !== 209 && m2.kind !== 175 && m2.kind !== 178 && m2.kind !== 179 && m2.kind !== 306) {
+          for (const m of existingMembers) {
+            if (m.kind !== 304 && m.kind !== 305 && m.kind !== 209 && m.kind !== 175 && m.kind !== 178 && m.kind !== 179 && m.kind !== 306) {
               continue;
             }
-            if (isCurrentlyEditingNode(m2)) {
+            if (isCurrentlyEditingNode(m)) {
               continue;
             }
             let existingName;
-            if (isSpreadAssignment(m2)) {
-              setMembersDeclaredBySpreadAssignment(m2, membersDeclaredBySpreadAssignment);
-            } else if (isBindingElement(m2) && m2.propertyName) {
-              if (m2.propertyName.kind === 80) {
-                existingName = m2.propertyName.escapedText;
+            if (isSpreadAssignment(m)) {
+              setMembersDeclaredBySpreadAssignment(m, membersDeclaredBySpreadAssignment);
+            } else if (isBindingElement(m) && m.propertyName) {
+              if (m.propertyName.kind === 80) {
+                existingName = m.propertyName.escapedText;
               }
             } else {
-              const name = getNameOfDeclaration(m2);
+              const name = getNameOfDeclaration(m);
               existingName = name && isPropertyNameLiteral(name) ? getEscapedTextOfIdentifierOrLiteral(name) : void 0;
             }
             if (existingName !== void 0) {
               existingMemberNames.add(existingName);
             }
           }
-          const filteredSymbols = contextualMemberSymbols.filter((m2) => !existingMemberNames.has(m2.escapedName));
+          const filteredSymbols = contextualMemberSymbols.filter((m) => !existingMemberNames.has(m.escapedName));
           setSortTextToMemberDeclaredBySpreadAssignment(membersDeclaredBySpreadAssignment, filteredSymbols);
           return filteredSymbols;
         }
@@ -199689,9 +199689,9 @@ ${newComment.split("\n").map((c) => ` * ${c}`).join("\n")}
           }
         }
         function setSortTextToOptionalMember() {
-          symbols.forEach((m2) => {
-            if (m2.flags & 16777216) {
-              const symbolId = getSymbolId(m2);
+          symbols.forEach((m) => {
+            if (m.flags & 16777216) {
+              const symbolId = getSymbolId(m);
               symbolToSortTextMap[symbolId] = symbolToSortTextMap[symbolId] ?? SortText.OptionalMember;
             }
           });
@@ -199729,24 +199729,24 @@ ${newComment.split("\n").map((c) => ` * ${c}`).join("\n")}
         }
         function filterClassMembersList(baseSymbols, existingMembers, currentClassElementModifierFlags) {
           const existingMemberNames = /* @__PURE__ */ new Set();
-          for (const m2 of existingMembers) {
-            if (m2.kind !== 173 && m2.kind !== 175 && m2.kind !== 178 && m2.kind !== 179) {
+          for (const m of existingMembers) {
+            if (m.kind !== 173 && m.kind !== 175 && m.kind !== 178 && m.kind !== 179) {
               continue;
             }
-            if (isCurrentlyEditingNode(m2)) {
+            if (isCurrentlyEditingNode(m)) {
               continue;
             }
             if (hasEffectiveModifier(
-              m2,
+              m,
               2
               /* Private */
             )) {
               continue;
             }
-            if (isStatic(m2) !== !!(currentClassElementModifierFlags & 256)) {
+            if (isStatic(m) !== !!(currentClassElementModifierFlags & 256)) {
               continue;
             }
-            const existingName = getPropertyNameForPropertyNameNode(m2.name);
+            const existingName = getPropertyNameForPropertyNameNode(m.name);
             if (existingName) {
               existingMemberNames.add(existingName);
             }
@@ -200981,11 +200981,11 @@ ${newComment.split("\n").map((c) => ` * ${c}`).join("\n")}
       }
       function addCompletionEntriesFromPaths(result, fragment, baseDirectory, extensionOptions, program, host, moduleSpecifierResolutionHost, paths) {
         const getPatternsForKey = (key) => paths[key];
-        const comparePaths2 = (a2, b) => {
+        const comparePaths2 = (a2, b2) => {
           const patternA = tryParsePattern(a2);
-          const patternB = tryParsePattern(b);
+          const patternB = tryParsePattern(b2);
           const lengthA = typeof patternA === "object" ? patternA.prefix.length : a2.length;
-          const lengthB = typeof patternB === "object" ? patternB.prefix.length : b.length;
+          const lengthB = typeof patternB === "object" ? patternB.prefix.length : b2.length;
           return compareValues(lengthB, lengthA);
         };
         return addCompletionEntriesFromPathsOrExportsOrImports(
@@ -205905,7 +205905,7 @@ ${content}
           }
         }
         parsedNodes.sort(
-          (a2, b) => a2.sourceFile.parseDiagnostics.length - b.sourceFile.parseDiagnostics.length
+          (a2, b2) => a2.sourceFile.parseDiagnostics.length - b2.sourceFile.parseDiagnostics.length
         );
         const { body } = parsedNodes[0];
         return body;
@@ -206010,33 +206010,33 @@ ${content}
           changes
         );
       }
-      function matchNode(a2, b) {
+      function matchNode(a2, b2) {
         var _a, _b, _c, _d, _e, _f;
-        if (a2.kind !== b.kind) {
+        if (a2.kind !== b2.kind) {
           return false;
         }
         if (a2.kind === 177) {
-          return a2.kind === b.kind;
+          return a2.kind === b2.kind;
         }
-        if (isNamedDeclaration(a2) && isNamedDeclaration(b)) {
-          return a2.name.getText() === b.name.getText();
+        if (isNamedDeclaration(a2) && isNamedDeclaration(b2)) {
+          return a2.name.getText() === b2.name.getText();
         }
-        if (isIfStatement(a2) && isIfStatement(b)) {
-          return a2.expression.getText() === b.expression.getText();
+        if (isIfStatement(a2) && isIfStatement(b2)) {
+          return a2.expression.getText() === b2.expression.getText();
         }
-        if (isWhileStatement(a2) && isWhileStatement(b)) {
-          return a2.expression.getText() === b.expression.getText();
+        if (isWhileStatement(a2) && isWhileStatement(b2)) {
+          return a2.expression.getText() === b2.expression.getText();
         }
-        if (isForStatement(a2) && isForStatement(b)) {
-          return ((_a = a2.initializer) == null ? void 0 : _a.getText()) === ((_b = b.initializer) == null ? void 0 : _b.getText()) && ((_c = a2.incrementor) == null ? void 0 : _c.getText()) === ((_d = b.incrementor) == null ? void 0 : _d.getText()) && ((_e = a2.condition) == null ? void 0 : _e.getText()) === ((_f = b.condition) == null ? void 0 : _f.getText());
+        if (isForStatement(a2) && isForStatement(b2)) {
+          return ((_a = a2.initializer) == null ? void 0 : _a.getText()) === ((_b = b2.initializer) == null ? void 0 : _b.getText()) && ((_c = a2.incrementor) == null ? void 0 : _c.getText()) === ((_d = b2.incrementor) == null ? void 0 : _d.getText()) && ((_e = a2.condition) == null ? void 0 : _e.getText()) === ((_f = b2.condition) == null ? void 0 : _f.getText());
         }
-        if (isForInOrOfStatement(a2) && isForInOrOfStatement(b)) {
-          return a2.expression.getText() === b.expression.getText() && a2.initializer.getText() === b.initializer.getText();
+        if (isForInOrOfStatement(a2) && isForInOrOfStatement(b2)) {
+          return a2.expression.getText() === b2.expression.getText() && a2.initializer.getText() === b2.initializer.getText();
         }
-        if (isLabeledStatement(a2) && isLabeledStatement(b)) {
-          return a2.label.getText() === b.label.getText();
+        if (isLabeledStatement(a2) && isLabeledStatement(b2)) {
+          return a2.label.getText() === b2.label.getText();
         }
-        if (a2.getText() === b.getText()) {
+        if (a2.getText() === b2.getText()) {
           return true;
         }
         return false;
@@ -206322,7 +206322,7 @@ ${content}
         const importGroupsByAttributes = groupBy(importGroup, (decl) => {
           if (decl.attributes) {
             let attrs = decl.attributes.token + " ";
-            for (const x of toSorted(decl.attributes.elements, (x2, y) => compareStringsCaseSensitive(x2.name.text, y.name.text))) {
+            for (const x of toSorted(decl.attributes.elements, (x2, y2) => compareStringsCaseSensitive(x2.name.text, y2.name.text))) {
               attrs += x.name.text + ":";
               attrs += isStringLiteralLike(x.value) ? `"${x.value.text}"` : x.value.getText() + " ";
             }
@@ -206584,8 +206584,8 @@ ${content}
       }
       function measureSortedness(arr, comparer) {
         let i = 0;
-        for (let j2 = 0; j2 < arr.length - 1; j2++) {
-          if (comparer(arr[j2], arr[j2 + 1]) > 0) {
+        for (let j = 0; j < arr.length - 1; j++) {
+          if (comparer(arr[j], arr[j + 1]) > 0) {
             i++;
           }
         }
@@ -206687,7 +206687,7 @@ ${content}
         return { specifierComparer, isSorted };
       }
       function getImportDeclarationInsertionIndex(sortedImports, newImport, comparer) {
-        const index = binarySearch(sortedImports, newImport, identity, (a2, b) => compareImportsOrRequireStatements(a2, b, comparer));
+        const index = binarySearch(sortedImports, newImport, identity, (a2, b2) => compareImportsOrRequireStatements(a2, b2, comparer));
         return index < 0 ? ~index : index;
       }
       function getImportSpecifierInsertionIndex(sortedImports, newImport, comparer) {
@@ -207481,11 +207481,11 @@ ${content}
       function getImmediatelyContainingArgumentOrContextualParameterInfo(node, position, sourceFile, checker) {
         return tryGetParameterInfo(node, position, sourceFile, checker) || getImmediatelyContainingArgumentInfo(node, position, sourceFile, checker);
       }
-      function getHighestBinary(b) {
-        return isBinaryExpression(b.parent) ? getHighestBinary(b.parent) : b;
+      function getHighestBinary(b2) {
+        return isBinaryExpression(b2.parent) ? getHighestBinary(b2.parent) : b2;
       }
-      function countBinaryExpressionParameters(b) {
-        return isBinaryExpression(b.left) ? countBinaryExpressionParameters(b.left) + 1 : 2;
+      function countBinaryExpressionParameters(b2) {
+        return isBinaryExpression(b2.left) ? countBinaryExpressionParameters(b2.left) + 1 : 2;
       }
       function tryGetParameterInfo(startingToken, position, sourceFile, checker) {
         const node = getAdjustedNode(startingToken);
@@ -209415,7 +209415,7 @@ ${content}
           this.insertJsdocCommentBefore(sourceFile, updateJSDocHost(node), factory.createJSDocComment(this.createJSDocText(sourceFile, node), factory.createNodeArray(tags)));
         }
         addJSDocTags(sourceFile, parent2, newTags) {
-          const oldTags = flatMapToMutable(parent2.jsDoc, (j2) => j2.tags);
+          const oldTags = flatMapToMutable(parent2.jsDoc, (j) => j.tags);
           const unmergedNewTags = newTags.filter(
             (newTag) => !oldTags.some((tag, i) => {
               const merged = tryMergeJsdocTags(tag, newTag);
@@ -209426,7 +209426,7 @@ ${content}
           this.replaceJSDocComment(sourceFile, parent2, [...oldTags, ...unmergedNewTags]);
         }
         filterJSDocTags(sourceFile, parent2, predicate) {
-          this.replaceJSDocComment(sourceFile, parent2, filter(flatMapToMutable(parent2.jsDoc, (j2) => j2.tags), predicate));
+          this.replaceJSDocComment(sourceFile, parent2, filter(flatMapToMutable(parent2.jsDoc, (j) => j.tags), predicate));
         }
         replaceRangeWithText(sourceFile, range, text) {
           this.changes.push({ kind: 3, sourceFile, range, text });
@@ -209886,7 +209886,7 @@ ${options.prefix}` : "\n" : options.prefix
         function getTextChangesFromChanges(changes, newLineCharacter, formatContext, validate) {
           return mapDefined(group(changes, (c) => c.sourceFile.path), (changesInFile) => {
             const sourceFile = changesInFile[0].sourceFile;
-            const normalized = toSorted(changesInFile, (a2, b) => a2.range.pos - b.range.pos || a2.range.end - b.range.end);
+            const normalized = toSorted(changesInFile, (a2, b2) => a2.range.pos - b2.range.pos || a2.range.end - b2.range.end);
             for (let i = 0; i < normalized.length - 1; i++) {
               Debug.assert(normalized[i].range.end <= normalized[i + 1].range.pos, "Changes overlap", () => `${JSON.stringify(normalized[i].range)} and ${JSON.stringify(normalized[i + 1].range)}`);
             }
@@ -210278,8 +210278,8 @@ ${options.prefix}` : "\n" : options.prefix
       function isValidLocationToAddComment(sourceFile, position) {
         return !isInComment(sourceFile, position) && !isInString(sourceFile, position) && !isInTemplateString(sourceFile, position) && !isInJSXText(sourceFile, position);
       }
-      function needSemicolonBetween(a2, b) {
-        return (isPropertySignature(a2) || isPropertyDeclaration(a2)) && isClassOrTypeElement(b) && b.name.kind === 168 || isStatementButNotDeclaration(a2) && isStatementButNotDeclaration(b);
+      function needSemicolonBetween(a2, b2) {
+        return (isPropertySignature(a2) || isPropertyDeclaration(a2)) && isClassOrTypeElement(b2) && b2.name.kind === 168 || isStatementButNotDeclaration(a2) && isStatementButNotDeclaration(b2);
       }
       var deleteDeclaration;
       ((_deleteDeclaration) => {
@@ -219798,10 +219798,10 @@ ${options.prefix}` : "\n" : options.prefix
             };
             const pluginModule = pluginModuleFactory({ typescript: ts_exports2 });
             const newLS = pluginModule.create(info2);
-            for (const k2 of Object.keys(this.languageService)) {
-              if (!(k2 in newLS)) {
-                this.projectService.logger.info(`Plugin activation warning: Missing proxied method ${k2} in created LS. Patching.`);
-                newLS[k2] = this.languageService[k2];
+            for (const k of Object.keys(this.languageService)) {
+              if (!(k in newLS)) {
+                this.projectService.logger.info(`Plugin activation warning: Missing proxied method ${k} in created LS. Patching.`);
+                newLS[k] = this.languageService[k];
               }
             }
             this.projectService.logger.info(`Plugin validation succeeded`);
@@ -219993,7 +219993,7 @@ ${options.prefix}` : "\n" : options.prefix
         return getOrUpdate(cachedUnresolvedImportsPerFile, file.path, () => {
           let unresolvedImports;
           program.forEachResolvedModule(({ resolvedModule }, name) => {
-            if ((!resolvedModule || !resolutionExtensionIsTSOrJson(resolvedModule.extension)) && !isExternalModuleNameRelative(name) && !ambientModules.some((m2) => m2 === name)) {
+            if ((!resolvedModule || !resolutionExtensionIsTSOrJson(resolvedModule.extension)) && !isExternalModuleNameRelative(name) && !ambientModules.some((m) => m === name)) {
               unresolvedImports = append(unresolvedImports, parsePackageName(name).packageName);
             }
           }, file);
@@ -221323,8 +221323,8 @@ ${options.prefix}` : "\n" : options.prefix
               return;
             }
             const raw = JSON.parse(fileContent);
-            for (const k2 of Object.keys(raw.typesMap)) {
-              raw.typesMap[k2].match = new RegExp(raw.typesMap[k2].match, "i");
+            for (const k of Object.keys(raw.typesMap)) {
+              raw.typesMap[k].match = new RegExp(raw.typesMap[k].match, "i");
             }
             this.safelist = raw.typesMap;
             for (const key in raw.simpleMap) {
@@ -222275,7 +222275,7 @@ ${options.prefix}` : "\n" : options.prefix
             }
             totalNonTsFileSize += this.host.getFileSize(fileName);
             if (totalNonTsFileSize > maxProgramSizeForNonTsFiles || totalNonTsFileSize > availableSpace) {
-              const top5LargestFiles = fileNames.map((f2) => propertyReader.getFileName(f2)).filter((name2) => !hasTSFileExtension(name2)).map((name2) => ({ name: name2, size: this.host.getFileSize(name2) })).sort((a2, b) => b.size - a2.size).slice(0, 5);
+              const top5LargestFiles = fileNames.map((f2) => propertyReader.getFileName(f2)).filter((name2) => !hasTSFileExtension(name2)).map((name2) => ({ name: name2, size: this.host.getFileSize(name2) })).sort((a2, b2) => b2.size - a2.size).slice(0, 5);
               this.logger.info(`Non TS file size exceeded limit (${totalNonTsFileSize}). Largest files: ${top5LargestFiles.map((file) => `${file.name}:${file.size}`).join(", ")}`);
               return fileName;
             }
@@ -227974,14 +227974,14 @@ Project '${project.projectName}' (${ProjectKind[project.projectKind]}) ${counter
             seen.push(item);
             return true;
           }
-          function navigateToItemIsEqualTo(a2, b) {
-            if (a2 === b) {
+          function navigateToItemIsEqualTo(a2, b2) {
+            if (a2 === b2) {
               return true;
             }
-            if (!a2 || !b) {
+            if (!a2 || !b2) {
               return false;
             }
-            return a2.containerKind === b.containerKind && a2.containerName === b.containerName && a2.fileName === b.fileName && a2.isCaseSensitive === b.isCaseSensitive && a2.kind === b.kind && a2.kindModifiers === b.kindModifiers && a2.matchKind === b.matchKind && a2.name === b.name && a2.textSpan.start === b.textSpan.start && a2.textSpan.length === b.textSpan.length;
+            return a2.containerKind === b2.containerKind && a2.containerName === b2.containerName && a2.fileName === b2.fileName && a2.isCaseSensitive === b2.isCaseSensitive && a2.kind === b2.kind && a2.kindModifiers === b2.kindModifiers && a2.matchKind === b2.matchKind && a2.name === b2.name && a2.textSpan.start === b2.textSpan.start && a2.textSpan.length === b2.textSpan.length;
           }
         }
         getSupportedCodeFixes(args) {
@@ -228703,12 +228703,12 @@ Additional information: BADCLIENT: Bad error code, ${badCode} not found in range
           }
           let branchParent;
           let lastZeroCount;
-          for (let k2 = this.endBranch.length - 1; k2 >= 0; k2--) {
-            this.endBranch[k2].updateCounts();
-            if (this.endBranch[k2].charCount() === 0) {
-              lastZeroCount = this.endBranch[k2];
-              if (k2 > 0) {
-                branchParent = this.endBranch[k2 - 1];
+          for (let k = this.endBranch.length - 1; k >= 0; k--) {
+            this.endBranch[k].updateCounts();
+            if (this.endBranch[k].charCount() === 0) {
+              lastZeroCount = this.endBranch[k];
+              if (k > 0) {
+                branchParent = this.endBranch[k - 1];
               } else {
                 branchParent = this.branchNode;
               }
@@ -228743,15 +228743,15 @@ Additional information: BADCLIENT: Bad error code, ${badCode} not found in range
               }
               this.lineIndex.root.updateCounts();
             } else {
-              for (let j2 = this.startPath.length - 2; j2 >= 0; j2--) {
-                this.startPath[j2].updateCounts();
+              for (let j = this.startPath.length - 2; j >= 0; j--) {
+                this.startPath[j].updateCounts();
               }
             }
           } else {
             const insertionNode = this.startPath[this.startPath.length - 2];
             insertionNode.remove(leafNode);
-            for (let j2 = this.startPath.length - 2; j2 >= 0; j2--) {
-              this.startPath[j2].updateCounts();
+            for (let j = this.startPath.length - 2; j >= 0; j--) {
+              this.startPath[j].updateCounts();
             }
           }
           return this.lineIndex;
@@ -229871,13 +229871,13 @@ var HttpResponseRetryCodes = [
 // ../../node_modules/.pnpm/@actions+core@3.0.1/node_modules/@actions/core/lib/summary.js
 var import_os = require("os");
 var import_fs = require("fs");
-var __awaiter = function(thisArg, _arguments, P, generator) {
+var __awaiter = function(thisArg, _arguments, P2, generator) {
   function adopt(value) {
-    return value instanceof P ? value : new P(function(resolve) {
+    return value instanceof P2 ? value : new P2(function(resolve) {
       resolve(value);
     });
   }
-  return new (P || (P = Promise))(function(resolve, reject) {
+  return new (P2 || (P2 = Promise))(function(resolve, reject) {
     function fulfilled(value) {
       try {
         step(generator.next(value));
@@ -230375,7 +230375,7 @@ var import_path3 = __toESM(require("path"), 1);
 var import_typescript2 = __toESM(require_typescript(), 1);
 var import_fs5 = require("fs");
 var import_path4 = __toESM(require("path"), 1);
-async function Y(e, t) {
+async function Q(e, t) {
   if (!t) return /* @__PURE__ */ new Set();
   let i = await import_fs3.promises.readFile(import_path2.default.resolve(e, t), "utf8").catch(() => {
   });
@@ -230383,9 +230383,9 @@ async function Y(e, t) {
   let n = JSON.parse(i);
   return new Set(n.findings ?? []);
 }
-var M = ["local", "ci", "strict"];
-var Ke = [".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs"];
-var Z = class {
+var W = ["local", "ci", "strict"];
+var Ve = [".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs"];
+var ee = class {
   constructor(t, i = /* @__PURE__ */ new Map()) {
     this.modules = t;
     for (let n of t.keys()) this.forward.set(n, new Set(t.get(n)?.dependencies)), this.reverse.set(n, /* @__PURE__ */ new Set());
@@ -230400,9 +230400,9 @@ var Z = class {
   reverse = /* @__PURE__ */ new Map();
   unresolved = /* @__PURE__ */ new Map();
   impactedFiles(t) {
-    let i = /* @__PURE__ */ new Set(), n = Array.from(t).filter((r) => this.modules.has(w(r)));
+    let i = /* @__PURE__ */ new Set(), n = Array.from(t).filter((r) => this.modules.has(y(r)));
     for (; n.length > 0; ) {
-      let r = w(n.shift());
+      let r = y(n.shift());
       if (!i.has(r)) {
         i.add(r);
         for (let o of [...this.forward.get(r) ?? [], ...this.reverse.get(r) ?? []]) i.has(o) || n.push(o);
@@ -230411,7 +230411,7 @@ var Z = class {
     return i;
   }
   linkedBindings(t, i, n) {
-    let r = /* @__PURE__ */ new Set(), o = this.modules.get(w(t));
+    let r = /* @__PURE__ */ new Set(), o = this.modules.get(y(t));
     if (!o || n.length === 0) return r;
     let s = new Set(n);
     for (let f of o.imports) {
@@ -230422,18 +230422,18 @@ var Z = class {
     return r;
   }
   hasUnresolvedImport(t) {
-    return (this.unresolved.get(w(t))?.size ?? 0) > 0;
+    return (this.unresolved.get(y(t))?.size ?? 0) > 0;
   }
   resolveDependency(t, i) {
-    return this.modules.get(w(t))?.resolvedSpecifiers.get(i);
+    return this.modules.get(y(t))?.resolvedSpecifiers.get(i);
   }
   exportReaches(t, i, n, r, o) {
     let s = `${t}:${i}`;
     if (o.has(s)) return false;
     o.add(s);
-    let f = w(n);
-    if (w(t) === f && r.has(i)) return true;
-    let l = this.modules.get(w(t));
+    let f = y(n);
+    if (y(t) === f && r.has(i)) return true;
+    let l = this.modules.get(y(t));
     if (!l) return false;
     let c = l.localExports.get(i);
     if (c) {
@@ -230454,24 +230454,24 @@ var Z = class {
     return t.resolvedSpecifiers.get(i);
   }
 };
-async function he(e, t, i) {
-  let n = new Set(t.map((c) => w(c.relativePath))), r = await Je(e, i), o = await Xe(e, r), s = await He(e, i, r), f = /* @__PURE__ */ new Map(), l = /* @__PURE__ */ new Map();
+async function we(e, t, i) {
+  let n = new Set(t.map((c) => y(c.relativePath))), r = await He(e, i), o = await Xe(e, r), s = await qe(e, i, r), f = /* @__PURE__ */ new Map(), l = /* @__PURE__ */ new Map();
   for (let c of t) {
-    let u = w(c.relativePath), d = Ve(u, c.source), p = /* @__PURE__ */ new Set(), g = /* @__PURE__ */ new Map(), x = /* @__PURE__ */ new Set([...d.imports.map((h) => h.specifier), ...d.reExports.map((h) => h.specifier)]);
-    for (let h of x) {
-      let C = qe(e, u, h, n, o, s);
-      if (C) p.add(C), g.set(h, C);
-      else if (Qe(h, o, s)) {
-        let y = l.get(u) ?? /* @__PURE__ */ new Set();
-        y.add(h), l.set(u, y);
+    let u = y(c.relativePath), d = Je(u, c.source), m = /* @__PURE__ */ new Set(), C = /* @__PURE__ */ new Map(), S = /* @__PURE__ */ new Set([...d.imports.map((p) => p.specifier), ...d.reExports.map((p) => p.specifier)]);
+    for (let p of S) {
+      let x = Ye(e, u, p, n, o, s);
+      if (x) m.add(x), C.set(p, x);
+      else if (Ze(p, o, s)) {
+        let h = l.get(u) ?? /* @__PURE__ */ new Set();
+        h.add(p), l.set(u, h);
       }
     }
-    d.dependencies = p, d.resolvedSpecifiers = g, f.set(u, d);
+    d.dependencies = m, d.resolvedSpecifiers = C, f.set(u, d);
   }
-  return new Z(f, l);
+  return new ee(f, l);
 }
-function Ve(e, t) {
-  let i = import_typescript2.default.createSourceFile(e, t, import_typescript2.default.ScriptTarget.Latest, true, et(e)), n = [], r = /* @__PURE__ */ new Map(), o = [];
+function Je(e, t) {
+  let i = import_typescript2.default.createSourceFile(e, t, import_typescript2.default.ScriptTarget.Latest, true, tt(e)), n = [], r = /* @__PURE__ */ new Map(), o = [];
   for (let s of i.statements) {
     if (import_typescript2.default.isImportDeclaration(s) && import_typescript2.default.isStringLiteral(s.moduleSpecifier)) {
       let l = s.moduleSpecifier.text;
@@ -230498,9 +230498,9 @@ function Ve(e, t) {
   }
   return { imports: n, localExports: r, reExports: o, dependencies: /* @__PURE__ */ new Set(), resolvedSpecifiers: /* @__PURE__ */ new Map() };
 }
-async function Je(e, t) {
-  if (t?.roots) return te(t.roots, e, "workspace.roots");
-  let i = /* @__PURE__ */ new Set(), r = (await xe(import_path3.default.join(e, "package.json"), true))?.workspaces;
+async function He(e, t) {
+  if (t?.roots) return ie(t.roots, e, "workspace.roots");
+  let i = /* @__PURE__ */ new Set(), r = (await be(import_path3.default.join(e, "package.json"), true))?.workspaces;
   if (Array.isArray(r)) for (let f of r) typeof f == "string" && i.add(f);
   if (r && typeof r == "object" && !Array.isArray(r)) {
     let f = r.packages;
@@ -230509,7 +230509,7 @@ async function Je(e, t) {
   let o = import_path3.default.join(e, "pnpm-workspace.yaml"), s = await import_fs4.promises.readFile(o, "utf8").catch(() => {
   });
   if (s !== void 0) for (let f of Ge(s)) i.add(f);
-  return te(Array.from(i), e, "workspace roots");
+  return ie(Array.from(i), e, "workspace roots");
 }
 function Ge(e) {
   let t = e.split(/\r?\n/), i = [], n = false, r = -1;
@@ -230520,12 +230520,12 @@ function Ge(e) {
     if (!n) {
       let d = l.match(/^packages\s*:\s*\[(.*)\]\s*$/);
       if (d) {
-        let p = d[1].trim();
-        if (!p) return i;
-        for (let g of p.split(",")) {
-          let x = g.trim().replace(/^(?:'([^']*)'|"([^"]*)")$/, "$1$2");
-          if (!x || ["[", "]", "{", "}", ":"].some((h) => x.includes(h))) throw new Error("pnpm-workspace.yaml packages must contain plain string paths.");
-          i.push(x);
+        let m = d[1].trim();
+        if (!m) return i;
+        for (let C of m.split(",")) {
+          let S = C.trim().replace(/^(?:'([^']*)'|"([^"]*)")$/, "$1$2");
+          if (!S || ["[", "]", "{", "}", ":"].some((p) => S.includes(p))) throw new Error("pnpm-workspace.yaml packages must contain plain string paths.");
+          i.push(S);
         }
         return i;
       }
@@ -230543,11 +230543,11 @@ function Ge(e) {
   return n ? i : [];
 }
 async function Xe(e, t) {
-  let i = await Ze(e, "package.json"), n = t.filter((f) => !f.startsWith("!")).map(ie), r = t.filter((f) => f.startsWith("!")).map((f) => ie(f.slice(1))), o = [], s = /* @__PURE__ */ new Map();
+  let i = await et(e, "package.json"), n = t.filter((f) => !f.startsWith("!")).map(re), r = t.filter((f) => f.startsWith("!")).map((f) => re(f.slice(1))), o = [], s = /* @__PURE__ */ new Map();
   for (let f of i) {
-    let l = w(import_path3.default.relative(e, import_path3.default.dirname(f))) || ".";
+    let l = y(import_path3.default.relative(e, import_path3.default.dirname(f))) || ".";
     if (l !== "." && (n.length === 0 || !n.some((d) => d.test(l)) || r.some((d) => d.test(l)))) continue;
-    let c = await xe(f, true);
+    let c = await be(f, true);
     if (typeof c?.name != "string") continue;
     let u = s.get(c.name);
     if (u && u !== l) throw new Error(`Duplicate workspace package name ${c.name}: ${u}, ${l}.`);
@@ -230555,68 +230555,68 @@ async function Xe(e, t) {
   }
   return o.sort((f, l) => l.name.length - f.name.length);
 }
-async function He(e, t, i) {
+async function qe(e, t, i) {
   let n;
   if (t?.tsconfig) {
-    let s = te(t.tsconfig, e, "workspace.tsconfig"), f = await ge(e), l = s.map(ie);
-    n = f.filter((c) => l.some((u) => u.test(w(import_path3.default.relative(e, c)))));
-  } else n = await ge(e);
+    let s = ie(t.tsconfig, e, "workspace.tsconfig"), f = await Se(e), l = s.map(re);
+    n = f.filter((c) => l.some((u) => u.test(y(import_path3.default.relative(e, c)))));
+  } else n = await Se(e);
   let r = [], o = /* @__PURE__ */ new Set();
   for (let s = 0; s < n.length; s += 1) {
-    let f = n[s], l = w(f);
+    let f = n[s], l = y(f);
     if (o.has(l)) continue;
     o.add(l);
-    let c = await import_fs4.promises.readFile(f, "utf8"), u = import_typescript2.default.parseConfigFileTextToJson(w(f), c);
-    if (u.error) throw new Error(`Invalid tsconfig ${w(import_path3.default.relative(e, f))}.`);
+    let c = await import_fs4.promises.readFile(f, "utf8"), u = import_typescript2.default.parseConfigFileTextToJson(y(f), c);
+    if (u.error) throw new Error(`Invalid tsconfig ${y(import_path3.default.relative(e, f))}.`);
     let d = u.config?.references;
-    if (Array.isArray(d)) for (let C of d) {
-      let y = C && typeof C == "object" ? C.path : void 0;
-      if (typeof y != "string") throw new Error(`${w(import_path3.default.relative(e, f))} references must contain string paths.`);
-      let $ = import_path3.default.resolve(import_path3.default.dirname(f), y), T = import_path3.default.extname($) ? $ : import_path3.default.join($, "tsconfig.json");
-      if (!be(e, T)) throw new Error("tsconfig references must stay inside the scan root.");
-      await import_fs4.promises.stat(T).then((P) => P.isFile(), () => false) && n.push(T);
+    if (Array.isArray(d)) for (let x of d) {
+      let h = x && typeof x == "object" ? x.path : void 0;
+      if (typeof h != "string") throw new Error(`${y(import_path3.default.relative(e, f))} references must contain string paths.`);
+      let O = import_path3.default.resolve(import_path3.default.dirname(f), h), F = import_path3.default.extname(O) ? O : import_path3.default.join(O, "tsconfig.json");
+      if (!ye(e, F)) throw new Error("tsconfig references must stay inside the scan root.");
+      await import_fs4.promises.stat(F).then((B) => B.isFile(), () => false) && n.push(F);
     }
-    let p = u.config?.compilerOptions;
-    if (!p || typeof p != "object") continue;
-    let g = import_path3.default.dirname(f), x = import_path3.default.resolve(g, typeof p.baseUrl == "string" ? p.baseUrl : "."), h = p.paths;
-    if (!(!h || typeof h != "object" || Array.isArray(h))) for (let [C, y] of Object.entries(h)) {
-      if (!Array.isArray(y) || !y.every(($) => typeof $ == "string")) throw new Error(`${w(import_path3.default.relative(e, f))} compilerOptions.paths.${C} must be an array of strings.`);
-      r.push({ baseDirectory: x, configDirectory: g, pattern: C, targets: y });
+    let m = u.config?.compilerOptions;
+    if (!m || typeof m != "object") continue;
+    let C = import_path3.default.dirname(f), S = import_path3.default.resolve(C, typeof m.baseUrl == "string" ? m.baseUrl : "."), p = m.paths;
+    if (!(!p || typeof p != "object" || Array.isArray(p))) for (let [x, h] of Object.entries(p)) {
+      if (!Array.isArray(h) || !h.every((O) => typeof O == "string")) throw new Error(`${y(import_path3.default.relative(e, f))} compilerOptions.paths.${x} must be an array of strings.`);
+      r.push({ baseDirectory: S, configDirectory: C, pattern: x, targets: h });
     }
   }
   return r.sort((s, f) => f.configDirectory.length - s.configDirectory.length);
 }
-function qe(e, t, i, n, r, o) {
-  if (i.startsWith(".")) return Q(import_path3.default.posix.join(import_path3.default.posix.dirname(t), i), n);
+function Ye(e, t, i, n, r, o) {
+  if (i.startsWith(".")) return Z(import_path3.default.posix.join(import_path3.default.posix.dirname(t), i), n);
   for (let c of o) {
     let u = import_path3.default.dirname(import_path3.default.resolve(e, t)), d = import_path3.default.relative(c.configDirectory, u);
     if (c.configDirectory !== e && (d.startsWith("..") || import_path3.default.isAbsolute(d))) continue;
-    let p = re(c.pattern, i);
-    if (p !== void 0) for (let g of c.targets) {
-      let x = g.replace("*", p), h = w(import_path3.default.relative(e, import_path3.default.resolve(c.baseDirectory, x)));
-      if (h.startsWith("../") || import_path3.default.isAbsolute(h)) continue;
-      let C = Q(h, n);
-      if (C) return C;
+    let m = ne(c.pattern, i);
+    if (m !== void 0) for (let C of c.targets) {
+      let S = C.replace("*", m), p = y(import_path3.default.relative(e, import_path3.default.resolve(c.baseDirectory, S)));
+      if (p.startsWith("../") || import_path3.default.isAbsolute(p)) continue;
+      let x = Z(p, n);
+      if (x) return x;
     }
   }
   let s = r.find((c) => i === c.name || i.startsWith(`${c.name}/`));
   if (!s) return;
-  let f = i === s.name ? "" : i.slice(s.name.length + 1), l = Ye(s, f);
+  let f = i === s.name ? "" : i.slice(s.name.length + 1), l = Qe(s, f);
   for (let c of l) {
-    let u = Q(c, n);
+    let u = Z(c, n);
     if (u) return u;
   }
 }
-function Ye(e, t) {
+function Qe(e, t) {
   let i = e.directory === "." ? "" : `${e.directory}/`, n = /* @__PURE__ */ new Set(), r = (o) => {
     let s = o.replace(/^\.\//, "");
     n.add(`${i}${s}`), s.startsWith("dist/") && n.add(`${i}src/${s.slice(5)}`);
   };
-  return _(e.exports, t ? `./${t}` : ".", r), t ? (r(`src/${t}`), r(t)) : (r("src/index"), r("index")), Array.from(n);
+  return M(e.exports, t ? `./${t}` : ".", r), t ? (r(`src/${t}`), r(t)) : (r("src/index"), r("index")), Array.from(n);
 }
-function _(e, t, i) {
+function M(e, t, i) {
   if (Array.isArray(e)) {
-    for (let r of e) _(r, t, i);
+    for (let r of e) M(r, t, i);
     return;
   }
   if (typeof e == "string") {
@@ -230625,36 +230625,36 @@ function _(e, t, i) {
   }
   if (!e || typeof e != "object" || Array.isArray(e)) return;
   let n = e;
-  n[t] !== void 0 && _(n[t], ".", i);
+  n[t] !== void 0 && M(n[t], ".", i);
   for (let [r, o] of Object.entries(n)) {
-    let s = re(r, t);
-    s === void 0 || !r.includes("*") || _(ee(o, s), ".", i);
+    let s = ne(r, t);
+    s === void 0 || !r.includes("*") || M(te(o, s), ".", i);
   }
-  for (let r of ["source", "types", "import", "default", "node", "require"]) n[r] !== void 0 && _(n[r], ".", i);
+  for (let r of ["source", "types", "import", "default", "node", "require"]) n[r] !== void 0 && M(n[r], ".", i);
 }
-function ee(e, t) {
-  return typeof e == "string" ? e.replaceAll("*", t) : Array.isArray(e) ? e.map((i) => ee(i, t)) : !e || typeof e != "object" ? e : Object.fromEntries(Object.entries(e).map(([i, n]) => [i, ee(n, t)]));
+function te(e, t) {
+  return typeof e == "string" ? e.replaceAll("*", t) : Array.isArray(e) ? e.map((i) => te(i, t)) : !e || typeof e != "object" ? e : Object.fromEntries(Object.entries(e).map(([i, n]) => [i, te(n, t)]));
 }
-function Q(e, t) {
-  let i = w(import_path3.default.posix.normalize(e)).replace(/^\.\//, ""), n = i.replace(/\.(?:[cm]?[jt]sx?)$/, ""), r = [i, n];
+function Z(e, t) {
+  let i = y(import_path3.default.posix.normalize(e)).replace(/^\.\//, ""), n = i.replace(/\.(?:[cm]?[jt]sx?)$/, ""), r = [i, n];
   for (let o of r) {
     if (t.has(o)) return o;
-    for (let s of Ke) {
+    for (let s of Ve) {
       if (t.has(`${o}${s}`)) return `${o}${s}`;
       if (t.has(`${o}/index${s}`)) return `${o}/index${s}`;
     }
   }
 }
-function Qe(e, t, i) {
-  return e.startsWith(".") || t.some((n) => e === n.name || e.startsWith(`${n.name}/`)) || i.some((n) => re(n.pattern, e) !== void 0);
+function Ze(e, t, i) {
+  return e.startsWith(".") || t.some((n) => e === n.name || e.startsWith(`${n.name}/`)) || i.some((n) => ne(n.pattern, e) !== void 0);
 }
-function re(e, t) {
+function ne(e, t) {
   let i = e.indexOf("*");
   if (i < 0) return e === t ? "" : void 0;
   let n = e.slice(0, i), r = e.slice(i + 1);
   return t.startsWith(n) && t.endsWith(r) ? t.slice(n.length, t.length - r.length) : void 0;
 }
-async function Ze(e, t) {
+async function et(e, t) {
   let i = [];
   async function n(r) {
     let o = await import_fs4.promises.readdir(r, { withFileTypes: true });
@@ -230666,7 +230666,7 @@ async function Ze(e, t) {
   }
   return await n(e), i.sort();
 }
-async function ge(e) {
+async function Se(e) {
   let t = [];
   async function i(n) {
     let r = await import_fs4.promises.readdir(n, { withFileTypes: true });
@@ -230678,30 +230678,30 @@ async function ge(e) {
   }
   return await i(e), t.sort();
 }
-async function xe(e, t) {
+async function be(e, t) {
   let i = await import_fs4.promises.readFile(e, "utf8").catch(() => {
   });
   if (i !== void 0) try {
     return JSON.parse(i);
   } catch (n) {
     if (!t) return;
-    throw new Error(`${w(e)} is invalid JSON: ${n instanceof Error ? n.message : n}`);
+    throw new Error(`${y(e)} is invalid JSON: ${n instanceof Error ? n.message : n}`);
   }
 }
-function te(e, t, i) {
+function ie(e, t, i) {
   return e.map((n) => {
     let r = n.startsWith("!") ? n.slice(1) : n;
-    if (!r || import_path3.default.isAbsolute(r) || w(r).split("/").includes("..")) throw new Error(`${i} entries must be relative paths inside the scan root.`);
+    if (!r || import_path3.default.isAbsolute(r) || y(r).split("/").includes("..")) throw new Error(`${i} entries must be relative paths inside the scan root.`);
     let o = import_path3.default.resolve(t, r.replace(/[?*].*$/, ""));
-    if (!be(t, o)) throw new Error(`${i} entries must stay inside the scan root.`);
-    return w(n).replace(/^\.\//, "").replace(/\/$/, "");
+    if (!ye(t, o)) throw new Error(`${i} entries must stay inside the scan root.`);
+    return y(n).replace(/^\.\//, "").replace(/\/$/, "");
   });
 }
-function be(e, t) {
+function ye(e, t) {
   let i = import_path3.default.relative(e, t);
   return i === "" || !i.startsWith("..") && !import_path3.default.isAbsolute(i);
 }
-function ie(e) {
+function re(e) {
   let t = "^";
   for (let i = 0; i < e.length; i += 1) {
     let n = e[i], r = e[i + 1];
@@ -230709,117 +230709,121 @@ function ie(e) {
   }
   return new RegExp(`${t}$`);
 }
-function w(e) {
+function y(e) {
   return e.replaceAll("\\", "/").replace(/^\.\//, "");
 }
-function et(e) {
+function tt(e) {
   return e.endsWith(".tsx") ? import_typescript2.default.ScriptKind.TSX : e.endsWith(".jsx") ? import_typescript2.default.ScriptKind.JSX : e.endsWith(".js") || e.endsWith(".mjs") || e.endsWith(".cjs") ? import_typescript2.default.ScriptKind.JS : import_typescript2.default.ScriptKind.TS;
 }
-var st = (0, import_util.promisify)(import_child_process.execFile);
-var ne = /* @__PURE__ */ new Set([".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs"]);
-var Se = 5e3;
-var ot = 2 * 1024 * 1024;
-var at = 50 * 1024 * 1024;
+var ot = (0, import_util.promisify)(import_child_process.execFile);
+var oe = /* @__PURE__ */ new Set([".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs"]);
+var Ce = 5e3;
+var at = 2 * 1024 * 1024;
+var ct = 50 * 1024 * 1024;
 var K = 16;
-var ct = /* @__PURE__ */ new Set([".git", ".next", ".turbo", "coverage", "dist", "node_modules"]);
-var ve = /\b(?:appendDataSuffix|attributeSendCalls|attributeUserOperation|Attribution\.toDataSuffix|BuilderCodeClientExtension|builderCodeDataSuffix|createAttributionProvider|createAttributionSigner|createDataSuffix|dataSuffix|declareBuilderCodeExtension|ethersBuilderCodeDataSuffix|sendAttributedCalls|useAttributionSuffix|validateUserOperationAttribution|withAttributionSuffix|withDataSuffixCapability|withEthersAttribution|withUserOperationAttribution|withViemDataSuffix)\b/;
-var Ee = /\b(?:agentTransactionTool|executeTransaction|onchainAction|sendTransactionTool|transactionTool)\b/;
-async function ft(e) {
+var ft = /* @__PURE__ */ new Set([".git", ".next", ".turbo", "coverage", "dist", "node_modules"]);
+var fe = /\b(?:appendDataSuffix|attributeSendCalls|attributeUserOperation|Attribution\.toDataSuffix|BuilderCodeClientExtension|builderCodeDataSuffix|createAttributionProvider|createAttributionSigner|createDataSuffix|dataSuffix|declareBuilderCodeExtension|ethersBuilderCodeDataSuffix|sendAttributedCalls|useAttributionSuffix|validateUserOperationAttribution|withAttributionSuffix|withDataSuffixCapability|withEthersAttribution|withUserOperationAttribution|withViemDataSuffix)\b/;
+var Pe = /\b(?:agentTransactionTool|executeTransaction|onchainAction|sendTransactionTool|transactionTool)\b/;
+async function lt(e) {
   De(e.builderCodes);
-  let t = import_path.default.resolve(e.root), i = ce(e.profile), n = await Y(t, e.baseline), r = await It(t, e), o = await Tt(t, r), s = await he(t, o, e.workspace), f = e.changedSince ? Nt(o, s.impactedFiles(await Ft(t, e.changedSince))) : o, l = kt(o, e.builderCodes), c = f.flatMap((d) => ke(d.source, { baseline: n, builderCodes: e.builderCodes, globalEvidence: l, profile: i, relativePath: d.relativePath, rules: e.rules, workspaceGraph: s })), u = Dt(c);
+  let t = import_path.default.resolve(e.root), i = ue(e.profile), n = await Q(t, e.baseline), r = await Dt(t, e), o = await Tt(t, r), s = await we(t, o, e.workspace), f = e.changedSince ? Nt(o, s.impactedFiles(await Ft(t, e.changedSince))) : o, l = kt(o, e.builderCodes), c = f.flatMap((d) => Be(d.source, { baseline: n, builderCodes: e.builderCodes, globalEvidence: l, profile: i, relativePath: d.relativePath, rules: e.rules, workspaceGraph: s })), u = jt(c);
   return { ok: u.errors === 0, root: t, profile: i, frameworks: Array.from(new Set(f.flatMap((d) => d.frameworks))).sort(), checkedFiles: f.length, transactionPaths: c, summary: u };
 }
-function ke(e, t) {
+function Be(e, t) {
   De(t.builderCodes);
-  let i = t.relativePath ?? "source.ts", n = ce(t.profile), r = import_typescript.default.createSourceFile(i, e, import_typescript.default.ScriptTarget.Latest, true, Ne(i)), o = ae(e), s = lt(r, e, o), f = /* @__PURE__ */ new Map();
+  let i = t.relativePath ?? "source.ts", n = ue(t.profile), r = import_typescript.default.createSourceFile(i, e, import_typescript.default.ScriptTarget.Latest, true, Te(i)), o = le(e), s = ut(r, e, o), f = /* @__PURE__ */ new Map();
   return s.map((l) => {
-    let c = [l.family, l.marker, Ie(l.node.getText(r))].join(":"), u = (f.get(c) ?? 0) + 1;
-    return f.set(c, u), dt(r, e, l, u, { ...t, profile: n, relativePath: i });
+    let c = [l.family, l.marker, Ne(l.node.getText(r))].join(":"), u = (f.get(c) ?? 0) + 1;
+    return f.set(c, u), pt(r, e, l, u, { ...t, profile: n, relativePath: i });
   });
 }
-function ae(e) {
+function le(e) {
   let t = /* @__PURE__ */ new Set();
-  return /from\s+["']@privy-io\/react-auth["']|@privy-io\/react-auth/.test(e) && t.add("privy"), /from\s+["']wagmi["']|from\s+["']wagmi\//.test(e) && t.add("wagmi"), /from\s+["']viem["']|from\s+["']viem\//.test(e) && t.add("viem"), /from\s+["']ethers["']|from\s+["']ethers\//.test(e) && t.add("ethers"), /@x402\//.test(e) && t.add("x402"), /\b(?:createAttributionProvider|eth_sendUserOperation|sendAttributedCalls|sendCalls|sendUserOperation|wallet_getCapabilities|wallet_sendCalls|useSendCalls|withDataSuffixCapability|withUserOperationAttribution)\b/.test(e) && t.add("smart-wallet"), /\b(?:window\.ethereum|eth_sendTransaction)\b/.test(e) && t.add("raw-rpc"), Ee.test(e) && t.add("agent"), Array.from(t).sort();
+  return /from\s+["']@privy-io\/react-auth["']|@privy-io\/react-auth/.test(e) && t.add("privy"), /from\s+["']wagmi["']|from\s+["']wagmi\//.test(e) && t.add("wagmi"), /from\s+["']viem["']|from\s+["']viem\//.test(e) && t.add("viem"), /from\s+["']ethers["']|from\s+["']ethers\//.test(e) && t.add("ethers"), /@x402\//.test(e) && t.add("x402"), /\b(?:createAttributionProvider|eth_sendUserOperation|sendAttributedCalls|sendCalls|sendUserOperation|wallet_getCapabilities|wallet_sendCalls|useSendCalls|withDataSuffixCapability|withUserOperationAttribution)\b/.test(e) && t.add("smart-wallet"), /\b(?:window\.ethereum|eth_sendTransaction)\b/.test(e) && t.add("raw-rpc"), Pe.test(e) && t.add("agent"), Array.from(t).sort();
 }
-function ce(e) {
+function ue(e) {
   if (!e) return "ci";
-  if (M.includes(e)) return e;
+  if (W.includes(e)) return e;
   throw new Error(`Unknown scan profile: ${e}`);
 }
-function lt(e, t, i) {
+function ut(e, t, i) {
   let n = [], r = /* @__PURE__ */ new Set();
   function o(f) {
     let l = `${f.node.pos}:${f.marker}:${f.family}`;
     r.has(l) || (r.add(l), n.push(f));
   }
   function s(f) {
-    if (import_typescript.default.isNewExpression(f) && k(f.expression) === "x402Client" && o({ family: "x402", marker: "x402Client", node: f, confidence: "high" }), import_typescript.default.isCallExpression(f)) {
-      let l = Re(e, f.expression), c = l === "request" ? Mt(f) : void 0, u = c ?? l, d = ut(l, c, t, i);
-      d && u && o({ family: d, marker: u, node: f, confidence: zt(d, i) });
+    if (import_typescript.default.isNewExpression(f) && P(f.expression) === "x402Client" && o({ family: "x402", marker: "x402Client", node: f, confidence: "high" }), import_typescript.default.isCallExpression(f)) {
+      let l = Oe(e, f.expression), c = l === "request" ? Mt(f) : void 0, u = c ?? l, d = dt(l, c, t, i);
+      d && u && o({ family: d, marker: u, node: f, confidence: _t(d, i) });
     }
     import_typescript.default.forEachChild(f, s);
   }
   return s(e), n.sort((f, l) => f.node.getStart(e) - l.node.getStart(e));
 }
-function ut(e, t, i, n) {
+function dt(e, t, i, n) {
   if (t === "wallet_sendCalls" || t === "eth_sendUserOperation") return "wallet";
   if (t === "eth_sendTransaction") return "rpc";
   if (e === "paymentMiddleware" || e === "wrapFetchWithPayment") return "x402";
   if (e === "sendCalls" || e === "useSendCalls" || e === "sendAttributedCalls" || e === "sendUserOperation") return "wallet";
-  if (!(!e || !["sendTransaction", "writeContract", "prepareTransactionRequest", "sendRawTransaction"].includes(e))) return Ee.test(i) ? "agent" : n.includes("privy") ? "privy" : n.includes("ethers") ? "ethers" : n.includes("wagmi") ? "wagmi" : n.includes("raw-rpc") ? "rpc" : "viem";
+  if (!(!e || !["sendTransaction", "writeContract", "prepareTransactionRequest", "sendRawTransaction"].includes(e))) return Pe.test(i) ? "agent" : n.includes("privy") ? "privy" : n.includes("ethers") ? "ethers" : n.includes("wagmi") ? "wagmi" : n.includes("raw-rpc") ? "rpc" : "viem";
 }
-function dt(e, t, i, n, r) {
-  let o = e.getLineAndCharacterOfPosition(i.node.getStart(e)), s = i.node.getText(e), f = gt(i), l = N(e, f, false), c = N(e, f, true), u = i.family === "x402" ? ht(e, i) : { found: false, literals: /* @__PURE__ */ new Set() };
-  for (let b of u.literals) c.literals.add(b);
-  let d = r.builderCodes.map((b) => createDataSuffix({ codes: [b] }).slice(2).toLowerCase()), p = oe(l.literals), g = oe(c.literals), x = r.builderCodes.some((b) => l.literals.has(b)), h = r.builderCodes.some((b) => c.literals.has(b)), C = d.some((b) => Array.from(c.literals).some((_e) => _e.toLowerCase().replace(/^0x/, "").endsWith(b))), y = p.find((b) => !r.builderCodes.includes(b)), $ = g.find((b) => !r.builderCodes.includes(b)), T = je(s, t), P = pt(i, s, t, u.found), U = r.globalEvidence?.filter((b) => b.family === i.family) ?? [], le = U.find((b) => ye(e, i, b, r.builderCodes, r.workspaceGraph)), Le = U.find((b) => b.expected && ye(e, i, b, r.builderCodes, r.workspaceGraph)), F = le ?? U.find((b) => b.expected) ?? U[0], q = [];
-  P ? q.push({ kind: P.kind, detail: P.detail, file: r.relativePath, line: o.line + 1 }) : F && q.push(F.evidence);
-  let B, R, O, L, W = i.confidence, ue = y ?? (P ? $ : void 0) ?? le?.wrongCode;
-  ue && !x && !C ? (B = "wrong-code", R = "BAO002", O = `${i.marker} uses ${ue}, which is not configured for this project.`, L = "Replace it with a Builder Code from bao.config.json.") : P && !T && (x || h || C) ? (B = "protected", O = `${i.marker} is protected by Builder Code attribution.`, W = x ? "high" : "medium") : Le || F?.expected && i.family === "privy" && r.profile !== "strict" ? (B = "protected", O = `${i.marker} is covered by statically linked project-level attribution evidence.`, W = "medium") : F?.expected ? (B = "unresolved", R = "BAO004", O = `${i.marker} has project-level Builder Code configuration, but this call site is not statically linked to it.`, L = "Pass dataSuffix at this call site or expose an import path the scanner can verify.", W = "medium") : P || F?.dynamic ? (B = "unresolved", R = "BAO003", O = `${i.marker} uses dynamic attribution that cannot be matched to a configured Builder Code.`, L = "Expose the configured Builder Code to CI or use strict-verifiable configuration.", W = "medium") : (B = "missing", R = $t(i.family), O = Rt(i), L = Ot(i.family));
-  let We = jt(B, R, r.profile, r.rules), de = Ut(R ?? "protected", r.relativePath, i.family, i.marker, Ie(s), n), Me = r.baseline?.has(de) ?? false;
-  return { file: r.relativePath, line: o.line + 1, column: o.character + 1, family: i.family, marker: i.marker, status: B, ruleId: R, message: O, suggestion: L, evidence: q, confidence: W, severity: We, fingerprint: de, baseline: Me };
+function pt(e, t, i, n, r) {
+  let o = e.getLineAndCharacterOfPosition(i.node.getStart(e)), s = i.node.getText(e), f = ht(i), l = z(e, f, false), c = z(e, f, true), u = i.family === "x402" ? xt(e, i) : { found: false, literals: /* @__PURE__ */ new Set() };
+  for (let w of u.literals) c.literals.add(w);
+  let d = r.builderCodes.map((w) => createDataSuffix({ codes: [w] }).slice(2).toLowerCase()), m = ce(l.literals), C = ce(c.literals), S = r.builderCodes.some((w) => l.literals.has(w)), p = r.builderCodes.some((w) => c.literals.has(w)), x = d.some((w) => Array.from(c.literals).some((_e) => _e.toLowerCase().replace(/^0x/, "").endsWith(w))), h = m.find((w) => !r.builderCodes.includes(w)), O = C.find((w) => !r.builderCodes.includes(w)), F = c.untrustedHelper, B = mt(i, s, t, u.found), U = r.globalEvidence?.filter((w) => w.family === i.family) ?? [], pe = U.find((w) => Ae(e, i, w, r.builderCodes, r.workspaceGraph)), We = U.find((w) => w.expected && Ae(e, i, w, r.builderCodes, r.workspaceGraph)), L = pe ?? U.find((w) => w.expected) ?? U[0], Y = [];
+  B ? Y.push({ kind: B.kind, detail: B.detail, file: r.relativePath, line: o.line + 1 }) : L && Y.push(L.evidence);
+  let k, $, R, j, D = i.confidence, me = h ?? (B ? O : void 0) ?? pe?.wrongCode;
+  F ? (k = "unresolved", $ = "BAO003", R = `${i.marker} uses a locally implemented attribution helper whose output cannot be verified statically.`, j = "Use an imported attribution helper or supply a verifiable encoded suffix.", D = "medium") : me && !S && !x ? (k = "wrong-code", $ = "BAO002", R = `${i.marker} uses ${me}, which is not configured for this project.`, j = "Replace it with a Builder Code from bao.config.json.") : B && (S || p || x) ? (k = "protected", R = `${i.marker} is protected by Builder Code attribution.`, D = S ? "high" : "medium") : We || L?.expected && i.family === "privy" && r.profile !== "strict" ? (k = "protected", R = `${i.marker} is covered by statically linked project-level attribution evidence.`, D = "medium") : L?.expected ? (k = "unresolved", $ = "BAO004", R = `${i.marker} has project-level Builder Code configuration, but this call site is not statically linked to it.`, j = "Pass dataSuffix at this call site or expose an import path the scanner can verify.", D = "medium") : B || L?.dynamic ? (k = "unresolved", $ = "BAO003", R = `${i.marker} uses dynamic attribution that cannot be matched to a configured Builder Code.`, j = "Expose the configured Builder Code to CI or use strict-verifiable configuration.", D = "medium") : (k = "missing", $ = $t(i.family), R = Rt(i), j = It(i.family));
+  let Me = Ot(k, $, r.profile, r.rules), ge = Ut($ ?? "protected", r.relativePath, i.family, i.marker, Ne(s), n), ze = r.baseline?.has(ge) ?? false;
+  return { file: r.relativePath, line: o.line + 1, column: o.character + 1, family: i.family, marker: i.marker, status: k, ruleId: $, message: R, suggestion: j, evidence: Y, confidence: D, severity: Me, fingerprint: ge, baseline: ze };
 }
-function pt(e, t, i, n = false) {
+function mt(e, t, i, n = false) {
   if (e.family === "x402") {
     let r = (e.marker === "x402Client" || e.marker === "wrapFetchWithPayment") && n, o = e.marker === "paymentMiddleware" && /\bdeclareBuilderCodeExtension\s*\(/.test(i);
     return r || o ? { kind: "helper", detail: "official x402 Builder Code extension" } : void 0;
   }
-  if (e.family === "wallet") return /\b(?:attributeUserOperation|sendAttributedCalls|withDataSuffixCapability|withUserOperationAttribution)\b/.test(t) || /\b(?:attributeUserOperation|createAttributionProvider|withDataSuffixCapability|withUserOperationAttribution)\b/.test(i) ? { kind: "helper", detail: "Smart Wallet Attribution Kit middleware" } : /\bcapabilities\b[\s\S]*\bdataSuffix\b/.test(t) && /\bwallet_getCapabilities\b/.test(i) && _t(e.node) ? { kind: "config", detail: "negotiated EIP-5792 dataSuffix capability" } : void 0;
+  if (e.family === "wallet") return /\b(?:attributeUserOperation|sendAttributedCalls|withDataSuffixCapability|withUserOperationAttribution)\b/.test(t) || /\b(?:attributeUserOperation|createAttributionProvider|withDataSuffixCapability|withUserOperationAttribution)\b/.test(i) ? { kind: "helper", detail: "Smart Wallet Attribution Kit middleware" } : /\bcapabilities\b[\s\S]*\bdataSuffix\b/.test(t) && /\bwallet_getCapabilities\b/.test(i) && zt(e.node) ? { kind: "config", detail: "negotiated EIP-5792 dataSuffix capability" } : void 0;
   if (/\bdataSuffix\b/.test(t)) return { kind: "config", detail: "transaction dataSuffix" };
-  if (ve.test(t) && !je(t, i)) return { kind: "helper", detail: "Builder Code attribution helper" };
+  if (fe.test(t)) return { kind: "helper", detail: "Builder Code attribution helper" };
   if (/\bdata\b\s*:\s*[^,}\n]+(?:suffix|Suffix|DATA_SUFFIX)/.test(t)) return { kind: "suffix", detail: "suffix appended to transaction calldata" };
 }
-function se(e, t) {
-  let i = { identifiers: /* @__PURE__ */ new Set(), literals: /* @__PURE__ */ new Set(), memberAccesses: /* @__PURE__ */ new Set() }, n = z(e), r = /* @__PURE__ */ new Set();
+function ae(e, t) {
+  let i = { identifiers: /* @__PURE__ */ new Set(), literals: /* @__PURE__ */ new Set(), memberAccesses: /* @__PURE__ */ new Set() }, n = _(e), r = /* @__PURE__ */ new Set();
   function o(s) {
-    if (Pe(s) && i.literals.add(s.text), import_typescript.default.isIdentifier(s) && J(s)) {
+    if ($e(s) && i.literals.add(s.text), import_typescript.default.isIdentifier(s) && H(s)) {
       i.identifiers.add(s.text);
-      let f = j(n, s.text, s.getStart(e)), l = f ? V(f.node) : void 0;
+      let f = I(n, s.text, s.getStart(e)), l = f ? J(f.node) : void 0;
       l && !r.has(l) && (r.add(l), o(l));
     }
     import_typescript.default.isPropertyAccessExpression(s) && i.memberAccesses.add(s.getText(e)), import_typescript.default.forEachChild(s, o);
   }
   return o(t), i;
 }
-function N(e, t, i) {
-  let n = { identifiers: /* @__PURE__ */ new Set(), literals: /* @__PURE__ */ new Set(), memberAccesses: /* @__PURE__ */ new Set() }, r = i ? z(e) : [], o = /* @__PURE__ */ new Set(), s = /* @__PURE__ */ new Set(["appDataSuffix", "capabilities", "codes", "dataSuffix", "value", "walletCodes"]);
+function z(e, t, i) {
+  let n = { identifiers: /* @__PURE__ */ new Set(), literals: /* @__PURE__ */ new Set(), memberAccesses: /* @__PURE__ */ new Set() }, r = _(e), o = /* @__PURE__ */ new Set(), s = /* @__PURE__ */ new Set(["appDataSuffix", "capabilities", "codes", "dataSuffix", "value", "walletCodes"]);
   function f(l) {
-    if (Pe(l) && n.literals.add(l.text), import_typescript.default.isPropertyAccessExpression(l) && n.memberAccesses.add(l.getText(e)), import_typescript.default.isIdentifier(l) && J(l)) {
+    if ($e(l) && n.literals.add(l.text), import_typescript.default.isPropertyAccessExpression(l) && n.memberAccesses.add(l.getText(e)), import_typescript.default.isIdentifier(l) && H(l)) {
       if (n.identifiers.add(l.text), i) {
-        let c = j(r, l.text, l.getStart(e)), u = c ? V(c.node) : void 0;
+        let c = I(r, l.text, l.getStart(e)), u = c ? J(c.node) : void 0;
         u && !o.has(u) && (o.add(u), f(u));
       }
       return;
     }
     if (import_typescript.default.isObjectLiteralExpression(l)) {
       for (let c of l.properties) {
-        let u = import_typescript.default.isPropertyAssignment(c) || import_typescript.default.isShorthandPropertyAssignment(c) ? v(c.name) : void 0;
+        let u = import_typescript.default.isPropertyAssignment(c) || import_typescript.default.isShorthandPropertyAssignment(c) ? A(c.name) : void 0;
         !u || !s.has(u) || (import_typescript.default.isPropertyAssignment(c) ? f(c.initializer) : import_typescript.default.isShorthandPropertyAssignment(c) && f(c.name));
       }
       return;
     }
     if (import_typescript.default.isCallExpression(l) || import_typescript.default.isNewExpression(l)) {
-      let c = k(l.expression);
-      for (let u of mt(c, l.arguments ?? [])) f(u);
+      let c = P(l.expression);
+      if (c && (fe.test(c) || c === "toDataSuffix") && V(l.expression, r)) {
+        n.untrustedHelper = true;
+        return;
+      }
+      for (let u of gt(c, l.arguments ?? [])) f(u);
       return;
     }
     import_typescript.default.forEachChild(l, f);
@@ -230827,7 +230831,7 @@ function N(e, t, i) {
   for (let l of t) f(l);
   return n;
 }
-function mt(e, t) {
+function gt(e, t) {
   switch (e) {
     case "appendDataSuffix":
     case "attributeSendCalls":
@@ -230858,26 +230862,26 @@ function mt(e, t) {
       return [];
   }
 }
-function gt(e) {
-  let t = [], i = /* @__PURE__ */ new Set(), n = e.node.getSourceFile(), r = z(n), o = /* @__PURE__ */ new Set();
+function ht(e) {
+  let t = [], i = /* @__PURE__ */ new Set(), n = e.node.getSourceFile(), r = _(n), o = /* @__PURE__ */ new Set();
   function s(c) {
     i.has(c) || (i.add(c), t.push(c));
   }
   if (e.marker === "sendAttributedCalls") return s(e.node), t;
   function f(c) {
-    if (import_typescript.default.isCallExpression(c) && k(c.expression) === "declareBuilderCodeExtension") {
+    if (import_typescript.default.isCallExpression(c) && P(c.expression) === "declareBuilderCodeExtension") {
       s(c);
       return;
     }
     import_typescript.default.forEachChild(c, f);
   }
   function l(c) {
-    if (import_typescript.default.isIdentifier(c) && J(c)) {
-      let u = j(r, c.text, c.getStart(n)), d = u ? V(u.node) : void 0;
+    if (import_typescript.default.isIdentifier(c) && H(c)) {
+      let u = I(r, c.text, c.getStart(n)), d = u ? J(u.node) : void 0;
       d && !o.has(d) && (o.add(d), l(d));
       return;
     }
-    if (import_typescript.default.isPropertyAssignment(c) && v(c.name) === "dataSuffix") {
+    if (import_typescript.default.isPropertyAssignment(c) && A(c.name) === "dataSuffix") {
       s(c.initializer);
       return;
     }
@@ -230885,19 +230889,19 @@ function gt(e) {
       s(c.name);
       return;
     }
-    if (e.family === "x402" && import_typescript.default.isPropertyAssignment(c) && v(c.name) === "extensions") {
+    if (e.family === "x402" && import_typescript.default.isPropertyAssignment(c) && A(c.name) === "extensions") {
       f(c.initializer);
       return;
     }
-    if (e.marker === "eth_sendUserOperation" && import_typescript.default.isPropertyAssignment(c) && v(c.name) === "params" && import_typescript.default.isArrayLiteralExpression(c.initializer) && c.initializer.elements[0]) {
+    if (e.marker === "eth_sendUserOperation" && import_typescript.default.isPropertyAssignment(c) && A(c.name) === "params" && import_typescript.default.isArrayLiteralExpression(c.initializer) && c.initializer.elements[0]) {
       s(c.initializer.elements[0]);
       return;
     }
-    if (import_typescript.default.isPropertyAssignment(c) && v(c.name) === "data" && /(?:suffix|Suffix|DATA_SUFFIX)/.test(c.initializer.getText())) {
+    if (import_typescript.default.isPropertyAssignment(c) && A(c.name) === "data" && /(?:suffix|Suffix|DATA_SUFFIX)/.test(c.initializer.getText())) {
       s(c.initializer);
       return;
     }
-    if (import_typescript.default.isPropertyAssignment(c) && (v(c.name) === "capabilities" || v(c.name) === "params")) {
+    if (import_typescript.default.isPropertyAssignment(c) && (A(c.name) === "capabilities" || A(c.name) === "params")) {
       l(c.initializer);
       return;
     }
@@ -230906,8 +230910,8 @@ function gt(e) {
       return;
     }
     if (import_typescript.default.isCallExpression(c) && c !== e.node) {
-      let u = k(c.expression);
-      u && ve.test(u) && s(c);
+      let u = P(c.expression);
+      u && fe.test(u) && s(c);
       return;
     }
     if (import_typescript.default.isObjectLiteralExpression(c)) {
@@ -230919,27 +230923,27 @@ function gt(e) {
   if (import_typescript.default.isCallExpression(e.node)) for (let c of e.node.arguments) l(c);
   return t;
 }
-function z(e) {
+function _(e) {
   let t = [];
   function i(r, o) {
     if (import_typescript.default.isIdentifier(r)) {
-      t.push({ name: r.text, node: o, scope: we(o, e) });
+      t.push({ name: r.text, node: o, scope: Ee(o, e) });
       return;
     }
     for (let s of r.elements) import_typescript.default.isBindingElement(s) && i(s.name, o);
   }
   function n(r) {
-    import_typescript.default.isVariableDeclaration(r) || import_typescript.default.isParameter(r) ? i(r.name, r) : import_typescript.default.isFunctionDeclaration(r) && r.name ? t.push({ name: r.name.text, node: r, scope: we(r, e) }) : import_typescript.default.isImportClause(r) && r.name ? t.push({ name: r.name.text, node: r, scope: e }) : import_typescript.default.isImportSpecifier(r) ? t.push({ name: r.name.text, node: r, scope: e }) : import_typescript.default.isNamespaceImport(r) && t.push({ name: r.name.text, node: r, scope: e }), import_typescript.default.forEachChild(r, n);
+    import_typescript.default.isVariableDeclaration(r) || import_typescript.default.isParameter(r) ? i(r.name, r) : (import_typescript.default.isFunctionDeclaration(r) || import_typescript.default.isClassDeclaration(r)) && r.name ? t.push({ name: r.name.text, node: r, scope: Ee(r, e) }) : import_typescript.default.isImportClause(r) && r.name ? t.push({ name: r.name.text, node: r, scope: e }) : import_typescript.default.isImportSpecifier(r) ? t.push({ name: r.name.text, node: r, scope: e }) : import_typescript.default.isNamespaceImport(r) && t.push({ name: r.name.text, node: r, scope: e }), import_typescript.default.forEachChild(r, n);
   }
   return n(e), t;
 }
-function j(e, t, i) {
+function I(e, t, i) {
   return e.filter((n) => {
     let r = n.scope.getStart(), o = n.scope.getEnd(), s = import_typescript.default.isFunctionDeclaration(n.node) || import_typescript.default.isImportClause(n.node) || import_typescript.default.isImportSpecifier(n.node) || import_typescript.default.isNamespaceImport(n.node);
     return n.name === t && r <= i && i <= o && (s || n.node.getStart() <= i);
   }).sort((n, r) => n.scope.getEnd() - n.scope.getStart() - (r.scope.getEnd() - r.scope.getStart()) || r.node.getStart() - n.node.getStart())[0];
 }
-function we(e, t) {
+function Ee(e, t) {
   let i = e.parent;
   for (; i && i !== t; ) {
     if (import_typescript.default.isBlock(i) || import_typescript.default.isFunctionLike(i) || import_typescript.default.isModuleBlock(i)) return i;
@@ -230947,47 +230951,47 @@ function we(e, t) {
   }
   return t;
 }
-function V(e) {
+function J(e) {
   if (import_typescript.default.isVariableDeclaration(e) || import_typescript.default.isParameter(e)) return e.initializer;
   if (import_typescript.default.isFunctionDeclaration(e)) return e.body;
 }
-function J(e) {
+function H(e) {
   let t = e.parent;
   return !(import_typescript.default.isPropertyAccessExpression(t) && t.name === e || import_typescript.default.isPropertyAssignment(t) && t.name === e || import_typescript.default.isMethodDeclaration(t) && t.name === e || import_typescript.default.isVariableDeclaration(t) && t.name === e || import_typescript.default.isParameter(t) && t.name === e || import_typescript.default.isBindingElement(t) && t.name === e || import_typescript.default.isFunctionDeclaration(t) && t.name === e || import_typescript.default.isImportClause(t) || import_typescript.default.isImportSpecifier(t) || import_typescript.default.isNamespaceImport(t) || import_typescript.default.isJsxAttribute(t) && t.name === e);
 }
-function Pe(e) {
+function $e(e) {
   if (!import_typescript.default.isStringLiteral(e) && !import_typescript.default.isNoSubstitutionTemplateLiteral(e)) return false;
   let t = e.parent;
   return !(import_typescript.default.isPropertyAssignment(t) && t.name === e || import_typescript.default.isMethodDeclaration(t) && t.name === e || import_typescript.default.isImportDeclaration(t) && t.moduleSpecifier === e || import_typescript.default.isExportDeclaration(t) && t.moduleSpecifier === e);
 }
-function ht(e, t) {
-  let i = /* @__PURE__ */ new Set(), n = false, r = z(e), o = /* @__PURE__ */ new Set(), s = t.node;
+function xt(e, t) {
+  let i = /* @__PURE__ */ new Set(), n = false, r = _(e), o = /* @__PURE__ */ new Set(), s = t.node;
   for (; s && s !== e; ) {
     if (import_typescript.default.isVariableDeclaration(s) && import_typescript.default.isIdentifier(s.name)) {
-      import_typescript.default.isNewExpression(t.node) && k(t.node.expression) === "x402Client" && o.add(s);
+      import_typescript.default.isNewExpression(t.node) && P(t.node.expression) === "x402Client" && o.add(s);
       break;
     }
     s = s.parent;
   }
   function f(u, d = []) {
     if (d.includes(u.node)) return false;
-    let p = V(u.node), g = [...d, u.node];
-    if (p && import_typescript.default.isNewExpression(p) && k(p.expression) === "x402Client") {
-      for (let x of g) o.add(x);
+    let m = J(u.node), C = [...d, u.node];
+    if (m && import_typescript.default.isNewExpression(m) && P(m.expression) === "x402Client") {
+      for (let S of C) o.add(S);
       return true;
     }
-    if (p && import_typescript.default.isIdentifier(p)) {
-      let x = j(r, p.text, p.getStart(e));
-      if (x && f(x, g)) {
-        for (let h of g) o.add(h);
+    if (m && import_typescript.default.isIdentifier(m)) {
+      let S = I(r, m.text, m.getStart(e));
+      if (S && f(S, C)) {
+        for (let p of C) o.add(p);
         return true;
       }
     }
     return false;
   }
   function l(u) {
-    if (import_typescript.default.isIdentifier(u) && J(u)) {
-      let d = j(r, u.text, u.getStart(e));
+    if (import_typescript.default.isIdentifier(u) && H(u)) {
+      let d = I(r, u.text, u.getStart(e));
       d && f(d);
     }
     import_typescript.default.forEachChild(u, l);
@@ -230995,28 +230999,28 @@ function ht(e, t) {
   l(t.node);
   function c(u) {
     if (import_typescript.default.isCallExpression(u) && import_typescript.default.isPropertyAccessExpression(u.expression) && u.expression.name.text === "registerExtension" && import_typescript.default.isIdentifier(u.expression.expression)) {
-      let d = j(r, u.expression.expression.text, u.expression.expression.getStart(e));
+      let d = I(r, u.expression.expression.text, u.expression.expression.getStart(e));
       if (d && o.has(d.node)) {
         n = true;
-        for (let p of N(e, [u], true).literals) i.add(p);
+        for (let m of z(e, [u], true).literals) i.add(m);
       }
     }
     import_typescript.default.forEachChild(u, c);
   }
   return c(e), { found: n, literals: i };
 }
-function xt(e) {
+function St(e) {
   let t = [], i = /* @__PURE__ */ new Set(["attributeUserOperation", "builderCodeDataSuffix", "createAttributionProvider", "createAttributionSigner", "dataSuffix", "declareBuilderCodeExtension", "registerExtension", "withDataSuffixCapability", "withUserOperationAttribution", "withAttributionSuffix", "withViemDataSuffix"]);
   function n(r) {
     if (import_typescript.default.isCallExpression(r)) {
-      let o = k(r.expression);
+      let o = P(r.expression);
       (o && i.has(o) || (o === "createWalletClient" || o === "createConfig") && /\bdataSuffix\b/.test(r.getText(e))) && t.push(r);
-    } else import_typescript.default.isNewExpression(r) && k(r.expression) === "BuilderCodeClientExtension" && t.push(r);
+    } else import_typescript.default.isNewExpression(r) && P(r.expression) === "BuilderCodeClientExtension" && t.push(r);
     import_typescript.default.forEachChild(r, n);
   }
   return n(e), t.sort((r, o) => r.getStart(e) - o.getStart(e));
 }
-function bt(e) {
+function se(e) {
   let t = e;
   for (; t; ) {
     if (import_typescript.default.isVariableDeclaration(t) && import_typescript.default.isIdentifier(t.name)) {
@@ -231030,16 +231034,16 @@ function bt(e) {
   }
   return [];
 }
-function ye(e, t, i, n, r) {
-  if (t.family === "privy" && St(e, t, i, n, r)) return true;
+function Ae(e, t, i, n, r) {
+  if (t.family === "privy" && wt(e, t, i, n, r)) return true;
   if (!r) return false;
-  let o = se(e, t.node), s = r.linkedBindings(e.fileName, i.evidence.file, i.exportedBindings);
+  let o = ae(e, t.node), s = r.linkedBindings(e.fileName, i.evidence.file, i.exportedBindings);
   return Array.from(s).some((f) => f.includes(".") ? o.memberAccesses.has(f) : o.identifiers.has(f));
 }
-function St(e, t, i, n, r) {
-  let o = se(e, t.node);
-  if (!vt(e, o)) return false;
-  let s = wt(t.node), f = At(e, i);
+function wt(e, t, i, n, r) {
+  let o = ae(e, t.node);
+  if (!At(e, o)) return false;
+  let s = bt(t.node), f = Et(e, i);
   for (let u of r?.linkedBindings(e.fileName, i.evidence.file, i.exportedBindings) ?? []) f.add(u);
   let l = false;
   function c(u) {
@@ -231047,17 +231051,17 @@ function St(e, t, i, n, r) {
       import_typescript.default.forEachChild(u, c);
       return;
     }
-    let d = u.openingElement.attributes.properties.find((y) => import_typescript.default.isJsxAttribute(y) && y.name.getText(e) === "config"), p = d?.initializer && import_typescript.default.isJsxExpression(d.initializer) ? d.initializer.expression : void 0;
-    if (!p) {
+    let d = u.openingElement.attributes.properties.find((h) => import_typescript.default.isJsxAttribute(h) && h.name.getText(e) === "config"), m = d?.initializer && import_typescript.default.isJsxExpression(d.initializer) ? d.initializer.expression : void 0;
+    if (!m) {
       import_typescript.default.forEachChild(u, c);
       return;
     }
-    let g = se(e, p), x = N(e, [p], true), h = E(i.evidence.file) === E(e.fileName) && n.some((y) => x.literals.has(y)) || Array.from(f).some((y) => y.includes(".") ? g.memberAccesses.has(y) : g.identifiers.has(y)), C = t.node.getStart(e) >= u.getStart(e) && t.node.getEnd() <= u.getEnd() || (s ? yt(u, s, e) : false);
-    l = h && C, l || import_typescript.default.forEachChild(u, c);
+    let C = ae(e, m), S = z(e, [m], true), p = v(i.evidence.file) === v(e.fileName) && n.some((h) => S.literals.has(h)) || Array.from(f).some((h) => h.includes(".") ? C.memberAccesses.has(h) : C.identifiers.has(h)), x = t.node.getStart(e) >= u.getStart(e) && t.node.getEnd() <= u.getEnd() || (s ? yt(u, s, e) : false);
+    l = p && x, l || import_typescript.default.forEachChild(u, c);
   }
   return c(e), l;
 }
-function wt(e) {
+function bt(e) {
   let t = e.parent;
   for (; t; ) {
     if (import_typescript.default.isFunctionDeclaration(t) && t.name) return t.name.text;
@@ -231082,10 +231086,10 @@ function yt(e, t, i) {
 function Ct(e) {
   return import_typescript.default.isIdentifier(e.tagName) ? e.tagName.text : e.tagName.getText();
 }
-function At(e, t) {
+function Et(e, t) {
   let i = /* @__PURE__ */ new Set(), n = new Set(t.exportedBindings);
   for (let r of e.statements) {
-    if (!import_typescript.default.isImportDeclaration(r) || !import_typescript.default.isStringLiteral(r.moduleSpecifier) || !r.importClause || !Et(e.fileName, r.moduleSpecifier.text, t.evidence.file)) continue;
+    if (!import_typescript.default.isImportDeclaration(r) || !import_typescript.default.isStringLiteral(r.moduleSpecifier) || !r.importClause || !vt(e.fileName, r.moduleSpecifier.text, t.evidence.file)) continue;
     r.importClause.name && n.has("default") && i.add(r.importClause.name.text);
     let o = r.importClause.namedBindings;
     if (o && import_typescript.default.isNamespaceImport(o)) for (let s of n) s !== "default" && i.add(`${o.name.text}.${s}`);
@@ -231096,7 +231100,7 @@ function At(e, t) {
   }
   return i;
 }
-function vt(e, t) {
+function At(e, t) {
   let i = /* @__PURE__ */ new Set(), n = /* @__PURE__ */ new Set();
   for (let r of e.statements) {
     if (!import_typescript.default.isImportDeclaration(r) || !import_typescript.default.isStringLiteral(r.moduleSpecifier) || r.moduleSpecifier.text !== "@privy-io/react-auth" || !r.importClause?.namedBindings) continue;
@@ -231112,25 +231116,22 @@ function vt(e, t) {
   }
   return Array.from(i).some((r) => t.identifiers.has(r)) || Array.from(n).some((r) => t.memberAccesses.has(r));
 }
-function Et(e, t, i) {
+function vt(e, t, i) {
   if (!t.startsWith(".")) return false;
-  let n = E(import_path.default.posix.normalize(import_path.default.posix.join(import_path.default.posix.dirname(E(e)), t)));
-  return Ce(n) === Ce(E(i));
+  let n = v(import_path.default.posix.normalize(import_path.default.posix.join(import_path.default.posix.dirname(v(e)), t)));
+  return ve(n) === ve(v(i));
 }
-function Ce(e) {
+function ve(e) {
   return e.replace(/\.(?:[cm]?[jt]sx?)$/, "").replace(/\/index$/, "");
 }
 function kt(e, t) {
   let i = [];
   for (let n of e) {
     if (!Bt(n.source)) continue;
-    let r = import_typescript.default.createSourceFile(n.relativePath, n.source, import_typescript.default.ScriptTarget.Latest, true, Ne(n.relativePath)), o = xt(r);
+    let r = import_typescript.default.createSourceFile(n.relativePath, n.source, import_typescript.default.ScriptTarget.Latest, true, Te(n.relativePath)), o = St(r);
     if (o.length === 0) continue;
-    let f = o.filter((g) => {
-      let x = N(r, [g], true).literals;
-      return t.some((h) => x.has(h));
-    }).length > 0, c = Array.from(new Set(o.flatMap((g) => oe(N(r, [g], true).literals)))).find((g) => !t.includes(g)), u = Array.from(new Set(o.flatMap((g) => bt(g)))), d = r.getLineAndCharacterOfPosition(o[0].getStart(r)).line + 1, p = Pt(n);
-    for (let g of p) i.push({ family: g, expected: f, dynamic: !f, exportedBindings: u, wrongCode: c, evidence: { kind: "config", detail: "project-level attribution configuration", file: n.relativePath, line: d } });
+    let s = o.map((p) => ({ node: p, syntax: z(r, [p], true) })), f = new Set(s.flatMap(({ node: p, syntax: x }) => x.untrustedHelper ? se(p) : [])), l = s.filter(({ node: p, syntax: x }) => !x.untrustedHelper && !se(p).some((h) => f.has(h)) && t.some((h) => x.literals.has(h))).map(({ node: p }) => p), c = l.length > 0, d = Array.from(new Set(s.flatMap(({ syntax: p }) => ce(p.literals)))).find((p) => !t.includes(p)), m = Array.from(new Set((c ? l : o).flatMap((p) => se(p)))), C = r.getLineAndCharacterOfPosition(o[0].getStart(r)).line + 1, S = Pt(n);
+    for (let p of S) i.push({ family: p, expected: c, dynamic: !c, exportedBindings: m, wrongCode: d, evidence: { kind: "config", detail: "project-level attribution configuration", file: n.relativePath, line: C } });
   }
   return i;
 }
@@ -231147,7 +231148,7 @@ function $t(e) {
 function Rt(e) {
   return e.family === "wallet" ? `${e.marker} is missing the EIP-5792 dataSuffix capability.` : e.family === "x402" ? `${e.marker} is missing the official x402 Builder Code extension.` : `${e.marker} does not have Builder Code attribution evidence.`;
 }
-function Ot(e) {
+function It(e) {
   switch (e) {
     case "wallet":
       return "Use Smart Wallet Attribution Kit middleware or negotiate wallet_getCapabilities before adding capabilities.dataSuffix.";
@@ -231161,16 +231162,16 @@ function Ot(e) {
       return "Add a BAO SDK helper or dataSuffix configuration to this transaction path.";
   }
 }
-function jt(e, t, i, n) {
+function Ot(e, t, i, n) {
   if (e === "protected") return "off";
   let r = t === "BAO004" ? n?.["ambiguous-path"] : e === "missing" ? n?.["missing-attribution"] : e === "wrong-code" ? n?.["wrong-builder-code"] : n?.["dynamic-attribution"];
   return r || (i === "local" ? "warning" : i === "strict" ? "error" : e === "unresolved" ? "warning" : "error");
 }
-function Dt(e) {
+function jt(e) {
   let t = e.filter((n) => n.status === "protected").length, i = e.filter((n) => n.baseline).length;
   return { total: e.length, protected: t, missing: e.filter((n) => n.status === "missing").length, wrongCode: e.filter((n) => n.status === "wrong-code").length, unresolved: e.filter((n) => n.status === "unresolved").length, errors: e.filter((n) => n.severity === "error" && !n.baseline).length, warnings: e.filter((n) => n.severity === "warning" && !n.baseline).length, baseline: i, coverage: e.length === 0 ? 100 : Math.round(t / e.length * 100) };
 }
-async function It(e, t) {
+async function Dt(e, t) {
   let i;
   if (t.files && t.files.length > 0) {
     i = t.files.map((n) => import_path.default.resolve(e, n));
@@ -231180,21 +231181,21 @@ async function It(e, t) {
       let o = await import_fs2.promises.realpath(n), s = await import_fs2.promises.realpath(e), f = import_path.default.relative(s, o);
       if (f.startsWith("..") || import_path.default.isAbsolute(f)) throw new Error("Explicit source files must not resolve outside the scan root.");
     }
-  } else i = await Be(e);
-  return Array.from(new Set(i)).filter((n) => ne.has(import_path.default.extname(n))).filter((n) => Lt(E(import_path.default.relative(e, n)), t.include)).filter((n) => !Wt(E(import_path.default.relative(e, n)), t.exclude)).sort();
+  } else i = await Re(e);
+  return Array.from(new Set(i)).filter((n) => oe.has(import_path.default.extname(n))).filter((n) => Lt(v(import_path.default.relative(e, n)), t.include)).filter((n) => !Wt(v(import_path.default.relative(e, n)), t.exclude)).sort();
 }
 function Nt(e, t) {
   return e.filter((i) => t.has(i.relativePath));
 }
 async function Tt(e, t) {
-  if (t.length > Se) throw new Error(`Source scan exceeds the ${Se} file limit.`);
+  if (t.length > Ce) throw new Error(`Source scan exceeds the ${Ce} file limit.`);
   let i = 0;
   for (let r = 0; r < t.length; r += K) {
     let o = t.slice(r, r + K), s = await Promise.all(o.map((f) => import_fs2.promises.stat(f)));
     for (let f = 0; f < o.length; f += 1) {
       let l = s[f].size;
-      if (l > ot) throw new Error(`${E(import_path.default.relative(e, o[f]))} exceeds the 2 MiB source file limit.`);
-      if (i += l, i > at) throw new Error("Source scan exceeds the 50 MiB aggregate limit.");
+      if (l > at) throw new Error(`${v(import_path.default.relative(e, o[f]))} exceeds the 2 MiB source file limit.`);
+      if (i += l, i > ct) throw new Error("Source scan exceeds the 50 MiB aggregate limit.");
     }
   }
   let n = [];
@@ -231202,36 +231203,36 @@ async function Tt(e, t) {
     let o = t.slice(r, r + K);
     n.push(...await Promise.all(o.map(async (s) => {
       let f = await import_fs2.promises.readFile(s, "utf8");
-      return { absolutePath: s, relativePath: E(import_path.default.relative(e, s)), source: f, frameworks: ae(f) };
+      return { absolutePath: s, relativePath: v(import_path.default.relative(e, s)), source: f, frameworks: le(f) };
     })));
   }
   return n;
 }
-async function Be(e) {
+async function Re(e) {
   let t = await import_fs2.promises.stat(e).catch(() => {
   });
   if (!t) return [];
-  if (t.isFile()) return ne.has(import_path.default.extname(e)) ? [e] : [];
+  if (t.isFile()) return oe.has(import_path.default.extname(e)) ? [e] : [];
   let i = await import_fs2.promises.readdir(e, { withFileTypes: true }), n = [];
   for (let r of i) {
-    if (r.isDirectory() && ct.has(r.name)) continue;
+    if (r.isDirectory() && ft.has(r.name)) continue;
     let o = import_path.default.join(e, r.name);
-    r.isDirectory() ? n.push(...await Be(o)) : r.isFile() && ne.has(import_path.default.extname(r.name)) && n.push(o);
+    r.isDirectory() ? n.push(...await Re(o)) : r.isFile() && oe.has(import_path.default.extname(r.name)) && n.push(o);
   }
   return n;
 }
 async function Ft(e, t) {
-  let { stdout: i } = await st("git", ["diff", "--name-only", "--end-of-options", `${t}...HEAD`, "--"], { cwd: e });
-  return new Set(i.split(/\r?\n/).map((n) => E(n.trim())).filter(Boolean));
+  let { stdout: i } = await ot("git", ["diff", "--name-only", "--end-of-options", `${t}...HEAD`, "--"], { cwd: e });
+  return new Set(i.split(/\r?\n/).map((n) => v(n.trim())).filter(Boolean));
 }
 function Lt(e, t) {
-  return !t || t.length === 0 ? true : t.some((i) => $e(e, i));
+  return !t || t.length === 0 ? true : t.some((i) => Ie(e, i));
 }
 function Wt(e, t) {
-  return t?.some((i) => $e(e, i)) ?? false;
+  return t?.some((i) => Ie(e, i)) ?? false;
 }
-function $e(e, t) {
-  let i = E(t).replace(/^\.\//, "").replace(/\/$/, "");
+function Ie(e, t) {
+  let i = v(t).replace(/^\.\//, "").replace(/\/$/, "");
   if (!i.includes("*")) return e === i || e.startsWith(`${i}/`);
   let n = "";
   for (let r = 0; r < i.length; r += 1) {
@@ -231243,71 +231244,73 @@ function $e(e, t) {
 function Mt(e) {
   let t = e.arguments[0];
   if (!(!t || !import_typescript.default.isObjectLiteralExpression(t))) {
-    for (let i of t.properties) if (!(!import_typescript.default.isPropertyAssignment(i) || v(i.name) !== "method") && import_typescript.default.isStringLiteralLike(i.initializer)) return i.initializer.text;
+    for (let i of t.properties) if (!(!import_typescript.default.isPropertyAssignment(i) || A(i.name) !== "method") && import_typescript.default.isStringLiteralLike(i.initializer)) return i.initializer.text;
   }
 }
-function k(e) {
+function P(e) {
   if (import_typescript.default.isIdentifier(e)) return e.text;
   if (import_typescript.default.isPropertyAccessExpression(e)) return e.name.text;
   if (import_typescript.default.isElementAccessExpression(e) && e.argumentExpression && import_typescript.default.isStringLiteralLike(e.argumentExpression)) return e.argumentExpression.text;
 }
-function Re(e, t, i = /* @__PURE__ */ new Set()) {
-  let n = k(t);
+function Oe(e, t, i = /* @__PURE__ */ new Set()) {
+  let n = P(t);
   if (!import_typescript.default.isIdentifier(t)) return n;
-  let r = z(e), o = j(r, t.text, t.getStart(e));
+  let r = _(e), o = I(r, t.text, t.getStart(e));
   if (!o || i.has(o.node)) return n;
   if (i.add(o.node), import_typescript.default.isImportSpecifier(o.node)) return o.node.propertyName?.text ?? o.node.name.text;
   if (import_typescript.default.isVariableDeclaration(o.node)) {
-    let s = Oe(o.node.name, t.text);
+    let s = je(o.node.name, t.text);
     if (s) return s;
-    if (o.node.initializer) return Re(e, o.node.initializer, i) ?? n;
+    if (o.node.initializer) return Oe(e, o.node.initializer, i) ?? n;
   }
   return n;
 }
-function Oe(e, t) {
+function je(e, t) {
   if (import_typescript.default.isObjectBindingPattern(e)) for (let i of e.elements) {
-    if (import_typescript.default.isIdentifier(i.name) && i.name.text === t) return v(i.propertyName ?? i.name);
-    let n = Oe(i.name, t);
+    if (import_typescript.default.isIdentifier(i.name) && i.name.text === t) return A(i.propertyName ?? i.name);
+    let n = je(i.name, t);
     if (n) return n;
   }
 }
-function v(e) {
+function A(e) {
   if (import_typescript.default.isIdentifier(e) || import_typescript.default.isStringLiteralLike(e)) return e.text;
 }
-function oe(e) {
+function ce(e) {
   return Array.from(new Set(Array.from(e).filter((t) => validateBuilderCodes([t]).length === 0)));
 }
-function _t(e) {
+function zt(e) {
   let t = false;
   function i(n) {
-    if (import_typescript.default.isPropertyAssignment(n) && v(n.name) === "dataSuffix" && import_typescript.default.isObjectLiteralExpression(n.initializer)) {
-      t = n.initializer.properties.some((r) => import_typescript.default.isPropertyAssignment(r) && v(r.name) === "optional" && r.initializer.kind === import_typescript.default.SyntaxKind.FalseKeyword);
+    if (import_typescript.default.isPropertyAssignment(n) && A(n.name) === "dataSuffix" && import_typescript.default.isObjectLiteralExpression(n.initializer)) {
+      t = n.initializer.properties.some((r) => import_typescript.default.isPropertyAssignment(r) && A(r.name) === "optional" && r.initializer.kind === import_typescript.default.SyntaxKind.FalseKeyword);
       return;
     }
     import_typescript.default.forEachChild(n, i);
   }
   return i(e), t;
 }
-function je(e, t) {
-  return Array.from(e.matchAll(/\b(appendDataSuffix|attributeSendCalls|attributeUserOperation|builderCodeDataSuffix|createAttributionProvider|createAttributionSigner|createDataSuffix|dataSuffix|declareBuilderCodeExtension|ethersBuilderCodeDataSuffix|sendAttributedCalls|useAttributionSuffix|withAttributionSuffix|withDataSuffixCapability|withEthersAttribution|withUserOperationAttribution|withViemDataSuffix)\s*\(/g), (n) => n[1]).some((n) => {
-    let r = n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    return new RegExp(`\\b(?:function|class|const|let|var)\\s+${r}\\b`).test(t);
-  });
+function V(e, t, i = /* @__PURE__ */ new Set()) {
+  if (import_typescript.default.isPropertyAccessExpression(e) || import_typescript.default.isElementAccessExpression(e) || import_typescript.default.isParenthesizedExpression(e) || import_typescript.default.isAsExpression(e) || import_typescript.default.isSatisfiesExpression(e) || import_typescript.default.isNonNullExpression(e) || import_typescript.default.isTypeAssertionExpression(e)) return V(e.expression, t, i);
+  if (!import_typescript.default.isIdentifier(e)) return true;
+  let n = I(t, e.text, e.getStart());
+  if (!n) return false;
+  let r = n.node;
+  return import_typescript.default.isImportSpecifier(r) || import_typescript.default.isImportClause(r) || import_typescript.default.isNamespaceImport(r) ? false : i.has(r) ? true : (i.add(r), import_typescript.default.isVariableDeclaration(r) && r.initializer ? V(r.initializer, t, i) : true);
 }
 function De(e) {
   let t = validateBuilderCodes(e);
   if (t.length > 0) throw new Error(t.join("; "));
 }
-function Ie(e) {
+function Ne(e) {
   return e.replace(/\s+/g, " ").trim();
 }
-function zt(e, t) {
+function _t(e, t) {
   return e === "viem" && !t.includes("viem") ? "low" : "high";
 }
 function Ut(...e) {
   return (0, import_crypto.createHash)("sha256").update(e.join(":"), "utf8").digest("hex").slice(0, 20);
 }
-function Ne(e) {
+function Te(e) {
   switch (import_path.default.extname(e)) {
     case ".tsx":
       return import_typescript.default.ScriptKind.TSX;
@@ -231321,7 +231324,7 @@ function Ne(e) {
       return import_typescript.default.ScriptKind.TS;
   }
 }
-function E(e) {
+function v(e) {
   return e.replaceAll("\\", "/");
 }
 var X = "bao.config.json";
@@ -231341,29 +231344,29 @@ function Jt(e, t) {
   if (!e || typeof e != "object" || Array.isArray(e)) throw new Error(`${t} must contain a JSON object.`);
   let i = e, n = /* @__PURE__ */ new Set(["$schema", "builderCodes", "profile", "include", "exclude", "rules", "baseline", "workspace"]), r = Object.keys(i).filter((s) => !n.has(s));
   if (r.length > 0) throw new Error(`${t} contains unsupported field(s): ${r.join(", ")}.`);
-  if (!Array.isArray(i.builderCodes) || !i.builderCodes.every(Fe)) throw new Error(`${t} must define builderCodes as a non-empty string array.`);
+  if (!Array.isArray(i.builderCodes) || !i.builderCodes.every(Le)) throw new Error(`${t} must define builderCodes as a non-empty string array.`);
   let o = validateBuilderCodes(i.builderCodes);
   if (o.length > 0) throw new Error(`${t}: ${o.join("; ")}`);
   if (i.$schema !== void 0 && typeof i.$schema != "string") throw new Error(`${t}.$schema must be a string.`);
-  if (i.profile !== void 0 && (typeof i.profile != "string" || !M.some((s) => s === i.profile))) throw new Error(`${t}.profile must be local, ci, or strict.`);
-  if (H(i.include, `${t}.include`), H(i.exclude, `${t}.exclude`), i.baseline !== void 0 && typeof i.baseline != "string") throw new Error(`${t}.baseline must be a string.`);
-  Xt(i.rules, t), Gt(i.workspace, t);
+  if (i.profile !== void 0 && (typeof i.profile != "string" || !W.some((s) => s === i.profile))) throw new Error(`${t}.profile must be local, ci, or strict.`);
+  if (q(i.include, `${t}.include`), q(i.exclude, `${t}.exclude`), i.baseline !== void 0 && typeof i.baseline != "string") throw new Error(`${t}.baseline must be a string.`);
+  Gt(i.rules, t), Ht(i.workspace, t);
 }
-function Gt(e, t) {
+function Ht(e, t) {
   if (e === void 0) return;
   if (!e || typeof e != "object" || Array.isArray(e)) throw new Error(`${t}.workspace must be an object.`);
   let i = e, n = Object.keys(i).filter((r) => r !== "roots" && r !== "tsconfig");
   if (n.length > 0) throw new Error(`${t}.workspace contains unsupported field(s): ${n.join(", ")}.`);
-  H(i.roots, `${t}.workspace.roots`), H(i.tsconfig, `${t}.workspace.tsconfig`);
+  q(i.roots, `${t}.workspace.roots`), q(i.tsconfig, `${t}.workspace.tsconfig`);
   for (let [r, o] of Object.entries(i)) if (Array.isArray(o)) for (let s of o) {
     let f = s.replaceAll("\\", "/");
     if (!s || import_path4.default.isAbsolute(s) || f.split("/").includes("..")) throw new Error(`${t}.workspace.${r} entries must be relative paths inside the scan root.`);
   }
 }
-function H(e, t) {
-  if (e !== void 0 && (!Array.isArray(e) || !e.every(Fe))) throw new Error(`${t} must be an array of strings.`);
+function q(e, t) {
+  if (e !== void 0 && (!Array.isArray(e) || !e.every(Le))) throw new Error(`${t} must be an array of strings.`);
 }
-function Xt(e, t) {
+function Gt(e, t) {
   if (e === void 0) return;
   if (!e || typeof e != "object" || Array.isArray(e)) throw new Error(`${t}.rules must be an object.`);
   let i = /* @__PURE__ */ new Set(["missing-attribution", "wrong-builder-code", "dynamic-attribution", "ambiguous-path"]);
@@ -231372,7 +231375,7 @@ function Xt(e, t) {
     if (!["error", "warning", "off"].includes(String(r))) throw new Error(`${t}.rules.${n} must be error, warning, or off.`);
   }
 }
-function Fe(e) {
+function Le(e) {
   return typeof e == "string";
 }
 var qt = { BAO001: { name: "missing-attribution", description: "A transaction path does not include Builder Code attribution." }, BAO002: { name: "wrong-builder-code", description: "A transaction path contains a Builder Code that is not configured for this project." }, BAO003: { name: "dynamic-attribution", description: "Attribution is configured dynamically and cannot be proven statically." }, BAO004: { name: "ambiguous-path", description: "Project-level attribution evidence cannot be linked to a transaction path with high confidence." }, BAO005: { name: "smart-wallet-data-suffix", description: "A smart-wallet call is missing negotiated EIP-5792 or ERC-4337 attribution middleware." }, BAO006: { name: "x402-builder-code-extension", description: "An x402 payment path is missing a Builder Code extension." } };
@@ -231414,7 +231417,7 @@ async function main() {
   const changedOnly = getBooleanInput("changed-only");
   const changedSince = changedOnly ? resolveBaseRef() : void 0;
   const baseline = getInput("baseline") || config?.baseline;
-  const report = await ft({
+  const report = await lt({
     root: repoPath,
     builderCodes: builderCodes.length ? builderCodes : config?.builderCodes ?? [],
     include: paths.length ? paths : config?.include,
@@ -231465,8 +231468,8 @@ async function writeSummary(report, changedSince) {
       String(paths.length)
     ];
   });
-  summary.addHeading("Base Attribution Doctor", 2).addRaw(
-    `${report.summary.protected}/${report.summary.total} transaction paths protected (${report.summary.coverage}%).`
+  summary.addHeading("BAO Attribution Doctor", 2).addRaw(
+    report.summary.total === 0 ? "Coverage not measured: no supported transaction paths in the configured scope. Check the scope and supported patterns." : `${report.summary.protected}/${report.summary.total} transaction paths protected (${report.summary.coverage}%).`
   ).addEOL().addRaw(
     `Errors: ${report.summary.errors} | Warnings: ${report.summary.warnings} | Baseline: ${report.summary.baseline}`
   ).addEOL();

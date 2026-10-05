@@ -268,20 +268,21 @@ and inspect BAO Toolkit's
 
 ## Packages
 
-The release contains eight public packages.
+The release contains nine public packages.
 
-| Package                                                                                                  | Role                                           |
-| -------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| [`@base-attribution-os/core`](https://www.npmjs.com/package/@base-attribution-os/core)                   | ERC-8021 validation, replay, and Proof Sets    |
-| [`@base-attribution-os/viem`](https://www.npmjs.com/package/@base-attribution-os/viem)                   | viem `dataSuffix` and client helpers           |
-| [`@base-attribution-os/wagmi`](https://www.npmjs.com/package/@base-attribution-os/wagmi)                 | wagmi config and React hook helpers            |
-| [`@base-attribution-os/ethers`](https://www.npmjs.com/package/@base-attribution-os/ethers)               | ethers transaction and signer helpers          |
-| [`@base-attribution-os/wallet`](https://www.npmjs.com/package/@base-attribution-os/wallet)               | EIP-5792 and ERC-4337 attribution middleware   |
-| [`@base-attribution-os/scanner`](https://www.npmjs.com/package/@base-attribution-os/scanner)             | AST rules, configuration, baselines, and SARIF |
-| [`@base-attribution-os/cli`](https://www.npmjs.com/package/@base-attribution-os/cli)                     | `bao` audit, replay, proof, and proof-set      |
-| [`@base-attribution-os/github-action`](https://www.npmjs.com/package/@base-attribution-os/github-action) | CI annotations, summaries, outputs, and SARIF  |
+| Package                                                                                                  | Role                                              |
+| -------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| [`@base-attribution-os/core`](https://www.npmjs.com/package/@base-attribution-os/core)                   | ERC-8021 validation, replay, and Proof Sets       |
+| [`@base-attribution-os/b20`](https://www.npmjs.com/package/@base-attribution-os/b20)                     | B20 inspection, replay, and artifact verification |
+| [`@base-attribution-os/viem`](https://www.npmjs.com/package/@base-attribution-os/viem)                   | viem `dataSuffix` and client helpers              |
+| [`@base-attribution-os/wagmi`](https://www.npmjs.com/package/@base-attribution-os/wagmi)                 | wagmi config and React hook helpers               |
+| [`@base-attribution-os/ethers`](https://www.npmjs.com/package/@base-attribution-os/ethers)               | ethers transaction and signer helpers             |
+| [`@base-attribution-os/wallet`](https://www.npmjs.com/package/@base-attribution-os/wallet)               | EIP-5792 and ERC-4337 attribution middleware      |
+| [`@base-attribution-os/scanner`](https://www.npmjs.com/package/@base-attribution-os/scanner)             | AST rules, configuration, baselines, and SARIF    |
+| [`@base-attribution-os/cli`](https://www.npmjs.com/package/@base-attribution-os/cli)                     | `bao` audit, replay, proofs, and B20 commands     |
+| [`@base-attribution-os/github-action`](https://www.npmjs.com/package/@base-attribution-os/github-action) | CI annotations, summaries, outputs, and SARIF     |
 
-The release verification script builds and packs all eight packages, installs
+The release verification script builds and packs all nine packages, installs
 their tarballs into a clean consumer project, compares adapter output, and runs
 the CLI smoke suite.
 

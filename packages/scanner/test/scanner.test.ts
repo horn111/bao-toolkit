@@ -218,6 +218,125 @@ wallet.sendTransaction({
     expect(paths[0]).toMatchObject({ status: "unresolved", ruleId: "BAO003" });
   });
 
+  it.each([
+    `function createDataSuffix() { return "0x"; }
+const suffix = createDataSuffix({ codes: ["bc_abc123"] });
+const dataSuffix = suffix;`,
+    `const Attribution = { toDataSuffix: () => "0x" };
+const dataSuffix = Attribution.toDataSuffix({ codes: ["bc_abc123"] });`,
+    `const Attribution = { toDataSuffix: () => "0x" };
+const alias = Attribution;
+const dataSuffix = alias["toDataSuffix"]({ codes: ["bc_abc123"] });`,
+    `const noop = () => "0x";
+const createDataSuffix = noop;
+const dataSuffix = createDataSuffix({ codes: ["bc_abc123"] });`,
+    `class Attribution { static toDataSuffix() { return "0x"; } }
+const dataSuffix = Attribution.toDataSuffix({ codes: ["bc_abc123"] });`,
+  ])("rejects locally implemented helpers through suffix aliases: %s", (setup) => {
+    const paths = analyzeSource(
+      `${setup}\nwallet.sendTransaction({ to, data: "0x", dataSuffix });`,
+      { builderCodes: ["bc_abc123"], profile: "strict" },
+    );
+    expect(paths[0]).toMatchObject({ status: "unresolved", ruleId: "BAO003", severity: "error" });
+  });
+
+  it("rejects a local namespace helper used directly", () => {
+    const paths = analyzeSource(
+      `const Attribution = { toDataSuffix: () => "0x" };
+wallet.sendTransaction({ to, dataSuffix: Attribution.toDataSuffix({ codes: ["bc_abc123"] }) });`,
+      { builderCodes: ["bc_abc123"], profile: "strict" },
+    );
+    expect(paths[0]).toMatchObject({ status: "unresolved", ruleId: "BAO003" });
+  });
+
+  it("uses lexical scope when an imported helper is shadowed", () => {
+    const paths = analyzeSource(
+      `import { createDataSuffix } from "@base-attribution-os/core";
+function send(createDataSuffix) {
+  const dataSuffix = createDataSuffix({ codes: ["bc_abc123"] });
+  wallet.sendTransaction({ to, dataSuffix });
+}
+wallet.sendTransaction({ to, dataSuffix: createDataSuffix({ codes: ["bc_abc123"] }) });`,
+      { builderCodes: ["bc_abc123"], profile: "strict" },
+    );
+    expect(paths.map((entry) => entry.status)).toEqual(["unresolved", "protected"]);
+  });
+
+  it.each([
+    `import { Attribution as Erc8021 } from "ox/erc8021";
+const dataSuffix = Erc8021.toDataSuffix({ codes: ["bc_abc123"] });`,
+    `import { Attribution } from "ox/erc8021";
+const alias = Attribution;
+const dataSuffix = alias.toDataSuffix({ codes: ["bc_abc123"] });`,
+    `import { createDataSuffix as encodeSuffix } from "@base-attribution-os/core";
+const createDataSuffix = encodeSuffix;
+const dataSuffix = createDataSuffix({ codes: ["bc_abc123"] });`,
+    `const dataSuffix = "0x62635f616263313233090080218021802180218021802180218021";`,
+  ])("preserves imported helpers and literal suffix evidence: %s", (setup) => {
+    const paths = analyzeSource(`${setup}\nwallet.sendTransaction({ to, dataSuffix });`, {
+      builderCodes: ["bc_abc123"],
+      profile: "strict",
+    });
+    expect(paths[0].status).toBe("protected");
+  });
+
+  it("does not export false protection through project configuration", async () => {
+    const root = await createProject({
+      "config.ts": `import { createWalletClient } from "viem";
+function createDataSuffix() { return "0x"; }
+const dataSuffix = createDataSuffix({ codes: ["bc_abc123"] });
+export const attributedClient = createWalletClient({ dataSuffix });`,
+      "send.ts": `import { attributedClient } from "./config";
+attributedClient.sendTransaction({ to, data: "0x" });`,
+    });
+    const report = await analyzeProject({ root, builderCodes: ["bc_abc123"], profile: "strict" });
+    expect(report.ok).toBe(false);
+    expect(report.summary.protected).toBe(0);
+    expect(report.transactionPaths[0]).toMatchObject({ status: "unresolved", ruleId: "BAO003" });
+  });
+
+  it("keeps trusted and local-helper exports separate within one config file", async () => {
+    const root = await createProject({
+      "config.ts": `import { createWalletClient } from "viem";
+import { builderCodeDataSuffix } from "@base-attribution-os/viem";
+function createDataSuffix() { return "0x"; }
+export const brokenClient = createWalletClient({ dataSuffix: createDataSuffix({ codes: ["bc_abc123"] }) });
+export const trustedClient = createWalletClient({ dataSuffix: builderCodeDataSuffix("bc_abc123") });`,
+      "send.ts": `import { brokenClient, trustedClient } from "./config";
+brokenClient.sendTransaction({ to, data: "0x" });
+trustedClient.sendTransaction({ to, data: "0x" });`,
+    });
+    const report = await analyzeProject({ root, builderCodes: ["bc_abc123"], profile: "strict" });
+    expect(report.transactionPaths.map((entry) => entry.status)).toEqual([
+      "unresolved",
+      "protected",
+    ]);
+  });
+
+  it("does not let project evidence override a local no-op suffix", async () => {
+    const root = await createProject({
+      "config.ts": `import { createWalletClient } from "viem";
+import { builderCodeDataSuffix } from "@base-attribution-os/viem";
+export const attributedClient = createWalletClient({ dataSuffix: builderCodeDataSuffix("bc_abc123") });`,
+      "send.ts": `import { attributedClient } from "./config";
+function createDataSuffix() { return "0x"; }
+const dataSuffix = createDataSuffix({ codes: ["bc_abc123"] });
+attributedClient.sendTransaction({ to, dataSuffix });`,
+    });
+    const report = await analyzeProject({ root, builderCodes: ["bc_abc123"], profile: "strict" });
+    expect(report.transactionPaths[0]).toMatchObject({ status: "unresolved", ruleId: "BAO003" });
+  });
+
+  it("preserves the numeric empty-scope contract without claiming any protected paths", async () => {
+    const root = await createProject({ "index.ts": "export const example = 1;" });
+    const report = await analyzeProject({ root, builderCodes: ["bc_abc123"], profile: "strict" });
+    expect(report).toMatchObject({
+      ok: true,
+      checkedFiles: 1,
+      summary: { total: 0, protected: 0, coverage: 100 },
+    });
+  });
+
   it("recognizes Smart Wallet Attribution Kit helpers and UserOperation sends", () => {
     const helper = analyzeSource(
       `await sendAttributedCalls(provider, request, { codes: ["bc_abc123"] });`,

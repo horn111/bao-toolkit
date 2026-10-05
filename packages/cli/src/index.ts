@@ -320,7 +320,7 @@ function parseExpectedCodes(value?: string): string[] | undefined {
 }
 
 function helpText(): string {
-  return `Base Attribution OS CLI
+  return `BAO Toolkit CLI
 
 Usage:
   bao init --builder-code bc_abc123

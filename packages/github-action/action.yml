@@ -50,7 +50,7 @@ outputs:
   protected-paths:
     description: "Number of paths with verified attribution evidence."
   coverage:
-    description: "Percentage of protected transaction paths."
+    description: "Percentage of protected transaction paths. Check transaction-paths first: an empty scope retains 100 for compatibility but coverage is not measured."
   profile:
     description: "Scanner profile used."
   findings:

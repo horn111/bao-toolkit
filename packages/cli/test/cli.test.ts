@@ -5,10 +5,36 @@ import { describe, expect, it } from "vitest";
 import { appendDataSuffix, ERC8021_SUFFIX, type Hex } from "@base-attribution-os/core";
 import { checkCalldataCommand } from "../src/commands/check-calldata.js";
 import { decodeCommand } from "../src/commands/decode.js";
+import { doctorCommand } from "../src/commands/doctor.js";
 import { encodeCommand } from "../src/commands/encode.js";
 import { scanRepo } from "../src/commands/scan-repo.js";
 
 describe("@base-attribution-os/cli", () => {
+  it("reports an empty Doctor scope as unmeasured while preserving JSON compatibility", async () => {
+    const root = await createFixture("export const example = 1;");
+    const result = await doctorCommand({
+      path: root,
+      builderCodes: ["bc_abc123"],
+      profile: "strict",
+    });
+    expect(result.ok).toBe(true);
+    expect(result.message).toContain("Coverage: not measured");
+    expect(result.message).not.toContain("100%");
+    expect(result.data).toMatchObject({ summary: { total: 0, protected: 0, coverage: 100 } });
+  });
+
+  it("fails strict Doctor checks for a local no-op suffix passed through an alias", async () => {
+    const root = await createFixture(`function createDataSuffix() { return "0x"; }
+const dataSuffix = createDataSuffix({ codes: ["bc_abc123"] });
+wallet.sendTransaction({ to, dataSuffix });`);
+    const result = await doctorCommand({
+      path: root,
+      builderCodes: ["bc_abc123"],
+      profile: "strict",
+    });
+    expect(result.ok).toBe(false);
+    expect(result.message).toContain("[unresolved] BAO003");
+  });
   it("encodes suffixes", () => {
     const result = encodeCommand({ code: "baseapp" });
 

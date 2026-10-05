@@ -73,15 +73,17 @@ export async function doctorCommand(options: DoctorOptions): Promise<CommandResu
 
 export function formatDoctorReport(report: AttributionReport): string {
   const lines = [
-    "Base Attribution Doctor",
+    "BAO Attribution Doctor",
     "",
     `Frameworks: ${report.frameworks.length ? report.frameworks.join(", ") : "not detected"}`,
-    `Coverage: ${report.summary.protected}/${report.summary.total} paths protected (${report.summary.coverage}%)`,
+    report.summary.total === 0
+      ? "Coverage: not measured (no supported transaction paths)."
+      : `Coverage: ${report.summary.protected}/${report.summary.total} paths protected (${report.summary.coverage}%)`,
     "",
   ];
 
   if (report.transactionPaths.length === 0) {
-    lines.push("No transaction paths found.");
+    lines.push("Check the scan scope and supported patterns before interpreting this result.");
     return lines.join("\n");
   }
 

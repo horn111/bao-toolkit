@@ -608,6 +608,77 @@ attributedClient.writeContract({ address, abi, functionName: "mint" });
     throw new Error("GitHub Action smoke did not apply the config profile");
   }
 
+  for (const [name, source] of Object.entries({
+    "local-helper-alias": `function createDataSuffix() { return "0x"; }
+const dataSuffix = createDataSuffix({ codes: ["bc_abc123"] });
+wallet.sendTransaction({ to, dataSuffix });`,
+    "local-helper-namespace": `const Attribution = { toDataSuffix: () => "0x" };
+wallet.sendTransaction({ to, dataSuffix: Attribution.toDataSuffix({ codes: ["bc_abc123"] }) });`,
+    "empty-scope": "export const example = 1;",
+  })) {
+    const fixtureDir = path.join(consumerDir, "regressions", name);
+    mkdirSync(fixtureDir, { recursive: true });
+    writeFileSync(path.join(fixtureDir, "index.ts"), source);
+    writeFileSync(
+      path.join(fixtureDir, "bao.config.json"),
+      JSON.stringify({ builderCodes: ["bc_abc123"], profile: "strict", include: ["index.ts"] }),
+    );
+    const empty = name === "empty-scope";
+    const cliArgs = ["exec", "bao", "doctor", "--path", fixtureDir];
+    const human = run("pnpm", cliArgs, consumerDir, {}, empty ? 0 : 1).stdout;
+    if (
+      empty
+        ? !human.includes("Coverage: not measured") || human.includes("100%")
+        : !human.includes("[unresolved] BAO003")
+    ) {
+      throw new Error(`Packed CLI Doctor regression failed: ${name}`);
+    }
+    const json = JSON.parse(
+      run("pnpm", [...cliArgs, "--json"], consumerDir, {}, empty ? 0 : 1).stdout,
+    );
+    if (json.summary.protected !== 0 || json.summary.total !== (empty ? 0 : 1)) {
+      throw new Error(`Packed CLI reported false protection: ${name}`);
+    }
+    if (empty && json.summary.coverage !== 100) {
+      throw new Error("Empty-scope numeric JSON compatibility changed");
+    }
+    for (const failOnMissing of ["true", "false"]) {
+      writeFileSync(actionSummary, "");
+      writeFileSync(actionOutput, "");
+      run(
+        "node",
+        ["node_modules/@base-attribution-os/github-action/dist/index.cjs"],
+        consumerDir,
+        {
+          GITHUB_OUTPUT: actionOutput,
+          GITHUB_STEP_SUMMARY: actionSummary,
+          "INPUT_BASE-REF": "",
+          INPUT_BASELINE: "",
+          "INPUT_BUILDER-CODE": "bc_abc123",
+          "INPUT_CHANGED-ONLY": "false",
+          INPUT_CONFIG: "bao.config.json",
+          "INPUT_FAIL-ON-MISSING": failOnMissing,
+          INPUT_PATH: fixtureDir,
+          INPUT_PATHS: "",
+          INPUT_PROFILE: "strict",
+          "INPUT_SARIF-OUTPUT": "results.sarif",
+        },
+        failOnMissing === "true" ? 1 : 0,
+      );
+      const summary = readFileSync(actionSummary, "utf8");
+      if (summary.includes("100%") || (empty && !summary.includes("Coverage not measured"))) {
+        throw new Error(`Packed Action reported misleading coverage: ${name}`);
+      }
+      const sarif = JSON.parse(readFileSync(path.join(fixtureDir, "results.sarif"), "utf8"));
+      const findings = sarif.runs[0].results;
+      if (
+        empty ? findings.length !== 0 : findings.length !== 1 || findings[0].ruleId !== "BAO003"
+      ) {
+        throw new Error(`Packed Action SARIF regression failed: ${name}`);
+      }
+    }
+  }
+
   log("release candidate smoke passed");
   log(`packed packages: ${packed.map((entry) => entry.packageName).join(", ")}`);
 } catch (error) {
@@ -661,6 +732,7 @@ function run(
   args: string[],
   cwd: string,
   extraEnv: Record<string, string> = {},
+  expectedExitCode = 0,
 ): { stdout: string } {
   log(`${command} ${args.join(" ")}`);
   const invocation = resolveCommand(command, args);
@@ -677,7 +749,7 @@ function run(
   const stdout = result.stdout ?? "";
   const stderr = result.stderr ?? "";
   const shouldPrintOutput = process.env.BAO_VERBOSE_RELEASE_SMOKE === "1";
-  const failed = Boolean(result.error) || result.status !== 0;
+  const failed = Boolean(result.error) || result.status !== expectedExitCode;
 
   if (stdout.trim() && (shouldPrintOutput || failed || isBaoCommand(args))) {
     console.log(stdout.trim());
@@ -691,9 +763,9 @@ function run(
     throw result.error;
   }
 
-  if (result.status !== 0) {
+  if (result.status !== expectedExitCode) {
     throw new Error(
-      `${command} ${args.join(" ")} failed with exit code ${result.status ?? "null"}`,
+      `${command} ${args.join(" ")} exited ${result.status ?? "null"}; expected ${expectedExitCode}`,
     );
   }
 

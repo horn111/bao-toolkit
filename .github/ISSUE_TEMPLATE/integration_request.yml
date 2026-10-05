@@ -14,7 +14,7 @@ body:
     id: goal
     attributes:
       label: Goal
-      description: What attribution flow should Base Attribution OS support?
+      description: What attribution flow should BAO Toolkit support?
     validations:
       required: true
   - type: textarea

@@ -7,12 +7,12 @@
   "author": "horn111 <https://github.com/horn111>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/horn111/base-attribution-os.git"
+    "url": "https://github.com/horn111/bao-toolkit.git"
   },
   "bugs": {
-    "url": "https://github.com/horn111/base-attribution-os/issues"
+    "url": "https://github.com/horn111/bao-toolkit/issues"
   },
-  "homepage": "https://github.com/horn111/base-attribution-os#readme",
+  "homepage": "https://github.com/horn111/bao-toolkit#readme",
   "keywords": [
     "base",
     "builder-codes",
@@ -45,6 +45,7 @@
     "format:write": "prettier --write .",
     "test": "vitest run",
     "test:fixtures": "vitest run packages/scanner/test/scanner.test.ts packages/core/test/calldata-fixtures.test.ts",
+    "verify:integration": "vitest run examples/integration-starter/test/integration.test.ts packages/cli/test/init.test.ts packages/cli/test/pilot-report.test.ts",
     "test:watch": "vitest",
     "typecheck": "turbo run typecheck",
     "check": "pnpm lint && pnpm typecheck && pnpm test",
@@ -70,7 +71,8 @@
   },
   "pnpm": {
     "overrides": {
-      "@actions/http-client>undici": "6.28.1"
+      "@actions/http-client>undici": "6.28.1",
+      "postcss>source-map-js": "1.2.2"
     }
   }
 }

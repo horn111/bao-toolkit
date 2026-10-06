@@ -22,3 +22,22 @@ body:
     attributes:
       label: Current transaction code
       description: Share a minimal public snippet if possible.
+  - type: textarea
+    id: versions
+    attributes:
+      label: Versions and reproduction
+      description: Include BAO, Node, transaction client and wallet versions, scan scope, and commands. Link a public reproduction if available.
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Pilot evidence
+      description: Optional before/after pilot reports, CI run, or Proof Set. Share only public evidence; omit keys, credentials and private application data.
+  - type: dropdown
+    id: outcome
+    attributes:
+      label: Integration outcome
+      options:
+        - Not attempted yet
+        - Reproduced a finding
+        - Accepted a fix
+        - Kept the check in CI

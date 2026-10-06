@@ -1,0 +1,22 @@
+{
+  "name": "@base-attribution-os/integration-starter",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "demo": "tsx scripts/demo.ts"
+  },
+  "dependencies": {
+    "@base-attribution-os/cli": "workspace:*",
+    "@base-attribution-os/core": "workspace:*",
+    "@base-attribution-os/ethers": "workspace:*",
+    "@base-attribution-os/wagmi": "workspace:*",
+    "@base-attribution-os/wallet": "workspace:*",
+    "@wagmi/core": "2.22.1",
+    "ethers": "6.17.0",
+    "ox": "0.14.34",
+    "viem": "2.56.0"
+  }
+}

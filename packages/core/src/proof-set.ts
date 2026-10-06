@@ -434,8 +434,14 @@ function sameJson(left: unknown, right: unknown): boolean {
   if (typeof left === "object" && left !== null && typeof right === "object" && right !== null) {
     const leftRecord = left as Record<string, unknown>;
     const rightRecord = right as Record<string, unknown>;
-    const leftKeys = Object.keys(leftRecord).sort();
-    const rightKeys = Object.keys(rightRecord).sort();
+    // JSON omits undefined optional fields (for example explorerUrl on an
+    // unverified replay). Compare the serialized contract, retaining nulls.
+    const leftKeys = Object.keys(leftRecord)
+      .filter((key) => leftRecord[key] !== undefined)
+      .sort();
+    const rightKeys = Object.keys(rightRecord)
+      .filter((key) => rightRecord[key] !== undefined)
+      .sort();
     return (
       sameJson(leftKeys, rightKeys) &&
       leftKeys.every((key) => sameJson(leftRecord[key], rightRecord[key]))

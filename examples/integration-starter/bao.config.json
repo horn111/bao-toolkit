@@ -1,0 +1,5 @@
+{
+  "builderCodes": ["bc_abc123"],
+  "profile": "strict",
+  "include": ["src/fixed.ts"]
+}

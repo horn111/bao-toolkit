@@ -1,0 +1,5 @@
+{
+  "builderCodes": ["bc_abc123"],
+  "profile": "strict",
+  "include": ["fixtures/broken.ts"]
+}

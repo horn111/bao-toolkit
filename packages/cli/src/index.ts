@@ -10,6 +10,7 @@ import { decodeCommand } from "./commands/decode.js";
 import { doctorCommand } from "./commands/doctor.js";
 import { encodeCommand } from "./commands/encode.js";
 import { initCommand } from "./commands/init.js";
+import { pilotReportCommand } from "./commands/pilot-report.js";
 import { proofTransactionCommand } from "./commands/proof.js";
 import { proofSetCommand } from "./commands/proof-set.js";
 import { replayCommand } from "./commands/replay.js";
@@ -28,6 +29,12 @@ export { decodeCommand } from "./commands/decode.js";
 export { doctorCommand, formatDoctorReport } from "./commands/doctor.js";
 export { encodeCommand } from "./commands/encode.js";
 export { initCommand } from "./commands/init.js";
+export {
+  pilotReportCommand,
+  formatPilotReport,
+  type PilotReport,
+  type PilotReportOptions,
+} from "./commands/pilot-report.js";
 export { proofTransactionCommand } from "./commands/proof.js";
 export {
   MAX_PROOF_SET_INPUT_BYTES,
@@ -209,8 +216,26 @@ async function run(argv: string[]): Promise<void> {
       builderCode: required(options["builder-code"], "--builder-code"),
       force: options.force === "true",
       profile: options.profile,
+      dryRun: options["dry-run"] === "true",
+      workflow: options.workflow === "true",
+      include: options.include?.split(",").map((entry) => entry.trim()),
     });
-    printResult(result, json);
+    if (json) printResult(result, true);
+    else console.log(result.message);
+    return setExitCode(result.ok);
+  }
+
+  if (command === "pilot-report") {
+    const result = await pilotReportCommand({
+      path: options.path ?? ".",
+      builderCode: options["builder-code"],
+      config: options.config,
+      proofSet: options["proof-set"],
+      ciRun: options["ci-run"],
+      format: options.format ?? "json",
+      output: options.output,
+    });
+    console.log(result.message);
     return setExitCode(result.ok);
   }
 
@@ -323,7 +348,8 @@ function helpText(): string {
   return `BAO Toolkit CLI
 
 Usage:
-  bao init --builder-code bc_abc123
+  bao init --builder-code bc_abc123 [--dry-run] [--workflow] [--include src,app]
+  bao pilot-report [--config bao.config.json] [--proof-set proofs.json] [--ci-run URL] [--format json|markdown] [--output report.json]
   bao b20 inspect --address 0x... --chain-id 8453 --block finalized --rpc-url-env BASE_RPC_URL
   bao b20 inspect --input capture.json --chain-id 84532 --offline --format json
   bao b20 verify --input report.json --offline

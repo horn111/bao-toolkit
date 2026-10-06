@@ -26,7 +26,7 @@ export const guides: Guide[] = [
         title: "See what the check catches",
         paragraphs: [
           "The integration starter runs two real viem requests against a local transport. The broken path drops the Builder Code; the fixed path uses the official ox helper. Doctor and the captured calldata must agree. No wallet, RPC endpoint, keys, or funds are needed.",
-          "The commands below use a source build from the v0.7 development train. Run them from the BAO Toolkit checkout with pnpm 9.15.4 and Node 20.11 or later.",
+          "Run the starter commands from the BAO Toolkit checkout with pnpm 9.15.4 and Node 20.11 or later. For your own app, use the released CLI 0.6.0 commands below.",
         ],
         code: "pnpm install --frozen-lockfile\npnpm --filter @base-attribution-os/integration-starter... build\npnpm --filter @base-attribution-os/integration-starter demo\npnpm verify:integration",
         links: [
@@ -41,10 +41,10 @@ export const guides: Guide[] = [
         id: "preview",
         title: "Preview the policy for your own app",
         paragraphs: [
-          "Point the built CLI at your application and supply your registered Builder Code. Review the paths, findings, config, and pinned workflow in the preview. Remove --dry-run to create the files. Existing workflows are preserved even with --force.",
+          "Point the released CLI at your application and supply your registered Builder Code. Review the paths, findings, config, and pinned workflow in the preview. Remove --dry-run to create the files. Existing workflows are preserved even with --force.",
           "Use --include for your actual transaction source directories. No supported paths means coverage is not measured. Init success means the files were created; the strict Doctor check determines whether findings block CI.",
         ],
-        code: "node packages/cli/dist/index.js init --path /path/to/app --builder-code bc_yourcode --workflow --dry-run\nnode packages/cli/dist/index.js doctor --path /path/to/app --builder-code bc_yourcode --profile strict",
+        code: "pnpm dlx @base-attribution-os/cli@0.6.0 init --path /path/to/app --builder-code bc_yourcode --workflow --dry-run\npnpm dlx @base-attribution-os/cli@0.6.0 init --path /path/to/app --builder-code bc_yourcode --workflow\npnpm dlx @base-attribution-os/cli@0.6.0 doctor --path /path/to/app --profile strict",
       },
       {
         id: "record",
@@ -53,7 +53,7 @@ export const guides: Guide[] = [
           "Save separate before and after reports outside your Git repository. Each records tool versions, commit and dirty state, code, scope, and per-path findings. A report with findings is saved before the command exits 1.",
           "Attach an existing Proof Set with --proof-set and a CI run URL with --ci-run when available. Source coverage and sampled transaction evidence stay separate. The summary does not contact RPC or verify the supplied CI link.",
         ],
-        code: "node packages/cli/dist/index.js pilot-report --path /path/to/app --output /private/pilot/before.json\nnode packages/cli/dist/index.js pilot-report --path /path/to/app --format markdown --output /private/pilot/after.md",
+        code: "pnpm dlx @base-attribution-os/cli@0.6.0 pilot-report --path /path/to/app --output /private/pilot/before.json\npnpm dlx @base-attribution-os/cli@0.6.0 pilot-report --path /path/to/app --format markdown --output /private/pilot/after.md",
       },
       {
         id: "pilot",
@@ -97,7 +97,7 @@ export const guides: Guide[] = [
         id: "install",
         title: "Install the adapter and CLI",
         paragraphs: [
-          "Start in an existing TypeScript app with viem. Choose the wagmi or ethers adapter if that is your transaction client. Install B20 0.2.0 and CLI 0.5.1 from npm to inspect and replay token evidence.",
+          "Start in an existing TypeScript app with viem. Choose the wagmi or ethers adapter if that is your transaction client. Install B20 0.2.1 and CLI 0.6.0 from npm to inspect and replay token evidence.",
         ],
         code: "pnpm add @base-attribution-os/viem viem\npnpm add -D @base-attribution-os/cli",
         links: [
@@ -254,9 +254,9 @@ export const guides: Guide[] = [
         id: "workflow",
         title: "Add the released attribution Action",
         paragraphs: [
-          "Save this workflow as .github/workflows/validate-attribution.yml. It checks the full project rather than only changed files. v0.6.1 is the released Action reference. B20 inspection and replay run separately through the CLI.",
+          "Save this workflow as .github/workflows/validate-attribution.yml. It checks the full project rather than only changed files. v0.7.0 is the released Action reference. B20 inspection and replay run separately through the CLI.",
         ],
-        code: 'name: Validate Attribution\non:\n  pull_request:\npermissions:\n  contents: read\njobs:\n  attribution:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6\n        with:\n          fetch-depth: 0\n      - uses: horn111/bao-toolkit/packages/github-action@v0.6.1\n        with:\n          builder-code: bc_abc123\n          profile: strict\n          changed-only: "false"\n          fail-on-missing: "true"',
+        code: 'name: Validate Attribution\non:\n  pull_request:\npermissions:\n  contents: read\njobs:\n  attribution:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6\n        with:\n          fetch-depth: 0\n      - uses: horn111/bao-toolkit/packages/github-action@v0.7.0\n        with:\n          builder-code: bc_abc123\n          profile: strict\n          changed-only: "false"\n          fail-on-missing: "true"',
       },
       {
         id: "review",

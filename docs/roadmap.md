@@ -102,11 +102,9 @@ fixes, package versions, and npm/tag verification.
 - Show empty scopes as unmeasured in CLI and Action summaries, retaining numeric
   output compatibility and existing exit semantics.
 
-## Future v0 releases
+## v0.7 (shipped)
 
-### v0.7 (in development)
-
-The [v0.7 release brief](releases/v0.7.0.md) defines the verifiable integration train.
+The [v0.7 release brief](releases/v0.7.0.md) records the verifiable integration train.
 
 - Runnable offline broken/fixed starter with actual viem calldata capture.
 - Init scope diagnostics, file previews, and pinned CI workflow creation.
@@ -117,7 +115,7 @@ The [v0.7 release brief](releases/v0.7.0.md) defines the verifiable integration 
 Independent pilot acceptance remains a separate outcome to collect with external
 teams; internal tests and reference projects do not establish adoption.
 
-### Later
+## Future v0 releases
 
 - Additional public pilot integration reports.
 - Broader transaction evidence after sponsored and USDC paths ship.

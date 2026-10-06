@@ -5,6 +5,17 @@ All notable changes to BAO Toolkit will be documented here.
 This project uses Changesets. Each package release should include a short note
 that explains the attribution workflow it improves.
 
+## 0.7.0 - 2026-10-06
+
+- Add scope-aware `bao init --dry-run` previews and optional pinned CI workflow creation that preserves existing workflows.
+- Add `bao pilot-report` with strict source findings, tool versions, Git state, and optional Proof Set and CI references.
+- Ship a runnable broken/fixed viem starter that compares Doctor findings with captured outgoing calldata using an offline transport.
+- Pin compatibility checks for viem, ox, wagmi, ethers, and wallet capabilities; run the integration suite on Node 20, 22, and 24.
+- Fix JSON round-trips for unverified Proof Sets with absent optional explorer URLs.
+- Publish all nine packages, including CLI 0.6.0, core 0.4.1, scanner 0.4.3, B20 0.2.1, and GitHub Action 0.2.4.
+- Align package repository metadata for npm provenance and update PostCSS's source-map-js dependency to patched version 1.2.2.
+- Keep offline compatibility results, supplied transaction evidence, and external pilot acceptance distinct.
+
 ## 0.6.1 - 2026-10-05
 
 - Reject local attribution helpers passed through suffix aliases or namespace objects instead of counting their calls as protected.

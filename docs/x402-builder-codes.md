@@ -74,7 +74,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-      - uses: horn111/bao-toolkit/packages/github-action@v0.6.1
+      - uses: horn111/bao-toolkit/packages/github-action@v0.7.0
         with:
           builder-code: bc_abc123
           paths: "src,app,packages"

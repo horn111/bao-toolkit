@@ -6,12 +6,14 @@
 
 .product-questions {
   margin-block: 80px;
+  margin-inline: auto;
   max-width: 920px;
 }
 
 .home-content .product-questions h2 {
   font-size: clamp(26px, 4vw, 42px);
   margin-bottom: 32px;
+  text-align: center;
 }
 
 .product-question {

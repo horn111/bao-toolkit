@@ -15,6 +15,63 @@ export interface Guide {
 const repo = "https://github.com/horn111/bao-toolkit/blob/main/";
 export const guides: Guide[] = [
   {
+    slug: "try-on-your-project",
+    title: "Reproduce a regression, then check your project",
+    description:
+      "Run the offline broken/fixed starter, inspect your source scope, and record a technical pilot.",
+    source: "docs/pilot-integration.md",
+    sections: [
+      {
+        id: "reproduce",
+        title: "See what the check catches",
+        paragraphs: [
+          "The integration starter runs two real viem requests against a local transport. The broken path drops the Builder Code; the fixed path uses the official ox helper. Doctor and the captured calldata must agree. No wallet, RPC endpoint, keys, or funds are needed.",
+          "The commands below use a source build from the v0.7 development train. Run them from the BAO Toolkit checkout with pnpm 9.15.4 and Node 20.11 or later.",
+        ],
+        code: "pnpm install --frozen-lockfile\npnpm --filter @base-attribution-os/integration-starter... build\npnpm --filter @base-attribution-os/integration-starter demo\npnpm verify:integration",
+        links: [
+          {
+            label: "Open the runnable starter",
+            href: repo + "examples/integration-starter/README.md",
+          },
+          { label: "Exact compatibility checks and limits", href: repo + "docs/compatibility.md" },
+        ],
+      },
+      {
+        id: "preview",
+        title: "Preview the policy for your own app",
+        paragraphs: [
+          "Point the built CLI at your application and supply your registered Builder Code. Review the paths, findings, config, and pinned workflow in the preview. Remove --dry-run to create the files. Existing workflows are preserved even with --force.",
+          "Use --include for your actual transaction source directories. No supported paths means coverage is not measured. Init success means the files were created; the strict Doctor check determines whether findings block CI.",
+        ],
+        code: "node packages/cli/dist/index.js init --path /path/to/app --builder-code bc_yourcode --workflow --dry-run\nnode packages/cli/dist/index.js doctor --path /path/to/app --builder-code bc_yourcode --profile strict",
+      },
+      {
+        id: "record",
+        title: "Record the result of the integration",
+        paragraphs: [
+          "Save separate before and after reports outside your Git repository. Each records tool versions, commit and dirty state, code, scope, and per-path findings. A report with findings is saved before the command exits 1.",
+          "Attach an existing Proof Set with --proof-set and a CI run URL with --ci-run when available. Source coverage and sampled transaction evidence stay separate. The summary does not contact RPC or verify the supplied CI link.",
+        ],
+        code: "node packages/cli/dist/index.js pilot-report --path /path/to/app --output /private/pilot/before.json\nnode packages/cli/dist/index.js pilot-report --path /path/to/app --format markdown --output /private/pilot/after.md",
+      },
+      {
+        id: "pilot",
+        title: "Try a technical pilot with BAO",
+        paragraphs: [
+          "Bring one TypeScript transaction path, exact client versions, and a public reproduction. A useful pilot ends with a finding your team confirms, an accepted fix, and a check retained in CI. Share only evidence you intend to make public.",
+          "The starter and reference projects are maintained by BAO. They are reproduction material, not evidence of independent adoption.",
+        ],
+        links: [
+          {
+            label: "Request a technical pilot",
+            href: "https://github.com/horn111/bao-toolkit/issues/new?template=integration_request.yml",
+          },
+        ],
+      },
+    ],
+  },
+  {
     slug: "quickstart",
     title: "Start building with BAO Toolkit",
     description:
@@ -77,6 +134,7 @@ export const guides: Guide[] = [
           { label: "Add the CI check", href: "/docs/ci" },
           { label: "Try the browser Doctor", href: "/doctor" },
           { label: "Verify a submitted transaction", href: "/docs/transaction-proofs" },
+          { label: "Reproduce the starter and try a pilot", href: "/docs/try-on-your-project" },
         ],
       },
     ],

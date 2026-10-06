@@ -32,7 +32,7 @@ export default defineConfig({
   },
   test: {
     globals: true,
-    include: ["packages/**/*.test.ts", "apps/**/*.test.ts"],
+    include: ["packages/**/*.test.ts", "apps/**/*.test.ts", "examples/**/*.test.ts"],
     coverage: {
       reporter: ["text", "html"],
     },

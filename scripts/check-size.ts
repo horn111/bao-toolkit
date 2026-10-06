@@ -3,7 +3,8 @@ import path from "node:path";
 
 const MAX_JS_BYTES: Record<string, number> = {
   b20: 176 * 1024,
-  cli: 56 * 1024,
+  // v0.7 adds init previews/workflows and the local pilot report formatter.
+  cli: 76 * 1024,
   core: 64 * 1024,
   ethers: 10 * 1024,
   "github-action": 12 * 1024 * 1024,

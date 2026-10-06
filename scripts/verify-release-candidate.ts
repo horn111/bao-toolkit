@@ -233,6 +233,113 @@ console.log("Proof Set package smoke passed");
   );
   run("node", ["proof-set-smoke.mjs"], consumerDir);
 
+  const integrationDir = path.join(consumerDir, "integration");
+  mkdirSync(path.join(integrationDir, "src"), { recursive: true });
+  writeFileSync(
+    path.join(integrationDir, "src/send.ts"),
+    'wallet.sendTransaction({ data: "0x" });\n',
+  );
+  const preview = JSON.parse(
+    run(
+      "pnpm",
+      [
+        "exec",
+        "bao",
+        "init",
+        "--path",
+        integrationDir,
+        "--builder-code",
+        "bc_abc123",
+        "--workflow",
+        "--dry-run",
+        "--json",
+      ],
+      consumerDir,
+    ).stdout,
+  );
+  if (
+    existsSync(path.join(integrationDir, "bao.config.json")) ||
+    existsSync(path.join(integrationDir, ".github")) ||
+    preview.data.report.summary.missing !== 1
+  ) {
+    throw new Error("Packed init preview wrote files or lost findings");
+  }
+  run(
+    "pnpm",
+    ["exec", "bao", "init", "--path", integrationDir, "--builder-code", "bc_abc123", "--workflow"],
+    consumerDir,
+  );
+  const beforePath = path.join(consumerDir, "pilot-before.json");
+  run(
+    "pnpm",
+    ["exec", "bao", "pilot-report", "--path", integrationDir, "--output", beforePath],
+    consumerDir,
+    {},
+    1,
+  );
+  if (JSON.parse(readFileSync(beforePath, "utf8")).source.status !== "findings")
+    throw new Error("Packed pilot lost broken source findings");
+  writeFileSync(
+    path.join(integrationDir, "src/send.ts"),
+    'import { Attribution } from "ox/erc8021";\nwallet.sendTransaction({ dataSuffix: Attribution.toDataSuffix({ codes: ["bc_abc123"] }) });\n',
+  );
+  const afterPath = path.join(consumerDir, "pilot-after.json");
+  run(
+    "pnpm",
+    [
+      "exec",
+      "bao",
+      "pilot-report",
+      "--path",
+      integrationDir,
+      "--proof-set",
+      path.join(consumerDir, "proof-set.json"),
+      "--output",
+      afterPath,
+    ],
+    consumerDir,
+  );
+  const afterPilot = JSON.parse(readFileSync(afterPath, "utf8"));
+  if (
+    afterPilot.source.summary.total !== 1 ||
+    afterPilot.transactions.summary.total !== 2 ||
+    afterPilot.transactions.currentRpcCheck !== false
+  ) {
+    throw new Error("Packed pilot report mixed source and transaction evidence");
+  }
+  const installedCli = JSON.parse(
+    readFileSync(
+      path.join(consumerDir, "node_modules/@base-attribution-os/cli/package.json"),
+      "utf8",
+    ),
+  );
+  if (afterPilot.versions.cli !== installedCli.version)
+    throw new Error("Packed pilot reports the wrong CLI version");
+  run(
+    "pnpm",
+    [
+      "exec",
+      "bao",
+      "init",
+      "--path",
+      integrationDir,
+      "--builder-code",
+      "bc_other",
+      "--workflow",
+      "--force",
+    ],
+    consumerDir,
+    {},
+    1,
+  );
+  if (
+    JSON.parse(readFileSync(path.join(integrationDir, "bao.config.json"), "utf8"))
+      .builderCodes[0] !== "bc_abc123"
+  ) {
+    throw new Error("Packed init replaced config despite a workflow conflict");
+  }
+  log("packed initialization and pilot report smoke passed");
+
   writeFileSync(
     path.join(consumerDir, "b20-capture.json"),
     readFileSync(path.join(repoRoot, "fixtures/b20/synthetic/asset-initialized.capture.json")),

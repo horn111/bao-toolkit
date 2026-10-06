@@ -81,6 +81,13 @@ CI use the same Builder Codes, paths, profile, and severity rules.
 
 Replace `bc_abc123` with a Builder Code registered for your project.
 
+To reproduce a missing-code regression locally, run the
+[broken/fixed integration starter](examples/integration-starter/README.md).
+It captures actual viem requests without connecting to a network. The
+[technical pilot guide](docs/pilot-integration.md) covers the v0.7 source-build
+preview and reporting commands; the [compatibility matrix](docs/compatibility.md)
+states exactly which library versions and boundaries are tested.
+
 ## Add attribution
 
 ### viem

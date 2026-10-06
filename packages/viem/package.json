@@ -9,12 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/horn111/base-attribution-os.git",
+    "url": "https://github.com/horn111/bao-toolkit.git",
     "directory": "packages/viem"
   },
-  "homepage": "https://github.com/horn111/base-attribution-os#readme",
+  "homepage": "https://github.com/horn111/bao-toolkit#readme",
   "bugs": {
-    "url": "https://github.com/horn111/base-attribution-os/issues"
+    "url": "https://github.com/horn111/bao-toolkit/issues"
   },
   "publishConfig": {
     "access": "public"

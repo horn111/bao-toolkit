@@ -11,8 +11,24 @@ bao init --builder-code bc_abc123
 bao doctor
 ```
 
-`init` creates `bao.config.json` and reports detected frameworks. It does not
-rewrite application code.
+`init` creates `bao.config.json` and reports supported call sites, findings, and
+the exact selected scope. It does not rewrite application code.
+
+From a v0.7 source build, preview a policy and optional pinned CI workflow:
+
+```bash
+bao init --builder-code bc_abc123 --include src,app --workflow --dry-run
+bao init --builder-code bc_abc123 --include src,app --workflow
+```
+
+The preview writes nothing and includes both proposed files. With no `--include`,
+init selects existing `src`, `app`, `pages`, `lib`, `packages`, and `apps`
+directories, or `**/*` when none exist. Review that scope for your application.
+An existing config blocks creation unless `--force` is supplied. Existing
+`.github/workflows/bao-attribution.yml` always blocks workflow creation, even with
+`--force`. Other workflows are left in place; check for duplicate checks yourself.
+The generated workflow pins the verified v0.6.1 Action and requires a non-empty
+strict scan. Review policy and workflow changes as part of code review.
 
 `doctor` reports every supported path:
 

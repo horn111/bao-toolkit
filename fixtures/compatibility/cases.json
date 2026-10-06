@@ -1,0 +1,48 @@
+[
+  {
+    "id": "viem-ox",
+    "expected": ["protected"],
+    "source": "import { Attribution } from 'ox/erc8021';\nwallet.sendTransaction({ data: '0x', dataSuffix: Attribution.toDataSuffix({ codes: ['bc_abc123'] }) });"
+  },
+  {
+    "id": "viem-bao",
+    "expected": ["protected"],
+    "source": "import { builderCodeDataSuffix } from '@base-attribution-os/viem';\nwallet.sendTransaction({ data: '0x', dataSuffix: builderCodeDataSuffix('bc_abc123') });"
+  },
+  {
+    "id": "wagmi-suffix",
+    "expected": ["protected"],
+    "source": "import { useSendTransaction } from 'wagmi';\nimport { createDataSuffix } from '@base-attribution-os/core';\nconst { sendTransaction } = useSendTransaction();\nsendTransaction({ dataSuffix: createDataSuffix({ codes: ['bc_abc123'] }) });"
+  },
+  {
+    "id": "ethers-wrapper",
+    "expected": ["protected"],
+    "source": "import { Wallet } from 'ethers';\nimport { withEthersAttribution } from '@base-attribution-os/ethers';\nwallet.sendTransaction(withEthersAttribution({ to, data: '0x' }, { codes: ['bc_abc123'] }));"
+  },
+  {
+    "id": "missing",
+    "expected": ["missing"],
+    "source": "wallet.sendTransaction({ to, data: '0x' });"
+  },
+  {
+    "id": "wrong-code",
+    "expected": ["wrong-code"],
+    "source": "import { Attribution } from 'ox/erc8021';\nwallet.sendTransaction({ dataSuffix: Attribution.toDataSuffix({ codes: ['bc_other'] }) });"
+  },
+  {
+    "id": "local-helper-alias",
+    "expected": ["unresolved"],
+    "source": "function createDataSuffix() { return '0x'; }\nconst dataSuffix = createDataSuffix({ codes: ['bc_abc123'] });\nwallet.sendTransaction({ dataSuffix });"
+  },
+  {
+    "id": "local-namespace",
+    "expected": ["unresolved"],
+    "source": "const Attribution = { toDataSuffix: () => '0x' };\nwallet.sendTransaction({ dataSuffix: Attribution.toDataSuffix({ codes: ['bc_abc123'] }) });"
+  },
+  {
+    "id": "unresolved-runtime-code",
+    "expected": ["unresolved"],
+    "source": "import { Attribution } from 'ox/erc8021';\nwallet.sendTransaction({ dataSuffix: Attribution.toDataSuffix({ codes: [process.env.BUILDER_CODE] }) });"
+  },
+  { "id": "no-supported-path", "expected": [], "source": "export const documentationOnly = true;" }
+]

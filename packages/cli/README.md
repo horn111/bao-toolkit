@@ -14,6 +14,28 @@ pnpm exec bao proof-set --builder-code bc_example --title "Example project" --in
 `--format markdown` for a calldata-free public summary. Run `pnpm exec bao --help`
 for the full command list.
 
+## Integration preview and pilot report
+
+```bash
+bao init --builder-code bc_example --workflow --dry-run
+bao init --builder-code bc_example --workflow
+bao pilot-report --output /private/pilot/before.json
+bao pilot-report --proof-set /private/pilot/proof-set.json --format markdown --output /private/pilot/summary.md
+```
+
+Init previews the exact scope, findings, config, and optional pinned workflow.
+`--include src,app` selects explicit source paths. `--force` replaces only the
+config; existing workflows are always preserved. Init success describes file
+creation, not a passing source audit.
+
+Pilot reports run a strict source audit and record Git state and tool versions.
+They keep supplied transaction evidence separate and do not make a current RPC
+check. `--ci-run` records a caller-supplied GitHub Actions URL without verifying
+the run. Output paths must be new. The command writes its report then exits 1
+for findings, an empty scope, or failing supplied transaction evidence.
+
+[Starter and technical pilot guide](https://github.com/horn111/bao-toolkit/blob/main/docs/pilot-integration.md)
+
 ## B20 inspection and replay
 
 ```bash

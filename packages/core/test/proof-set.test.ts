@@ -42,6 +42,20 @@ function report(
 }
 
 describe("Attribution Proof Sets", () => {
+  it("round-trips unverified reports through JSON without inventing explorer links", () => {
+    const proofSet = createAttributionProofSet([report(HASH_A, { verified: false })], {
+      title: "Offline sample",
+      builderCode: BUILDER_CODE,
+    });
+    const parsed = parseAttributionProofSet(JSON.parse(JSON.stringify(proofSet)));
+    expect(parsed.ok).toBe(false);
+    expect(parsed.summary.verified).toBe(0);
+    expect(parsed.reports[0].transactions[0].explorerUrl).toBeUndefined();
+    const invalid = JSON.parse(JSON.stringify(proofSet));
+    invalid.reports[0].transactions[0].explorerUrl = null;
+    expect(() => parseAttributionProofSet(invalid)).toThrow(/derived fields/);
+  });
+
   it("creates and parses a canonical single-report manifest", () => {
     const proofSet = createAttributionProofSet([report(HASH_A)], {
       title: "  Example project  ",

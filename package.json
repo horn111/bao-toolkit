@@ -72,7 +72,8 @@
   "pnpm": {
     "overrides": {
       "@actions/http-client>undici": "6.28.1",
-      "postcss>source-map-js": "1.2.2"
+      "postcss>source-map-js": "1.2.2",
+      "sharp": "0.35.5"
     }
   }
 }

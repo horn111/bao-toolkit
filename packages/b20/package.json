@@ -1,6 +1,6 @@
 {
   "name": "@base-attribution-os/b20",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Source-pinned B20 token inspection and reproducible evidence for BAO Toolkit.",
   "type": "module",
   "license": "MIT",

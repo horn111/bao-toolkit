@@ -14,7 +14,7 @@ bao doctor
 `init` creates `bao.config.json` and reports supported call sites, findings, and
 the exact selected scope. It does not rewrite application code.
 
-From a v0.7 source build, preview a policy and optional pinned CI workflow:
+With CLI 0.6.0, preview a policy and optional pinned CI workflow:
 
 ```bash
 bao init --builder-code bc_abc123 --include src,app --workflow --dry-run

@@ -18,7 +18,7 @@ names and `bao` commands remain unchanged.
 [Product site](https://www.baosys.xyz) ·
 [Attribution Observatory](https://www.baosys.xyz/observatory) ·
 [Published proof sets](https://www.baosys.xyz/observatory) ·
-[v0.6.1 release](https://github.com/horn111/bao-toolkit/releases/tag/v0.6.1) ·
+[v0.7.0 release](https://github.com/horn111/bao-toolkit/releases/tag/v0.7.0) ·
 [npm packages](https://www.npmjs.com/org/base-attribution-os) ·
 [Documentation](docs/attribution-doctor.md)
 
@@ -84,7 +84,7 @@ Replace `bc_abc123` with a Builder Code registered for your project.
 To reproduce a missing-code regression locally, run the
 [broken/fixed integration starter](examples/integration-starter/README.md).
 It captures actual viem requests without connecting to a network. The
-[technical pilot guide](docs/pilot-integration.md) covers the v0.7 source-build
+[technical pilot guide](docs/pilot-integration.md) covers the released v0.7
 preview and reporting commands; the [compatibility matrix](docs/compatibility.md)
 states exactly which library versions and boundaries are tested.
 
@@ -173,7 +173,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: horn111/bao-toolkit/packages/github-action@v0.6.1
+      - uses: horn111/bao-toolkit/packages/github-action@v0.7.0
         with:
           builder-code: bc_abc123
           profile: strict
@@ -188,7 +188,7 @@ jobs:
 ```
 
 The Action reports checked files, detected transaction paths, protected paths,
-coverage, and findings. Pin the immutable `v0.6.1` release in production
+coverage, and findings. Pin the immutable `v0.7.0` release in production
 workflows. Moving the floating `v0` ref is a separate release step.
 
 ## Attribution Doctor

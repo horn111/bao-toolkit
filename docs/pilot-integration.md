@@ -11,15 +11,16 @@ It executes a broken and fixed viem transfer against an in-memory transport and
 checks that Doctor agrees with the outgoing calldata. It needs no keys or funds.
 The [compatibility matrix](compatibility.md) lists the exact versions and limits.
 
-## Try the v0.7 source build on your project
+## Try the released CLI on your project
 
-The preview and pilot-report commands below belong to the v0.7 development train.
-Build the checkout, then use the built CLI from your application's working directory:
+Install CLI 0.6.0 from the v0.7.0 release in your application, then preview its
+policy and optional CI workflow:
 
 ```bash
-node /path/to/bao-toolkit/packages/cli/dist/index.js init --builder-code bc_yourcode --workflow --dry-run
-node /path/to/bao-toolkit/packages/cli/dist/index.js init --builder-code bc_yourcode --workflow
-node /path/to/bao-toolkit/packages/cli/dist/index.js doctor --profile strict
+pnpm add -D @base-attribution-os/cli@0.6.0
+pnpm exec bao init --builder-code bc_yourcode --workflow --dry-run
+pnpm exec bao init --builder-code bc_yourcode --workflow
+pnpm exec bao doctor --profile strict
 ```
 
 Review the scope in the preview. Add `--include src,app` or your actual relative
@@ -29,13 +30,13 @@ issues; use Doctor for enforcement. An existing workflow is never replaced.
 
 ## Record before and after
 
-Run `bao pilot-report` with the built CLI before the fix, then again after it,
+Run `pnpm exec bao pilot-report` with the installed CLI before the fix, then again after it,
 using different output paths outside your repository or in an ignored directory:
 
 ```bash
-bao pilot-report --output /private/pilot/before.json
-bao pilot-report --output /private/pilot/after.json
-bao pilot-report --format markdown --output /private/pilot/summary.md
+pnpm exec bao pilot-report --output /private/pilot/before.json
+pnpm exec bao pilot-report --output /private/pilot/after.json
+pnpm exec bao pilot-report --format markdown --output /private/pilot/summary.md
 ```
 
 Reports include the expected code, tool versions, Git commit and dirty state,
@@ -50,7 +51,7 @@ If you have a real transaction sample, create a report with the existing
 [replay and Proof Set workflow](attribution-proof-loop.md), then attach it:
 
 ```bash
-bao pilot-report --proof-set /private/pilot/proof-set.json --ci-run https://github.com/OWNER/REPO/actions/runs/123 --output /private/pilot/with-evidence.json
+pnpm exec bao pilot-report --proof-set /private/pilot/proof-set.json --ci-run https://github.com/OWNER/REPO/actions/runs/123 --output /private/pilot/with-evidence.json
 ```
 
 Proof Sets are checked for internal consistency and hashed. This command does

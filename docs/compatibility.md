@@ -5,13 +5,13 @@ Run `pnpm verify:integration` after installing and building the workspace. Exact
 versions live in `examples/integration-starter/package.json` and are checked
 against the installed packages by the test suite.
 
-| Dependency  | Version             | Boundary exercised                                                                                                  |
-| ----------- | ------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| viem        | 2.56.0              | Real `sendTransaction` construction through an offline EIP-1193 transport; broken/fixed calldata and Doctor results |
-| ox          | 0.14.34             | Official `Attribution.toDataSuffix` bytes against BAO encoding; expected and wrong codes                            |
-| @wagmi/core | 2.22.1              | Real `sendTransaction` action with an explicit offline connector and BAO config suffix                              |
-| ethers      | 6.17.0              | Real transaction serialization/signing of BAO-wrapped data; broken control; no broadcast                            |
-| BAO wallet  | workspace candidate | EIP-5792 supported, unsupported, wrong-chain and unavailable capability responses; unsupported batches are not sent |
+| Dependency  | Version | Boundary exercised                                                                                                  |
+| ----------- | ------- | ------------------------------------------------------------------------------------------------------------------- |
+| viem        | 2.56.0  | Real `sendTransaction` construction through an offline EIP-1193 transport; broken/fixed calldata and Doctor results |
+| ox          | 0.14.34 | Official `Attribution.toDataSuffix` bytes against BAO encoding; expected and wrong codes                            |
+| @wagmi/core | 2.22.1  | Real `sendTransaction` action with an explicit offline connector and BAO config suffix                              |
+| ethers      | 6.17.0  | Real transaction serialization/signing of BAO-wrapped data; broken control; no broadcast                            |
+| BAO wallet  | 0.1.4   | EIP-5792 supported, unsupported, wrong-chain and unavailable capability responses; unsupported batches are not sent |
 
 These checks do not exercise React rendering, wallet connection UI, hardware
 wallets, browser extensions, bundlers, paymasters, or live chain inclusion.
@@ -35,9 +35,10 @@ Inspect the supported paths and scope before interpreting coverage.
 ## Runtime matrix
 
 The CI `integration` job runs the same starter, corpus, init, and pilot-report
-checks on Node 20, 22, and 24. A configured matrix is not a passed matrix: use the
-checks on the exact release commit as evidence. Local checks validate only the
-Node version reported by that run.
+checks on Node 20, 22, and 24. All three passed for the versioned v0.7.0 packages
+in [CI on the npm publication commit](https://github.com/horn111/bao-toolkit/actions/runs/37453844797).
+Local checks validate only the Node version reported by that run. For later
+changes, check the matrix on the corresponding commit.
 
 ## Adding a compatibility claim
 
